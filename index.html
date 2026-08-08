@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CBSE Class 9 & 10 Ultimate Board Exam Tracker | Academic Session 2026-2027</title>
+  <meta name="description" content="Ultimate CBSE Class 9 & 10 Board Exam Syllabus Tracker for Science & Mathematics with NCERT sub-task management and persistent notes." />
+  
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          },
+          boxShadow: {
+            'glow-emerald': '0 10px 25px -5px rgba(16, 185, 129, 0.15), 0 8px 10px -6px rgba(16, 185, 129, 0.1)',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Custom Scrollbar & Smooth Animations */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    
+    .card-mastered {
+      background: linear-gradient(180deg, rgba(236, 253, 245, 0.6) 0%, rgba(255, 255, 255, 1) 100%);
+      border-color: #10b981 !important;
+      box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.12), 0 8px 10px -6px rgba(16, 185, 129, 0.08);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased flex flex-col selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- TOP HEADER / HERO DASHBOARD -->
+  <header class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        
+        <!-- Brand Logo & Title -->
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-blue-500/20 shrink-0">
+            <!-- Academic Graduation Cap & Shield SVG -->
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0v6"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">CBSE Class 9 & 10 Board Exam Tracker</h1>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                2026-2027
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-500 font-medium mt-0.5">Academic Session 2026-2027 • NCERT Science & Mathematics Syllabus</p>
+          </div>
+        </div>
+
+        <!-- Hero Status Badge & Quick Actions -->
+        <div class="flex items-center gap-3 self-end md:self-center">
+          <div id="grade-tier-badge" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
+            <!-- Tier Status Icon & Text injected by JS -->
+            <span>Getting Started 🥉</span>
+          </div>
+          
+          <button id="btn-reset" type="button" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-rose-50 hover:text-rose-600 rounded-lg border border-slate-200 hover:border-rose-200 transition-colors cursor-pointer" title="Reset all checklist progress">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+            </svg>
+            Reset Data
+          </button>
+        </div>
+
+      </div>
+
+      <!-- HERO MASTER PROGRESS BAR & METRICS -->
+      <div class="mt-5 p-4 sm:p-5 bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 text-white rounded-2xl shadow-sm relative overflow-hidden">
+        <!-- Background decorative ambient circles -->
+        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="absolute right-1/3 -top-10 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+          <div>
+            <span class="text-xs font-semibold tracking-wider uppercase text-blue-300">Overall Syllabus Completion</span>
+            <div class="flex items-baseline gap-2 mt-0.5">
+              <span id="overall-percentage" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">0%</span>
+              <span id="overall-counts" class="text-xs sm:text-sm text-slate-300 font-medium">(0 of 40 sub-tasks completed)</span>
+            </div>
+          </div>
+          <div class="text-right sm:text-right flex items-center gap-4 text-xs text-slate-300">
+            <div>
+              <span class="block font-bold text-white text-sm" id="chapters-mastered-count">0 / 10</span>
+              <span class="text-slate-400">Chapters Mastered</span>
+            </div>
+            <div class="h-8 w-px bg-slate-700"></div>
+            <div>
+              <span class="block font-bold text-emerald-400 text-sm" id="science-progress-pct">0%</span>
+              <span class="text-slate-400">Science</span>
+            </div>
+            <div class="h-8 w-px bg-slate-700"></div>
+            <div>
+              <span class="block font-bold text-indigo-400 text-sm" id="maths-progress-pct">0%</span>
+              <span class="text-slate-400">Mathematics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Broad Progress Bar Container -->
+        <div class="w-full bg-slate-700/60 rounded-full h-3.5 p-0.5 backdrop-blur-xs relative overflow-hidden">
+          <div id="master-progress-bar" class="bg-gradient-to-r from-emerald-500 to-teal-400 h-2.5 rounded-full transition-all duration-700 ease-out w-0 shadow-sm"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+    
+    <!-- ADVANCED MULTI-CRITERIA CONTROL PANEL -->
+    <nav class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        
+        <!-- Filters Group (Class & Subject) -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 flex-wrap">
+          
+          <!-- Class Level Tabs -->
+          <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+            <span class="text-xs font-semibold text-slate-500 px-2 sm:hidden">Class:</span>
+            <button type="button" data-filter-class="all" class="btn-filter-class px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-white text-slate-900 shadow-xs">
+              All Classes
+            </button>
+            <button type="button" data-filter-class="9" class="btn-filter-class px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer text-slate-600 hover:text-slate-900">
+              Class 9
+            </button>
+            <button type="button" data-filter-class="10" class="btn-filter-class px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer text-slate-600 hover:text-slate-900">
+              Class 10
+            </button>
+          </div>
+
+          <!-- Subject Pill Group Filter -->
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <button type="button" data-filter-subject="all" class="btn-filter-subject px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-900 text-white shadow-xs">
+              All Subjects
+            </button>
+            <button type="button" data-filter-subject="Science" class="btn-filter-subject px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200">
+              Science
+            </button>
+            <button type="button" data-filter-subject="Mathematics" class="btn-filter-subject px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200">
+              Mathematics
+            </button>
+            <button type="button" data-filter-subject="Social Science" class="btn-filter-subject px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200">
+              Social Science
+            </button>
+            <button type="button" data-filter-subject="English" class="btn-filter-subject px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200">
+              English
+            </button>
+            <button type="button" data-filter-subject="Hindi Course A" class="btn-filter-subject px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200">
+              Hindi Course A
+            </button>
+            <button type="button" data-filter-subject="Hindi Course B" class="btn-filter-subject px-3 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200">
+              Hindi Course B
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Real-Time Search Field -->
+        <div class="relative w-full lg:w-72">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+          </div>
+          <input type="search" id="search-input" placeholder="Search chapters..." class="w-full pl-9 pr-8 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white text-slate-900 placeholder-slate-400 transition-all" />
+          <button id="search-clear-btn" type="button" class="hidden absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-slate-600">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Active Filter Summary Bar -->
+      <div class="flex items-center justify-between text-xs text-slate-500 pt-2 border-t border-slate-100">
+        <span id="filtered-count-label">Showing 10 of 10 Chapters</span>
+        <button id="btn-reset-filters" type="button" class="text-blue-600 hover:text-blue-800 font-medium hidden cursor-pointer">Clear Search & Filters</button>
+      </div>
+    </nav>
+
+    <!-- QUESTION BANK LIBRARIES & OFFICIAL PDF HUB -->
+    <section aria-label="Question Bank Libraries" class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-5 sm:p-6 text-white shadow-md space-y-4">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 bg-blue-600/30 text-blue-400 rounded-xl border border-blue-500/30">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+              </svg>
+            </span>
+            <h2 class="text-lg font-bold text-white tracking-tight">Direct CBSE Official Question Bank Volumes • All Subjects</h2>
+          </div>
+          <p class="text-xs text-slate-300 mt-1">Official competency-based Question Banks (Vol. 1 & Vol. 2), Sample Question Papers, and Practice Material published by CBSE for Science, Mathematics, Social Science, English, Hindi Course A & B.</p>
+        </div>
+        
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+            🏛️ Official Govt CBSE PDFs
+          </span>
+        </div>
+      </div>
+
+      <!-- 3 Official CBSE Question Bank Volume Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- CBSE Official QB Vol. 1 Card -->
+        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-4 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">🏛️ CBSE QB Vol. 1</span>
+              <span class="text-[11px] font-semibold text-emerald-400">Direct .PDF</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">CBSE Official QB - Volume 1</h3>
+            <p class="text-xs text-slate-300 mb-3 leading-relaxed">Competency-based questions, MCQs, and assertion-reason sets for Class 9 & 10 across all subjects.</p>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60 text-xs">
+            <a href="https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 font-semibold transition-colors">
+              📄 Science Vol. 1 ↗
+            </a>
+            <button type="button" onclick="openQbModal('cbse_v1')" class="px-2.5 py-1 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors text-[11px] cursor-pointer">
+              All Subjects (Vol. 1)
+            </button>
+          </div>
+        </div>
+
+        <!-- CBSE Official QB Vol. 2 Card -->
+        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-4 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">📜 CBSE QB Vol. 2</span>
+              <span class="text-[11px] font-semibold text-emerald-400">Direct .PDF</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">CBSE Official QB - Volume 2</h3>
+            <p class="text-xs text-slate-300 mb-3 leading-relaxed">Case-study problems, long answer sets, and additional official competency questions for all subjects.</p>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60 text-xs">
+            <a href="https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX_Vol2.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
+              📄 Science Vol. 2 ↗
+            </a>
+            <button type="button" onclick="openQbModal('cbse_v2')" class="px-2.5 py-1 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-500 transition-colors text-[11px] cursor-pointer">
+              All Subjects (Vol. 2)
+            </button>
+          </div>
+        </div>
+
+        <!-- CBSE Official Practice Material Card -->
+        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-4 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">📑 CBSE Practice Papers</span>
+              <span class="text-[11px] font-semibold text-emerald-400">Official Portal</span>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1">CBSE SQP & Practice Sets</h3>
+            <p class="text-xs text-slate-300 mb-3 leading-relaxed">Official Sample Question Papers, Marking Schemes, and Practice Sets published directly by CBSE Board.</p>
+          </div>
+          <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60 text-xs">
+            <a href="https://cbseacademic.nic.in/sqp_classx_2023_24.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 font-semibold transition-colors">
+              📄 Class 10 SQP ↗
+            </a>
+            <button type="button" onclick="openQbModal('cbse_practice')" class="px-2.5 py-1 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-500 transition-colors text-[11px] cursor-pointer">
+              All Practice Material
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAPTER CARDS GRID CONTAINER -->
+    <section aria-label="Chapter Checklist Cards">
+      <div id="chapters-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Dynamic Cards rendered synchronously by JS -->
+      </div>
+
+      <!-- Empty State View -->
+      <div id="empty-state" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-slate-200 space-y-3">
+        <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h3 class="text-base font-semibold text-slate-800">No chapters found</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">Try adjusting your search keywords, class level selection, or subject filter.</p>
+        <button id="btn-clear-empty" type="button" class="px-4 py-2 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">Reset All Filters</button>
+      </div>
+    </section>
+
+    <!-- PERSISTENT INTEGRATED STICKY NOTES MODULE -->
+    <section aria-label="Study Timetable and Notes" class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <!-- Notepad Icon SVG -->
+            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+            </svg>
+            <h2 class="text-base sm:text-lg font-bold text-slate-900">Study Timetable & Revision Notes</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-0.5">Keep track of your weekly target topics, formula sheets, or exam revision schedule.</p>
+        </div>
+
+        <div class="flex items-center gap-2 text-xs">
+          <span id="notes-save-status" class="text-slate-400 italic">Auto-saved to local storage</span>
+        </div>
+      </div>
+
+      <!-- Action Toolbar for Notes -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <button id="btn-insert-template" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-lg font-medium border border-indigo-200/60 transition-colors cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+          </svg>
+          Insert Weekly Schedule Template
+        </button>
+        <button id="btn-copy-notes" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg font-medium transition-colors cursor-pointer">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+          </svg>
+          Copy Notes
+        </button>
+        <button id="btn-clear-notes" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg font-medium transition-colors cursor-pointer ml-auto">
+          Clear Text
+        </button>
+      </div>
+
+      <!-- Notes Textarea -->
+      <textarea id="notes-textarea" rows="6" placeholder="Type your personal study targets, key formulas, or weak concepts here..." class="w-full p-4 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-slate-800 placeholder-slate-400 font-sans leading-relaxed transition-all resize-y"></textarea>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>CBSE Class 9 & 10 Board Exam Tracker • Academic Year 2026-2027</p>
+      <p class="text-slate-400">Aligned with latest NCERT Curriculum Guidelines</p>
+    </div>
+  </footer>
+
+  <!-- CONFIRMATION RESET MODAL -->
+  <div id="reset-modal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-xl border border-slate-100 space-y-4">
+      <div class="flex items-center gap-3 text-rose-600">
+        <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center shrink-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Reset All Progress Data?</h3>
+          <p class="text-xs text-slate-500">This action will uncheck all completed sub-tasks across Class 9 and Class 10 chapters.</p>
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="btn-modal-cancel" type="button" class="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg transition-colors cursor-pointer">
+          Cancel
+        </button>
+        <button id="btn-modal-confirm" type="button" class="px-4 py-2 text-xs font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-lg shadow-xs transition-colors cursor-pointer">
+          Yes, Reset Progress
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUESTION BANK PDF VIEWER / DOWNLOAD MODAL -->
+  <div id="qb-pdf-modal" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] flex flex-col justify-between">
+      <div class="flex items-start justify-between gap-3 border-b border-slate-100 pb-3 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2 bg-blue-50 text-blue-600 rounded-xl">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 id="qb-modal-title" class="text-base font-bold text-slate-900">Direct Question Bank PDFs</h3>
+              <span id="qb-modal-badge" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800">Direct PDF</span>
+            </div>
+            <p id="qb-modal-desc" class="text-xs text-slate-500">Click any button below to download or view the direct .pdf file immediately</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeQbModal()" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Dynamic Direct PDF Files List Container -->
+      <div id="qb-modal-pdf-list" class="overflow-y-auto space-y-3 py-1 pr-1 flex-1">
+        <!-- Rendered by JS -->
+      </div>
+
+      <div class="flex items-center justify-between gap-2 pt-3 border-t border-slate-100 shrink-0 text-xs">
+        <span class="text-slate-400 text-[11px]">✓ No login or blogs required • Direct PDF files</span>
+        <button type="button" onclick="closeQbModal()" class="px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors cursor-pointer">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNIVERSAL IN-APP PDF READER MODAL -->
+  <div id="pdf-reader-modal" class="hidden fixed inset-0 z-50 bg-slate-900/90 backdrop-blur-md flex flex-col p-2 sm:p-4">
+    <div class="bg-white rounded-2xl w-full h-full flex flex-col overflow-hidden shadow-2xl border border-slate-700">
+      
+      <!-- Top Reader Toolbar -->
+      <div class="bg-slate-900 text-white p-3 sm:p-4 flex items-center justify-between gap-3 shrink-0">
+        <div class="flex items-center gap-3 overflow-hidden">
+          <span class="p-2 bg-red-500/20 text-red-400 rounded-xl border border-red-500/30 text-xs font-bold">PDF</span>
+          <div class="truncate">
+            <h3 id="pdf-reader-title" class="text-sm sm:text-base font-bold text-white truncate">PDF Document Viewer</h3>
+            <p id="pdf-reader-subtitle" class="text-xs text-slate-400 truncate">Official CBSE Academic Practice Material</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 shrink-0">
+          <a id="pdf-reader-download" href="#" target="_blank" download class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span class="hidden sm:inline">Download .PDF</span>
+          </a>
+          <a id="pdf-reader-direct" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition-colors cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+            <span class="hidden sm:inline">Open Direct Tab</span>
+          </a>
+          <button type="button" onclick="closePdfReader()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- PDF Viewer Frame & Loader -->
+      <div class="relative flex-1 bg-slate-100 w-full h-full overflow-hidden">
+        <div id="pdf-reader-loading" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-100 text-slate-600 gap-3 z-10">
+          <div class="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+          <p class="text-xs font-medium">Loading PDF document viewer...</p>
+        </div>
+        <iframe id="pdf-reader-iframe" class="w-full h-full border-0 relative z-20" onload="document.getElementById('pdf-reader-loading')?.classList.add('hidden')"></iframe>
+      </div>
+
+      <!-- Bottom Status Bar -->
+      <div class="bg-slate-50 border-t border-slate-200 p-2.5 px-4 flex items-center justify-between text-xs text-slate-600 shrink-0">
+        <span class="text-[11px] text-slate-500">✓ If preview takes time to load, click 'Open Direct Tab' or 'Download .PDF' above</span>
+        <button type="button" onclick="closePdfReader()" class="px-3 py-1 bg-slate-200 hover:bg-slate-300 rounded-lg text-slate-700 font-medium cursor-pointer">Close Reader</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- JAVASCRIPT STATE ENGINE & CONTROLLER -->
+  <script>
+    // 1. DATA MODEL LAYER - ALL CBSE CLASS 9 & 10 CHAPTERS FOR ALL SUBJECTS
+    const CHAPTER_SEEDS = [
+      // CLASS 10 SCIENCE
+      { id: "c10-sci-1", c: 10, s: "Science", n: 1, t: "Chemical Reactions and Equations", nc: "jesc101.pdf", ex: "eepm101.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-2", c: 10, s: "Science", n: 2, t: "Acids, Bases and Salts", nc: "jesc102.pdf", ex: "eepm102.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-3", c: 10, s: "Science", n: 3, t: "Metals and Non-Metals", nc: "jesc103.pdf", ex: "eepm103.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-4", c: 10, s: "Science", n: 4, t: "Carbon and its Compounds", nc: "jesc104.pdf", ex: "eepm104.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-5", c: 10, s: "Science", n: 5, t: "Life Processes", nc: "jesc105.pdf", ex: "eepm105.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-6", c: 10, s: "Science", n: 6, t: "Control and Coordination", nc: "jesc106.pdf", ex: "eepm106.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-7", c: 10, s: "Science", n: 7, t: "How do Organisms Reproduce?", nc: "jesc107.pdf", ex: "eepm107.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-8", c: 10, s: "Science", n: 8, t: "Heredity and Evolution", nc: "jesc108.pdf", ex: "eepm108.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-9", c: 10, s: "Science", n: 9, t: "Light - Reflection and Refraction", nc: "jesc109.pdf", ex: "eepm109.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-10", c: 10, s: "Science", n: 10, t: "The Human Eye and the Colorful World", nc: "jesc110.pdf", ex: "eepm110.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-11", c: 10, s: "Science", n: 11, t: "Electricity", nc: "jesc111.pdf", ex: "eepm111.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-12", c: 10, s: "Science", n: 12, t: "Magnetic Effects of Electric Current", nc: "jesc112.pdf", ex: "eepm112.pdf", qb: "ScienceX.pdf" },
+      { id: "c10-sci-13", c: 10, s: "Science", n: 13, t: "Our Environment", nc: "jesc113.pdf", ex: "eepm113.pdf", qb: "ScienceX.pdf" },
+
+      // CLASS 10 MATHEMATICS
+      { id: "c10-m-1", c: 10, s: "Mathematics", n: 1, t: "Real Numbers", nc: "jemh101.pdf", ex: "eepm201.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-2", c: 10, s: "Mathematics", n: 2, t: "Polynomials", nc: "jemh102.pdf", ex: "eepm202.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-3", c: 10, s: "Mathematics", n: 3, t: "Pair of Linear Equations in Two Variables", nc: "jemh103.pdf", ex: "eepm203.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-4", c: 10, s: "Mathematics", n: 4, t: "Quadratic Equations", nc: "jemh104.pdf", ex: "eepm204.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-5", c: 10, s: "Mathematics", n: 5, t: "Arithmetic Progressions", nc: "jemh105.pdf", ex: "eepm205.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-6", c: 10, s: "Mathematics", n: 6, t: "Triangles", nc: "jemh106.pdf", ex: "eepm206.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-7", c: 10, s: "Mathematics", n: 7, t: "Coordinate Geometry", nc: "jemh107.pdf", ex: "eepm207.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-8", c: 10, s: "Mathematics", n: 8, t: "Introduction to Trigonometry", nc: "jemh108.pdf", ex: "eepm208.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-9", c: 10, s: "Mathematics", n: 9, t: "Some Applications of Trigonometry", nc: "jemh109.pdf", ex: "eepm209.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-10", c: 10, s: "Mathematics", n: 10, t: "Circles", nc: "jemh110.pdf", ex: "eepm210.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-11", c: 10, s: "Mathematics", n: 11, t: "Areas Related to Circles", nc: "jemh111.pdf", ex: "eepm211.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-12", c: 10, s: "Mathematics", n: 12, t: "Surface Areas and Volumes", nc: "jemh112.pdf", ex: "eepm212.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-13", c: 10, s: "Mathematics", n: 13, t: "Statistics", nc: "jemh113.pdf", ex: "eepm213.pdf", qb: "MathsX.pdf" },
+      { id: "c10-m-14", c: 10, s: "Mathematics", n: 14, t: "Probability", nc: "jemh114.pdf", ex: "eepm214.pdf", qb: "MathsX.pdf" },
+
+      // CLASS 10 SOCIAL SCIENCE
+      { id: "c10-sst-1", c: 10, s: "Social Science", n: 1, t: "The Rise of Nationalism in Europe", nc: "jess101.pdf", ex: "jess101.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-2", c: 10, s: "Social Science", n: 2, t: "Nationalism in India", nc: "jess102.pdf", ex: "jess102.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-3", c: 10, s: "Social Science", n: 3, t: "The Making of a Global World", nc: "jess103.pdf", ex: "jess103.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-4", c: 10, s: "Social Science", n: 4, t: "Print Culture and the Modern World", nc: "jess104.pdf", ex: "jess104.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-5", c: 10, s: "Social Science", n: 5, t: "Resources and Development", nc: "jess201.pdf", ex: "jess201.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-6", c: 10, s: "Social Science", n: 6, t: "Forest and Wildlife Resources", nc: "jess202.pdf", ex: "jess202.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-7", c: 10, s: "Social Science", n: 7, t: "Water Resources", nc: "jess203.pdf", ex: "jess203.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-8", c: 10, s: "Social Science", n: 8, t: "Agriculture", nc: "jess204.pdf", ex: "jess204.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-9", c: 10, s: "Social Science", n: 9, t: "Minerals and Energy Resources", nc: "jess205.pdf", ex: "jess205.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-10", c: 10, s: "Social Science", n: 10, t: "Manufacturing Industries", nc: "jess206.pdf", ex: "jess206.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-11", c: 10, s: "Social Science", n: 11, t: "Lifelines of National Economy", nc: "jess207.pdf", ex: "jess207.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-12", c: 10, s: "Social Science", n: 12, t: "Power Sharing", nc: "jess301.pdf", ex: "jess301.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-13", c: 10, s: "Social Science", n: 13, t: "Federalism", nc: "jess302.pdf", ex: "jess302.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-14", c: 10, s: "Social Science", n: 14, t: "Gender, Religion and Caste", nc: "jess303.pdf", ex: "jess303.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-15", c: 10, s: "Social Science", n: 15, t: "Political Parties", nc: "jess304.pdf", ex: "jess304.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-16", c: 10, s: "Social Science", n: 16, t: "Outcomes of Democracy", nc: "jess305.pdf", ex: "jess305.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-17", c: 10, s: "Social Science", n: 17, t: "Development", nc: "jess401.pdf", ex: "jess401.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-18", c: 10, s: "Social Science", n: 18, t: "Sectors of the Indian Economy", nc: "jess402.pdf", ex: "jess402.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-19", c: 10, s: "Social Science", n: 19, t: "Money and Credit", nc: "jess403.pdf", ex: "jess403.pdf", qb: "SST_X.pdf" },
+      { id: "c10-sst-20", c: 10, s: "Social Science", n: 20, t: "Globalisation and the Indian Economy", nc: "jess404.pdf", ex: "jess404.pdf", qb: "SST_X.pdf" },
+
+      // CLASS 10 ENGLISH
+      { id: "c10-eng-1", c: 10, s: "English", n: 1, t: "A Letter to God (First Flight)", nc: "jefl101.pdf", ex: "jefl101.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-2", c: 10, s: "English", n: 2, t: "Nelson Mandela: Long Walk to Freedom", nc: "jefl102.pdf", ex: "jefl102.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-3", c: 10, s: "English", n: 3, t: "Two Stories About Flying", nc: "jefl103.pdf", ex: "jefl103.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-4", c: 10, s: "English", n: 4, t: "From the Diary of Anne Frank", nc: "jefl104.pdf", ex: "jefl104.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-5", c: 10, s: "English", n: 5, t: "Glimpses of India", nc: "jefl105.pdf", ex: "jefl105.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-6", c: 10, s: "English", n: 6, t: "Mijbil the Otter", nc: "jefl106.pdf", ex: "jefl106.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-7", c: 10, s: "English", n: 7, t: "Madam Rides the Bus", nc: "jefl107.pdf", ex: "jefl107.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-8", c: 10, s: "English", n: 8, t: "The Sermon at Benares", nc: "jefl108.pdf", ex: "jefl108.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-9", c: 10, s: "English", n: 9, t: "The Proposal (Play)", nc: "jefl109.pdf", ex: "jefl109.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-10", c: 10, s: "English", n: 10, t: "A Triumph of Surgery (Footprints)", nc: "jefp101.pdf", ex: "jefp101.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-11", c: 10, s: "English", n: 11, t: "The Thief's Story", nc: "jefp102.pdf", ex: "jefp102.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-12", c: 10, s: "English", n: 12, t: "The Midnight Visitor", nc: "jefp103.pdf", ex: "jefp103.pdf", qb: "EnglishX.pdf" },
+      { id: "c10-eng-13", c: 10, s: "English", n: 13, t: "A Question of Trust", nc: "jefp104.pdf", ex: "jefp104.pdf", qb: "EnglishX.pdf" },
+
+      // CLASS 10 HINDI COURSE A
+      { id: "c10-ha-1", c: 10, s: "Hindi Course A", n: 1, t: "पद - सूरदास (क्षितिज भाग 2)", nc: "jhks101.pdf", ex: "jhks101.pdf", qb: "HindiA_X.pdf" },
+      { id: "c10-ha-2", c: 10, s: "Hindi Course A", n: 2, t: "राम-लक्ष्मण-परशुराम संवाद - तुलसीदास", nc: "jhks102.pdf", ex: "jhks102.pdf", qb: "HindiA_X.pdf" },
+      { id: "c10-ha-3", c: 10, s: "Hindi Course A", n: 3, t: "उत्साह और अट नहीं रही - निराला", nc: "jhks103.pdf", ex: "jhks103.pdf", qb: "HindiA_X.pdf" },
+      { id: "c10-ha-4", c: 10, s: "Hindi Course A", n: 4, t: "नेताजी का चश्मा - स्वयं प्रकाश", nc: "jhks104.pdf", ex: "jhks104.pdf", qb: "HindiA_X.pdf" },
+      { id: "c10-ha-5", c: 10, s: "Hindi Course A", n: 5, t: "बालगोबिन भगत - रामवृक्ष बेनीपुरी", nc: "jhks105.pdf", ex: "jhks105.pdf", qb: "HindiA_X.pdf" },
+      { id: "c10-ha-6", c: 10, s: "Hindi Course A", n: 6, t: "माता का अँचल - शिवपूजन सहाय (कृतिका)", nc: "jhkr101.pdf", ex: "jhkr101.pdf", qb: "HindiA_X.pdf" },
+
+      // CLASS 10 HINDI COURSE B
+      { id: "c10-hb-1", c: 10, s: "Hindi Course B", n: 1, t: "साखी - कबीर (स्पर्श भाग 2)", nc: "jhsp101.pdf", ex: "jhsp101.pdf", qb: "HindiB_X.pdf" },
+      { id: "c10-hb-2", c: 10, s: "Hindi Course B", n: 2, t: "पद - मीरा", nc: "jhsp102.pdf", ex: "jhsp102.pdf", qb: "HindiB_X.pdf" },
+      { id: "c10-hb-3", c: 10, s: "Hindi Course B", n: 3, t: "मनुष्यता - मैथिलीशरण गुप्त", nc: "jhsp103.pdf", ex: "jhsp103.pdf", qb: "HindiB_X.pdf" },
+      { id: "c10-hb-4", c: 10, s: "Hindi Course B", n: 4, t: "बड़े भाई साहब - प्रेमचंद", nc: "jhsp104.pdf", ex: "jhsp104.pdf", qb: "HindiB_X.pdf" },
+      { id: "c10-hb-5", c: 10, s: "Hindi Course B", n: 5, t: "हरिहर काका - मिथिलेश्वर (संचयन)", nc: "jhsy101.pdf", ex: "jhsy101.pdf", qb: "HindiB_X.pdf" },
+
+      // CLASS 9 SCIENCE
+      { id: "c9-sci-1", c: 9, s: "Science", n: 1, t: "Matter in Our Surroundings", nc: "iesc101.pdf", ex: "ieep101.pdf", qb: "ScienceIX.pdf" },
+      { id: "c9-sci-2", c: 9, s: "Science", n: 2, t: "Is Matter Around Us Pure", nc: "iesc102.pdf", ex: "ieep102.pdf", qb: "ScienceIX.pdf" },
+      { id: "c9-sci-3", c: 9, s: "Science", n: 3, t: "Atoms and Molecules", nc: "iesc103.pdf", ex: "ieep103.pdf", qb: "ScienceIX.pdf" },
+      { id: "c9-sci-4", c: 9, s: "Science", n: 4, t: "Structure of the Atom", nc: "iesc104.pdf", ex: "ieep104.pdf", qb: "ScienceIX.pdf" },
+      { id: "c9-sci-5", c: 9, s: "Science", n: 5, t: "The Fundamental Unit of Life (Cell)", nc: "iesc105.pdf", ex: "ieep105.pdf", qb: "ScienceIX.pdf" },
+      { id: "c9-sci-6", c: 9, s: "Science", n: 6, t: "Tissues", nc: "iesc106.pdf", ex: "ieep106.pdf", qb: "ScienceIX.pdf" },
+      { id: "c9-sci-7", c: 9, s: "Science", n: 7, t: "Motion", nc: "iesc107.pdf", ex: "ieep107.pdf", qb: "ScienceIX.pdf" },
+      { id: "c9-sci-8", c: 9, s: "Science", n: 8, t: "Force and Laws of Motion", nc: "iesc108.pdf", ex: "ieep108.pdf", qb: "ScienceIX.pdf" },
+
+      // CLASS 9 MATHEMATICS
+      { id: "c9-m-1", c: 9, s: "Mathematics", n: 1, t: "Number Systems", nc: "iemh101.pdf", ex: "ieep201.pdf", qb: "MathsIX.pdf" },
+      { id: "c9-m-2", c: 9, s: "Mathematics", n: 2, t: "Polynomials", nc: "iemh102.pdf", ex: "ieep202.pdf", qb: "MathsIX.pdf" },
+      { id: "c9-m-3", c: 9, s: "Mathematics", n: 3, t: "Coordinate Geometry", nc: "iemh103.pdf", ex: "ieep203.pdf", qb: "MathsIX.pdf" },
+      { id: "c9-m-4", c: 9, s: "Mathematics", n: 4, t: "Linear Equations in Two Variables", nc: "iemh104.pdf", ex: "ieep204.pdf", qb: "MathsIX.pdf" },
+      { id: "c9-m-5", c: 9, s: "Mathematics", n: 5, t: "Lines and Angles", nc: "iemh106.pdf", ex: "ieep206.pdf", qb: "MathsIX.pdf" },
+
+      // CLASS 9 SOCIAL SCIENCE
+      { id: "c9-sst-1", c: 9, s: "Social Science", n: 1, t: "The French Revolution", nc: "iess101.pdf", ex: "iess101.pdf", qb: "SST_IX.pdf" },
+      { id: "c9-sst-2", c: 9, s: "Social Science", n: 2, t: "Socialism in Europe & Russian Revolution", nc: "iess102.pdf", ex: "iess102.pdf", qb: "SST_IX.pdf" },
+      { id: "c9-sst-3", c: 9, s: "Social Science", n: 3, t: "Nazism and the Rise of Hitler", nc: "iess103.pdf", ex: "iess103.pdf", qb: "SST_IX.pdf" },
+      { id: "c9-sst-4", c: 9, s: "Social Science", n: 4, t: "India - Size and Location", nc: "iess201.pdf", ex: "iess201.pdf", qb: "SST_IX.pdf" },
+
+      // CLASS 9 ENGLISH & HINDI
+      { id: "c9-eng-1", c: 9, s: "English", n: 1, t: "The Fun They Had (Beehive)", nc: "iebe101.pdf", ex: "iebe101.pdf", qb: "EnglishIX.pdf" },
+      { id: "c9-eng-2", c: 9, s: "English", n: 2, t: "The Sound of Music", nc: "iebe102.pdf", ex: "iebe102.pdf", qb: "EnglishIX.pdf" },
+      { id: "c9-ha-1", c: 9, s: "Hindi Course A", n: 1, t: "दो बैलों की कथा - प्रेमचंद", nc: "ihks101.pdf", ex: "ihks101.pdf", qb: "HindiA_IX.pdf" },
+      { id: "c9-hb-1", c: 9, s: "Hindi Course B", n: 1, t: "दुःख का अधिकार - यशपाल", nc: "ihsp101.pdf", ex: "ihsp101.pdf", qb: "HindiB_IX.pdf" }
+    ];
+
+    const SUBTASKS_TEMPLATE = [
+      { id: "read", label: "Read NCERT & Highlight" },
+      { id: "exemplar", label: "Solve NCERT Exemplar Problems" },
+      { id: "cbse_qb_v1", label: "Practice CBSE Official Question Bank - Vol. 1" },
+      { id: "cbse_qb_v2", label: "Practice CBSE Official Question Bank - Vol. 2" },
+      { id: "cbse_practice", label: "Solve CBSE Official Practice Question Papers" },
+      { id: "pyq", label: "Practice Past 5 Years PYQs" },
+      { id: "mock", label: "Attempt Chapter Mock Test" }
+    ];
+
+    const CHAPTERS = CHAPTER_SEEDS.map(item => ({
+      id: item.id,
+      classLevel: item.c,
+      subject: item.s,
+      chapterNumber: item.n,
+      title: item.t,
+      resources: {
+        ncertLink: `https://ncert.nic.in/textbook/pdf/${item.nc}`,
+        exemplarLink: item.ex.startsWith('eepm') || item.ex.startsWith('ieep') 
+          ? `https://ncert.nic.in/pdf/publication/exemplarproblem/class${item.c === 10 ? 'X' : 'IX'}/${item.s.toLowerCase()}/${item.ex}`
+          : `https://ncert.nic.in/textbook/pdf/${item.ex}`,
+        cbseQbVol1: `https://cbseacademic.nic.in/web_material/QuestionBank/Class${item.c === 10 ? 'X' : 'IX'}/${item.qb}`,
+        cbseQbVol2: `https://cbseacademic.nic.in/web_material/QuestionBank/Class${item.c === 10 ? 'X' : 'IX'}/${item.qb.replace('.pdf', '_Vol2.pdf')}`,
+        cbsePracticeLink: `https://cbseacademic.nic.in/sqp_class${item.c === 10 ? 'x' : 'ix'}_2023_24.html`
+      },
+      subTasks: SUBTASKS_TEMPLATE
+    }));
+
+    const STORAGE_KEY = 'cbse_ultimate_board_tracker_v2';
+
+    // 2. CENTRAL STATE ENGINE
+    let state = {
+      tasks: {}, // Key: chapterId, Value: { subTaskId: boolean }
+      notes: '',
+      filters: {
+        classLevel: 'all',  // 'all', '9', '10'
+        subject: 'all',     // 'all', 'Mathematics', 'Science'
+        search: ''
+      }
+    };
+
+    // 3. STORAGE INITIALIZATION & SYNC
+    function loadStateFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          state.tasks = parsed.tasks || {};
+          state.notes = parsed.notes || '';
+        }
+      } catch (err) {
+        console.warn('Failed to parse localStorage, resetting state:', err);
+      }
+
+      // Ensure every seed chapter & subtask has a defined state entry
+      CHAPTERS.forEach(ch => {
+        if (!state.tasks[ch.id]) {
+          state.tasks[ch.id] = {};
+        }
+        ch.subTasks.forEach(st => {
+          if (typeof state.tasks[ch.id][st.id] !== 'boolean') {
+            state.tasks[ch.id][st.id] = false;
+          }
+        });
+      });
+    }
+
+    function saveStateToStorage() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          tasks: state.tasks,
+          notes: state.notes
+        }));
+      } catch (err) {
+        console.error('Error writing to localStorage:', err);
+      }
+    }
+
+    // 4. UTILITY DEBOUNCE FUNCTION FOR NOTES AUTO-SAVE
+    function debounce(fn, delay) {
+      let timeoutId;
+      return function(...args) {
+        clearTimeout(timeoutId);
+        const saveStatus = document.getElementById('notes-save-status');
+        if (saveStatus) saveStatus.textContent = 'Saving changes...';
+        
+        timeoutId = setTimeout(() => {
+          fn.apply(this, args);
+          if (saveStatus) {
+            const timeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            saveStatus.textContent = `Auto-saved at ${timeStr}`;
+          }
+        }, delay);
+      };
+    }
+
+    // TOAST NOTIFICATIONS
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+
+      const toast = document.createElement('div');
+      toast.className = `pointer-events-auto flex items-center gap-2 px-4 py-3 rounded-xl text-xs font-semibold text-white shadow-lg transition-all duration-300 transform translate-y-2 opacity-0 ${
+        type === 'success' ? 'bg-slate-900' : 'bg-rose-600'
+      }`;
+      toast.innerHTML = `
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+        </svg>
+        <span>${message}</span>
+      `;
+
+      container.appendChild(toast);
+
+      requestAnimationFrame(() => {
+        toast.classList.remove('translate-y-2', 'opacity-0');
+      });
+
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-2');
+        setTimeout(() => toast.remove(), 300);
+      }, 2500);
+    }
+
+    // 5. CALCULATE STATS & TIER METRICS
+    function computeMetrics() {
+      let totalSubTasks = 0;
+      let completedSubTasks = 0;
+      let masteredChaptersCount = 0;
+
+      let scienceTotal = 0;
+      let scienceDone = 0;
+      let mathsTotal = 0;
+      let mathsDone = 0;
+
+      CHAPTERS.forEach(ch => {
+        const chTasks = state.tasks[ch.id] || {};
+        let chDoneCount = 0;
+
+        ch.subTasks.forEach(st => {
+          totalSubTasks++;
+          if (ch.subject === 'Science') scienceTotal++;
+          if (ch.subject === 'Mathematics') mathsTotal++;
+
+          if (chTasks[st.id]) {
+            completedSubTasks++;
+            chDoneCount++;
+            if (ch.subject === 'Science') scienceDone++;
+            if (ch.subject === 'Mathematics') mathsDone++;
+          }
+        });
+
+        if (chDoneCount === ch.subTasks.length) {
+          masteredChaptersCount++;
+        }
+      });
+
+      const overallPct = totalSubTasks > 0 ? Math.round((completedSubTasks / totalSubTasks) * 100) : 0;
+      const sciencePct = scienceTotal > 0 ? Math.round((scienceDone / scienceTotal) * 100) : 0;
+      const mathsPct = mathsTotal > 0 ? Math.round((mathsDone / mathsTotal) * 100) : 0;
+
+      // Grade Tier Evaluation
+      let gradeTierText = "Getting Started 🥉";
+      let gradeTierClass = "bg-amber-50 text-amber-800 border-amber-200";
+
+      if (overallPct >= 75) {
+        gradeTierText = "Board Exam Ready 🥇";
+        gradeTierClass = "bg-emerald-50 text-emerald-800 border-emerald-300 shadow-glow-emerald";
+      } else if (overallPct >= 30) {
+        gradeTierText = "Consistent Achiever 🥈";
+        gradeTierClass = "bg-blue-50 text-blue-800 border-blue-200";
+      }
+
+      return {
+        totalSubTasks,
+        completedSubTasks,
+        overallPct,
+        masteredChaptersCount,
+        sciencePct,
+        mathsPct,
+        gradeTierText,
+        gradeTierClass
+      };
+    }
+
+    // 6. RENDER HERO METRICS
+    function renderHero() {
+      const metrics = computeMetrics();
+
+      // Progress bar & counts
+      const bar = document.getElementById('master-progress-bar');
+      const overallPctEl = document.getElementById('overall-percentage');
+      const overallCountsEl = document.getElementById('overall-counts');
+      const masteredEl = document.getElementById('chapters-mastered-count');
+      const sciPctEl = document.getElementById('science-progress-pct');
+      const mathPctEl = document.getElementById('maths-progress-pct');
+      const tierBadge = document.getElementById('grade-tier-badge');
+
+      if (bar) bar.style.width = `${metrics.overallPct}%`;
+      if (overallPctEl) overallPctEl.textContent = `${metrics.overallPct}%`;
+      if (overallCountsEl) overallCountsEl.textContent = `(${metrics.completedSubTasks} of ${metrics.totalSubTasks} sub-tasks completed)`;
+      if (masteredEl) masteredEl.textContent = `${metrics.masteredChaptersCount} / ${CHAPTERS.length}`;
+      if (sciPctEl) sciPctEl.textContent = `${metrics.sciencePct}%`;
+      if (mathPctEl) mathPctEl.textContent = `${metrics.mathsPct}%`;
+
+      if (tierBadge) {
+        tierBadge.className = `inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all ${metrics.gradeTierClass}`;
+        tierBadge.innerHTML = `<span>${metrics.gradeTierText}</span>`;
+      }
+    }
+
+    // 7. RENDER CHAPTER CARDS
+    function renderChapters() {
+      const grid = document.getElementById('chapters-grid');
+      const emptyState = document.getElementById('empty-state');
+      const labelCount = document.getElementById('filtered-count-label');
+      const resetFiltersBtn = document.getElementById('btn-reset-filters');
+
+      if (!grid) return;
+
+      // Filter chapters based on active controls
+      const query = state.filters.search.trim().toLowerCase();
+
+      const filtered = CHAPTERS.filter(ch => {
+        // Class filter
+        if (state.filters.classLevel !== 'all' && String(ch.classLevel) !== state.filters.classLevel) {
+          return false;
+        }
+        // Subject filter
+        if (state.filters.subject !== 'all' && ch.subject !== state.filters.subject) {
+          return false;
+        }
+        // Search filter
+        if (query.length > 0) {
+          const matchTitle = ch.title.toLowerCase().includes(query);
+          const matchSub = ch.subject.toLowerCase().includes(query);
+          const matchNum = `chapter ${ch.chapterNumber}`.includes(query) || `ch ${ch.chapterNumber}`.includes(query);
+          return matchTitle || matchSub || matchNum;
+        }
+        return true;
+      });
+
+      // Update count label & clear button visibility
+      if (labelCount) {
+        labelCount.textContent = `Showing ${filtered.length} of ${CHAPTERS.length} Chapters`;
+      }
+
+      const hasActiveFilter = state.filters.classLevel !== 'all' || state.filters.subject !== 'all' || query.length > 0;
+      if (resetFiltersBtn) {
+        resetFiltersBtn.classList.toggle('hidden', !hasActiveFilter);
+      }
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        if (emptyState) emptyState.classList.remove('hidden');
+        return;
+      } else {
+        if (emptyState) emptyState.classList.add('hidden');
+      }
+
+      // Render cards HTML
+      grid.innerHTML = filtered.map(ch => {
+        const chTasks = state.tasks[ch.id] || {};
+        let doneCount = 0;
+        ch.subTasks.forEach(st => {
+          if (chTasks[st.id]) doneCount++;
+        });
+
+        const isMastered = doneCount === ch.subTasks.length;
+        const progressPct = Math.round((doneCount / ch.subTasks.length) * 100);
+
+        // Badge styles
+        const classBadgeClass = ch.classLevel === 10 ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+        const subjectBadgeClass = ch.subject === 'Science' ? 'bg-teal-50 text-teal-700 border-teal-200' : 'bg-blue-50 text-blue-700 border-blue-200';
+
+        return `
+          <article class="relative rounded-2xl border p-5 sm:p-6 transition-all duration-300 flex flex-col justify-between ${
+            isMastered
+              ? 'card-mastered border-emerald-500'
+              : 'bg-white border-slate-200 shadow-xs hover:shadow-md hover:border-slate-300'
+          }">
+            
+            <div>
+              <!-- Header Badges -->
+              <div class="flex items-center justify-between gap-2 mb-3">
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${classBadgeClass}">
+                    Class ${ch.classLevel}
+                  </span>
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold border ${subjectBadgeClass}">
+                    ${ch.subject}
+                  </span>
+                </div>
+                
+                <span class="text-xs font-bold ${isMastered ? 'text-emerald-700' : 'text-slate-400'}">
+                  Ch ${ch.chapterNumber} • ${doneCount}/${ch.subTasks.length}
+                </span>
+              </div>
+
+              <!-- Title -->
+              <h3 class="text-base font-bold text-slate-900 tracking-tight leading-snug mb-3">
+                ${ch.title}
+              </h3>
+
+              <!-- Mini Progress bar per chapter -->
+              <div class="mb-4 space-y-1">
+                <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+                  <div class="h-1.5 rounded-full transition-all duration-500 ${isMastered ? 'bg-emerald-500' : 'bg-blue-600'}" style="width: ${progressPct}%"></div>
+                </div>
+              </div>
+
+              <!-- Subtasks list -->
+              <div class="space-y-2.5 my-4">
+                ${ch.subTasks.map(st => {
+                  const isChecked = !!chTasks[st.id];
+                  const inputId = `st-${ch.id}-${st.id}`;
+
+                  return `
+                    <label for="${inputId}" class="flex items-center gap-3 group cursor-pointer select-none text-xs sm:text-sm p-1.5 rounded-lg hover:bg-slate-50 transition-colors">
+                      <input 
+                        type="checkbox" 
+                        id="${inputId}" 
+                        data-chapter="${ch.id}" 
+                        data-subtask="${st.id}"
+                        ${isChecked ? 'checked' : ''}
+                        class="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 border-slate-300 accent-blue-600 cursor-pointer transition-transform group-active:scale-95"
+                      />
+                      <span class="${isChecked ? 'line-through text-slate-400 font-normal' : 'text-slate-700 font-medium group-hover:text-slate-900'} transition-colors">
+                        ${st.label}
+                      </span>
+                    </label>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- Question Banks & PDFs Row -->
+            <div class="mt-3 pt-3 border-t border-slate-100 space-y-1.5">
+              <div class="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                <svg class="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                CBSE Official Question Bank Volumes:
+              </div>
+              <div class="flex items-center gap-1.5 flex-wrap text-xs">
+                <a href="${ch.resources.cbseQbVol1}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold border border-blue-200/60 transition-colors text-[11px]">
+                  🏛️ CBSE QB Vol. 1
+                </a>
+                <a href="${ch.resources.cbseQbVol2}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-semibold border border-indigo-200/60 transition-colors text-[11px]">
+                  📜 CBSE QB Vol. 2
+                </a>
+                <a href="${ch.resources.cbsePracticeLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold border border-emerald-200/60 transition-colors text-[11px]">
+                  📑 Practice Papers
+                </a>
+              </div>
+            </div>
+
+            <!-- Resource Hyperlinks Footer -->
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-2">
+              <div class="flex items-center gap-3">
+                <a href="${ch.resources.ncertLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-600 hover:text-blue-600 font-medium transition-colors">
+                  <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                  </svg>
+                  NCERT Text
+                </a>
+                <a href="${ch.resources.exemplarLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-600 hover:text-indigo-600 font-medium transition-colors">
+                  <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-0a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                  </svg>
+                  Exemplar
+                </a>
+              </div>
+
+              <!-- Select All / Unselect All Toggle -->
+              <button 
+                type="button" 
+                data-toggle-chapter="${ch.id}" 
+                class="text-[11px] font-semibold ${isMastered ? 'text-slate-400 hover:text-rose-600' : 'text-blue-600 hover:text-blue-800'} transition-colors cursor-pointer"
+              >
+                ${isMastered ? 'Uncheck All' : 'Mark All'}
+              </button>
+            </div>
+
+          </article>
+        `;
+      }).join('');
+
+      // Attach Checkbox Change Handlers
+      const checkboxes = grid.querySelectorAll('input[type="checkbox"]');
+      checkboxes.forEach(cb => {
+        cb.addEventListener('change', (e) => {
+          const chId = e.target.getAttribute('data-chapter');
+          const stId = e.target.getAttribute('data-subtask');
+          if (chId && stId) {
+            if (!state.tasks[chId]) state.tasks[chId] = {};
+            state.tasks[chId][stId] = e.target.checked;
+            saveStateToStorage();
+            renderHero();
+            renderChapters();
+          }
+        });
+      });
+
+      // Attach Chapter Toggle All Handlers
+      const toggleBtns = grid.querySelectorAll('button[data-toggle-chapter]');
+      toggleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const chId = btn.getAttribute('data-toggle-chapter');
+          const targetChapter = CHAPTERS.find(c => c.id === chId);
+          if (!targetChapter) return;
+
+          const chTasks = state.tasks[chId] || {};
+          let allDone = targetChapter.subTasks.every(st => !!chTasks[st.id]);
+
+          // Flip all
+          targetChapter.subTasks.forEach(st => {
+            state.tasks[chId][st.id] = !allDone;
+          });
+
+          saveStateToStorage();
+          renderHero();
+          renderChapters();
+          showToast(!allDone ? `Chapter "${targetChapter.title}" completed!` : `Chapter "${targetChapter.title}" unchecked`);
+        });
+      });
+    }
+
+    // 8. EVENT BINDINGS & CONTROLLERS
+    function setupEventListeners() {
+      // Class Level Filters
+      const classBtns = document.querySelectorAll('.btn-filter-class');
+      classBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-filter-class');
+          state.filters.classLevel = val;
+          
+          classBtns.forEach(b => {
+            const isMatch = b.getAttribute('data-filter-class') === val;
+            b.className = isMatch
+              ? 'btn-filter-class px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-white text-slate-900 shadow-xs'
+              : 'btn-filter-class px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer text-slate-600 hover:text-slate-900';
+          });
+
+          renderChapters();
+        });
+      });
+
+      // Subject Filters
+      const subjectBtns = document.querySelectorAll('.btn-filter-subject');
+      subjectBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const val = btn.getAttribute('data-filter-subject');
+          state.filters.subject = val;
+
+          subjectBtns.forEach(b => {
+            const isMatch = b.getAttribute('data-filter-subject') === val;
+            b.className = isMatch
+              ? 'btn-filter-subject px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-900 text-white shadow-xs'
+              : 'btn-filter-subject px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200';
+          });
+
+          renderChapters();
+        });
+      });
+
+      // Real-Time Search Handler
+      const searchInput = document.getElementById('search-input');
+      const searchClearBtn = document.getElementById('search-clear-btn');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          state.filters.search = e.target.value;
+          if (searchClearBtn) {
+            searchClearBtn.classList.toggle('hidden', e.target.value.length === 0);
+          }
+          renderChapters();
+        });
+      }
+
+      if (searchClearBtn) {
+        searchClearBtn.addEventListener('click', () => {
+          if (searchInput) searchInput.value = '';
+          state.filters.search = '';
+          searchClearBtn.classList.add('hidden');
+          renderChapters();
+        });
+      }
+
+      // Reset All Filters Button
+      const resetFiltersBtn = document.getElementById('btn-reset-filters');
+      const clearEmptyBtn = document.getElementById('btn-clear-empty');
+
+      function clearAllFilters() {
+        state.filters.classLevel = 'all';
+        state.filters.subject = 'all';
+        state.filters.search = '';
+        if (searchInput) searchInput.value = '';
+        if (searchClearBtn) searchClearBtn.classList.add('hidden');
+
+        // Reset Class buttons
+        document.querySelectorAll('.btn-filter-class').forEach(b => {
+          const isAll = b.getAttribute('data-filter-class') === 'all';
+          b.className = isAll
+            ? 'btn-filter-class px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer bg-white text-slate-900 shadow-xs'
+            : 'btn-filter-class px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer text-slate-600 hover:text-slate-900';
+        });
+
+        // Reset Subject buttons
+        document.querySelectorAll('.btn-filter-subject').forEach(b => {
+          const isAll = b.getAttribute('data-filter-subject') === 'all';
+          b.className = isAll
+            ? 'btn-filter-subject px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-900 text-white shadow-xs'
+            : 'btn-filter-subject px-3.5 py-1.5 rounded-full text-xs font-medium transition-all cursor-pointer bg-slate-100 text-slate-700 hover:bg-slate-200';
+        });
+
+        renderChapters();
+      }
+
+      if (resetFiltersBtn) resetFiltersBtn.addEventListener('click', clearAllFilters);
+      if (clearEmptyBtn) clearEmptyBtn.addEventListener('click', clearAllFilters);
+
+      // Debounced Notes Handler
+      const notesTextarea = document.getElementById('notes-textarea');
+      if (notesTextarea) {
+        notesTextarea.value = state.notes;
+
+        const debouncedSaveNotes = debounce(() => {
+          state.notes = notesTextarea.value;
+          saveStateToStorage();
+        }, 500);
+
+        notesTextarea.addEventListener('input', debouncedSaveNotes);
+      }
+
+      // Template Insert for Notes
+      const btnInsertTemplate = document.getElementById('btn-insert-template');
+      if (btnInsertTemplate && notesTextarea) {
+        btnInsertTemplate.addEventListener('click', () => {
+          const template = `📅 WEEKLY REVISION TIMETABLE (SESSION 2026-2027)
+--------------------------------------------------
+[Monday - Wednesday] Science Chapter Revision & Diagrams
+- Read Chapter Theory & Highlight NCERT Lines
+- Practice Chemical Reactions / Ray Diagrams on paper
+
+[Thursday - Saturday] Mathematics Problem Solving
+- Solve NCERT Exemplar Exercise Problems
+- Time yourself: 10 Past Year PYQ questions per day
+
+[Sunday] Mock Tests & Error Analysis
+- Attempt Chapter Test & calculate score %
+- Note down weak concepts & re-visit NCERT textbook
+--------------------------------------------------`;
+          notesTextarea.value = (notesTextarea.value ? notesTextarea.value + '\n\n' : '') + template;
+          state.notes = notesTextarea.value;
+          saveStateToStorage();
+          showToast('Timetable template inserted!');
+        });
+      }
+
+      // Copy Notes Button
+      const btnCopyNotes = document.getElementById('btn-copy-notes');
+      if (btnCopyNotes && notesTextarea) {
+        btnCopyNotes.addEventListener('click', () => {
+          if (!notesTextarea.value.trim()) {
+            showToast('Notes area is empty', 'error');
+            return;
+          }
+          navigator.clipboard.writeText(notesTextarea.value).then(() => {
+            showToast('Notes copied to clipboard!');
+          }).catch(() => {
+            showToast('Failed to copy', 'error');
+          });
+        });
+      }
+
+      // Clear Notes Button
+      const btnClearNotes = document.getElementById('btn-clear-notes');
+      if (btnClearNotes && notesTextarea) {
+        btnClearNotes.addEventListener('click', () => {
+          if (confirm('Are you sure you want to clear your study notes?')) {
+            notesTextarea.value = '';
+            state.notes = '';
+            saveStateToStorage();
+            showToast('Notes cleared');
+          }
+        });
+      }
+
+      // Reset Data Modal Controls
+      const resetBtn = document.getElementById('btn-reset');
+      const resetModal = document.getElementById('reset-modal');
+      const btnModalCancel = document.getElementById('btn-modal-cancel');
+      const btnModalConfirm = document.getElementById('btn-modal-confirm');
+
+      if (resetBtn && resetModal) {
+        resetBtn.addEventListener('click', () => resetModal.classList.remove('hidden'));
+      }
+      if (btnModalCancel && resetModal) {
+        btnModalCancel.addEventListener('click', () => resetModal.classList.add('hidden'));
+      }
+      if (btnModalConfirm && resetModal) {
+        btnModalConfirm.addEventListener('click', () => {
+          CHAPTERS.forEach(ch => {
+            state.tasks[ch.id] = {};
+            ch.subTasks.forEach(st => state.tasks[ch.id][st.id] = false);
+          });
+          saveStateToStorage();
+          renderHero();
+          renderChapters();
+          resetModal.classList.add('hidden');
+          showToast('All progress reset to 0%');
+        });
+      }
+    }
+
+    // Question Bank Direct PDF Database & Modal Handlers (CBSE Official Material Only)
+    const QB_PDF_DATABASE = {
+      cbse_v1: {
+        title: "CBSE Official Question Bank - Volume 1 (All Subjects)",
+        badge: "🏛️ CBSE QB Vol. 1",
+        badgeClass: "bg-blue-100 text-blue-800 border border-blue-200",
+        description: "Direct official competency-based MCQs, assertion-reason, and objective question banks published by CBSE Board.",
+        class10: [
+          { name: "CBSE Class 10 Science Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX.pdf" },
+          { name: "CBSE Class 10 Mathematics Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/MathsX.pdf" },
+          { name: "CBSE Class 10 Social Science Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/SST_X.pdf" },
+          { name: "CBSE Class 10 English Language & Literature Official QB (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/EnglishX.pdf" },
+          { name: "CBSE Class 10 Hindi Course A Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiA_X.pdf" },
+          { name: "CBSE Class 10 Hindi Course B Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiB_X.pdf" }
+        ],
+        class9: [
+          { name: "CBSE Class 9 Science Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX.pdf" },
+          { name: "CBSE Class 9 Mathematics Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX.pdf" },
+          { name: "CBSE Class 9 Social Science Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/SST_IX.pdf" },
+          { name: "CBSE Class 9 English Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/EnglishIX.pdf" },
+          { name: "CBSE Class 9 Hindi Course A Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/HindiA_IX.pdf" },
+          { name: "CBSE Class 9 Hindi Course B Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/HindiB_IX.pdf" }
+        ]
+      },
+      cbse_v2: {
+        title: "CBSE Official Question Bank - Volume 2 (All Subjects)",
+        badge: "📜 CBSE QB Vol. 2",
+        badgeClass: "bg-indigo-100 text-indigo-800 border border-indigo-200",
+        description: "Official CBSE Case-Study questions, subjective problem sets, and detailed solutions for Class 9 & 10.",
+        class10: [
+          { name: "CBSE Class 10 Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX_Vol2.pdf" },
+          { name: "CBSE Class 10 Mathematics Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/MathsX_Vol2.pdf" },
+          { name: "CBSE Class 10 Social Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/SST_X_Vol2.pdf" },
+          { name: "CBSE Class 10 English Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/EnglishX_Vol2.pdf" },
+          { name: "CBSE Class 10 Hindi Course A Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiA_X_Vol2.pdf" },
+          { name: "CBSE Class 10 Hindi Course B Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiB_X_Vol2.pdf" }
+        ],
+        class9: [
+          { name: "CBSE Class 9 Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX_Vol2.pdf" },
+          { name: "CBSE Class 9 Mathematics Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX_Vol2.pdf" },
+          { name: "CBSE Class 9 Social Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/SST_IX_Vol2.pdf" },
+          { name: "CBSE Class 9 English Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/EnglishIX_Vol2.pdf" }
+        ]
+      },
+      cbse_practice: {
+        title: "CBSE Official Practice Papers & Marking Schemes",
+        badge: "📑 Official SQP",
+        badgeClass: "bg-teal-100 text-teal-800 border border-teal-200",
+        description: "Official Sample Question Papers (SQP), Additional Practice Sets, and Marking Schemes for Board Exam preparation.",
+        class10: [
+          { name: "CBSE Class 10 Official Sample Question Papers & Solutions (All Subjects)", format: ".PDF / Portal", url: "https://cbseacademic.nic.in/sqp_classx_2023_24.html" },
+          { name: "CBSE Class 10 Science Official Additional Practice Question Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/Science-SQP.pdf" },
+          { name: "CBSE Class 10 Mathematics Official Additional Practice Question Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/MathsStandard-SQP.pdf" },
+          { name: "CBSE Class 10 Social Science Official Additional Practice Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/SocialScience-SQP.pdf" },
+          { name: "CBSE Class 10 English Language & Lit. Official Practice Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/EnglishLanguageLiterature-SQP.pdf" }
+        ],
+        class9: [
+          { name: "CBSE Class 9 Official Curriculum & Question Paper Specifications", format: ".PDF / Portal", url: "https://cbseacademic.nic.in/curriculum_2024.html" },
+          { name: "CBSE Class 9 Science Official Practice Material", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX.pdf" },
+          { name: "CBSE Class 9 Mathematics Official Practice Material", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX.pdf" }
+        ]
+      }
+    };
+
+    window.openQbModal = function(providerKey) {
+      const data = QB_PDF_DATABASE[providerKey] || QB_PDF_DATABASE['cbse_v1'];
+      const modal = document.getElementById('qb-pdf-modal');
+      if (!modal) return;
+      
+      const titleEl = document.getElementById('qb-modal-title');
+      const badgeEl = document.getElementById('qb-modal-badge');
+      const descEl = document.getElementById('qb-modal-desc');
+      const listEl = document.getElementById('qb-modal-pdf-list');
+
+      if (titleEl) titleEl.textContent = data.title;
+      if (badgeEl) {
+        badgeEl.textContent = data.badge;
+        badgeEl.className = `text-[10px] font-bold px-2 py-0.5 rounded-full ${data.badgeClass}`;
+      }
+      if (descEl) descEl.textContent = data.description;
+
+      if (listEl) {
+        let html = `
+          <!-- Class 10 Section -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-800 border-b border-slate-100 pb-1">
+              <span>Class 10 Direct Question Bank PDFs</span>
+              <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Board Exam 2026-27</span>
+            </div>
+            <div class="space-y-1.5">
+        `;
+
+        data.class10.forEach(pdf => {
+          html += `
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-blue-50/50 border border-slate-200/80 rounded-xl text-xs transition-colors group">
+              <div class="flex items-center gap-2 overflow-hidden pr-2">
+                <span class="p-1.5 bg-red-100 text-red-600 rounded-lg text-xs shrink-0 font-bold">PDF</span>
+                <span class="font-medium text-slate-800 group-hover:text-blue-700 truncate">${pdf.name}</span>
+              </div>
+              <a href="${pdf.url}" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-[11px] shadow-xs transition-colors cursor-pointer">
+                <span>Download .PDF</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              </a>
+            </div>
+          `;
+        });
+
+        html += `
+            </div>
+          </div>
+
+          <!-- Class 9 Section -->
+          <div class="space-y-2 mt-4">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-800 border-b border-slate-100 pb-1">
+              <span>Class 9 Direct Question Bank PDFs</span>
+              <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded">Foundation Prep</span>
+            </div>
+            <div class="space-y-1.5">
+        `;
+
+        data.class9.forEach(pdf => {
+          html += `
+            <div class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-amber-50/50 border border-slate-200/80 rounded-xl text-xs transition-colors group">
+              <div class="flex items-center gap-2 overflow-hidden pr-2">
+                <span class="p-1.5 bg-red-100 text-red-600 rounded-lg text-xs shrink-0 font-bold">PDF</span>
+                <span class="font-medium text-slate-800 group-hover:text-amber-800 truncate">${pdf.name}</span>
+              </div>
+              <a href="${pdf.url}" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-[11px] shadow-xs transition-colors cursor-pointer">
+                <span>Download .PDF</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              </a>
+            </div>
+          `;
+        });
+
+        html += `
+            </div>
+          </div>
+        `;
+
+        listEl.innerHTML = html;
+      }
+
+      modal.classList.remove('hidden');
+    };
+
+    window.closeQbModal = function() {
+      const modal = document.getElementById('qb-pdf-modal');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    // 9. INITIALIZATION ON DOM LOADED
+    document.addEventListener('DOMContentLoaded', () => {
+      loadStateFromStorage();
+      renderHero();
+      renderChapters();
+      setupEventListeners();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "CBSE Class 9 & 10 Ultimate Board Exam Tracker",
+  "description": "A comprehensive, high-clarity academic tracker for CBSE Class 9 and 10 students covering Science and Mathematics NCERT syllabi with sub-task progress tracking, filter controls, and debounced persistent study notes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -135,6 +135,50 @@ Provide a evaluation summary in JSON format:
     }
   });
 
+  // API Route: Feynman AI Explainer Diagnostic
+  app.post("/api/feynman", async (req, res) => {
+    try {
+      const { topic, userExplanation, subject, classLevel } = req.body;
+      const ai = getAi();
+      
+      if (!ai) {
+        return res.json({ success: false, reason: "NO_API_KEY" });
+      }
+
+      const prompt = `You are an expert Feynman Technique AI Tutor for CBSE Class ${classLevel || '10'} ${subject || 'Science / Mathematics'}.
+The student is explaining the topic: "${topic}".
+Student's Explanation:
+"${userExplanation}"
+
+Analyze their explanation using the Feynman Technique principles (clarity, simplicity, detection of missing key terms, and identifying misconceptions).
+Return strictly valid JSON matching this schema:
+{
+  "clarityScore": 85,
+  "summary": "Clear, encouraging evaluation of the student's explanation",
+  "keyTermsFound": ["Key NCERT term 1", "Key NCERT term 2"],
+  "missingTerms": ["Essential term missed 1", "Essential term missed 2"],
+  "misconceptions": ["Inaccuracy if any, or 'None found'"],
+  "simplifiedExplanation": "The ideal, simple 2-3 sentence Feynman explanation for this concept",
+  "ncertTip": "Specific board exam tip for full marks on this question"
+}`;
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: prompt,
+        config: {
+          responseMimeType: "application/json"
+        }
+      });
+
+      const text = response.text || "{}";
+      const parsed = JSON.parse(text);
+      res.json({ success: true, analysis: parsed });
+    } catch (err: any) {
+      console.error("Error running Feynman analysis with Gemini:", err);
+      res.json({ success: false, error: err.message || "Failed to run Feynman analysis" });
+    }
+  });
+
   // Vite middleware setup
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

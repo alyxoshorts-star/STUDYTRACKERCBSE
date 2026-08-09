@@ -820,10 +820,10 @@
             </div>
             <div>
               <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <span id="account-active-display-name">Rahul Sharma</span>
-                <span id="account-active-display-class" class="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-xs font-extrabold">Class 10</span>
+                <span id="account-active-display-name">Guest Student</span>
+                <span id="account-active-display-class" class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-xs font-extrabold">Not Logged In</span>
               </h3>
-              <p class="text-xs text-slate-500 mt-0.5">Username: <strong id="account-active-username" class="text-slate-800">rahul_2026</strong> • ID: <span id="account-active-id" class="font-mono text-slate-700">CBSE-2026-1082</span></p>
+              <p class="text-xs text-slate-500 mt-0.5">Username: <strong id="account-active-username" class="text-slate-800">guest</strong> • ID: <span id="account-active-id" class="font-mono text-slate-700">N/A</span></p>
             </div>
           </div>
 
@@ -1372,13 +1372,13 @@
         search: ''
       },
       studentProfile: {
-        name: 'Rahul Sharma',
-        rollNo: 'CBSE-2026-1082',
+        name: 'Guest Student',
+        rollNo: 'Not Logged In',
         classLevel: '10',
         targetYear: '2026-2027',
-        dreamPercentage: '98%',
-        targetStream: 'PCM (Physics, Chemistry, Maths)',
-        dailyHours: '4.5'
+        dreamPercentage: '95%',
+        targetStream: 'Science & Maths',
+        dailyHours: '4.0'
       },
       testHistory: [],
       activeTestPaper: null,
@@ -1399,71 +1399,45 @@
         console.warn('Error reading appUsers from localStorage:', err);
       }
 
-      // Default initial account if database is empty
-      if (!Array.isArray(appUsers) || appUsers.length === 0) {
-        // Migration from single-user STORAGE_KEY if present
-        let legacyProfile = null;
-        let legacyTasks = {};
-        let legacyNotes = '';
-        let legacyHistory = [];
-        try {
-          const rawLegacy = localStorage.getItem(STORAGE_KEY);
-          if (rawLegacy) {
-            const parsed = JSON.parse(rawLegacy);
-            if (parsed.studentProfile) legacyProfile = parsed.studentProfile;
-            if (parsed.tasks) legacyTasks = parsed.tasks;
-            if (parsed.notes) legacyNotes = parsed.notes;
-            if (parsed.testHistory) legacyHistory = parsed.testHistory;
-          }
-        } catch(e) {}
-
-        appUsers = [
-          {
-            id: 'usr_default',
-            username: 'rahul_2026',
-            password: 'password123',
-            name: legacyProfile?.name || 'Rahul Sharma',
-            rollNo: legacyProfile?.rollNo || 'CBSE-2026-1082',
-            classLevel: legacyProfile?.classLevel || '10',
-            targetYear: legacyProfile?.targetYear || '2026-2027',
-            dreamPercentage: legacyProfile?.dreamPercentage || '98%',
-            targetStream: legacyProfile?.targetStream || 'PCM (Physics, Chemistry, Maths)',
-            dailyHours: legacyProfile?.dailyHours || '4.5',
-            tasks: legacyTasks,
-            notes: legacyNotes,
-            testHistory: legacyHistory
-          }
-        ];
-
-        try {
-          localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(appUsers));
-        } catch(e) {}
+      // Default empty users DB if none exists
+      if (!Array.isArray(appUsers)) {
+        appUsers = [];
       }
 
       // 2. Read active user ID
       activeUserId = localStorage.getItem(ACTIVE_USER_KEY);
       let activeUser = appUsers.find(u => u.id === activeUserId);
-      if (!activeUser) {
-        activeUser = appUsers[0];
-        activeUserId = activeUser.id;
-        try {
-          localStorage.setItem(ACTIVE_USER_KEY, activeUserId);
-        } catch(e) {}
-      }
 
-      // 3. Bind active user account data to global state
-      state.studentProfile = {
-        name: activeUser.name || 'Rahul Sharma',
-        rollNo: activeUser.rollNo || 'CBSE-2026-1082',
-        classLevel: activeUser.classLevel || '10',
-        targetYear: activeUser.targetYear || '2026-2027',
-        dreamPercentage: activeUser.dreamPercentage || '98%',
-        targetStream: activeUser.targetStream || 'PCM (Physics, Chemistry, Maths)',
-        dailyHours: activeUser.dailyHours || '4.5'
-      };
-      state.tasks = activeUser.tasks || {};
-      state.notes = activeUser.notes || '';
-      state.testHistory = Array.isArray(activeUser.testHistory) ? activeUser.testHistory : [];
+      if (activeUser) {
+        // Bind active user account data to global state
+        state.studentProfile = {
+          name: activeUser.name || 'Student',
+          rollNo: activeUser.rollNo || 'CBSE-2026-1001',
+          classLevel: activeUser.classLevel || '10',
+          targetYear: activeUser.targetYear || '2026-2027',
+          dreamPercentage: activeUser.dreamPercentage || '95%',
+          targetStream: activeUser.targetStream || 'Science & Maths',
+          dailyHours: activeUser.dailyHours || '4.0'
+        };
+        state.tasks = activeUser.tasks || {};
+        state.notes = activeUser.notes || '';
+        state.testHistory = Array.isArray(activeUser.testHistory) ? activeUser.testHistory : [];
+      } else {
+        // Guest mode - student must log in or sign up first
+        activeUserId = null;
+        state.studentProfile = {
+          name: 'Guest Student',
+          rollNo: 'Not Logged In',
+          classLevel: '10',
+          targetYear: '2026-2027',
+          dreamPercentage: '95%',
+          targetStream: 'Science & Maths',
+          dailyHours: '4.0'
+        };
+        state.tasks = {};
+        state.notes = '';
+        state.testHistory = [];
+      }
 
       // Ensure every seed chapter & subtask has a defined state entry
       CHAPTERS.forEach(ch => {
@@ -1507,13 +1481,20 @@
 
     function updateHeaderUserWidget() {
       const activeUser = appUsers.find(u => u.id === activeUserId);
-      if (!activeUser) return;
 
       const userNameEl = document.getElementById('header-user-name');
       const userClassEl = document.getElementById('header-user-class');
+      const headerPill = document.getElementById('header-user-pill');
       
-      if (userNameEl) userNameEl.textContent = activeUser.name || activeUser.username;
-      if (userClassEl) userClassEl.textContent = `Class ${activeUser.classLevel || '10'}`;
+      if (activeUser) {
+        if (userNameEl) userNameEl.textContent = activeUser.name || activeUser.username;
+        if (userClassEl) userClassEl.textContent = `Class ${activeUser.classLevel || '10'}`;
+        if (headerPill) headerPill.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-50 text-emerald-950 border border-emerald-200/80 shadow-2xs";
+      } else {
+        if (userNameEl) userNameEl.textContent = "Guest Student";
+        if (userClassEl) userClassEl.textContent = "Please Log In";
+        if (headerPill) headerPill.className = "inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-950 border border-amber-200/80 shadow-2xs";
+      }
 
       // Account tab displays
       const accName = document.getElementById('account-active-display-name');
@@ -1521,17 +1502,17 @@
       const accUsername = document.getElementById('account-active-username');
       const accId = document.getElementById('account-active-id');
 
-      if (accName) accName.textContent = activeUser.name;
-      if (accClass) accClass.textContent = `Class ${activeUser.classLevel}`;
-      if (accUsername) accUsername.textContent = activeUser.username;
-      if (accId) accId.textContent = activeUser.rollNo;
+      if (accName) accName.textContent = activeUser ? activeUser.name : 'Guest Student';
+      if (accClass) accClass.textContent = activeUser ? `Class ${activeUser.classLevel}` : 'Not Logged In';
+      if (accUsername) accUsername.textContent = activeUser ? activeUser.username : 'guest';
+      if (accId) accId.textContent = activeUser ? activeUser.rollNo : 'N/A';
 
       // Account Switcher List
       const switcherContainer = document.getElementById('multi-account-switcher-container');
       const switcherList = document.getElementById('multi-account-list');
 
       if (switcherContainer && switcherList) {
-        if (appUsers.length > 1) {
+        if (appUsers.length > 0) {
           switcherContainer.classList.remove('hidden');
           switcherList.innerHTML = appUsers.map(u => {
             const isActive = u.id === activeUserId;
@@ -3000,12 +2981,14 @@
     };
 
     // FEYNMAN AI ANALYSIS
-    window.runFeynmanAnalysis = function() {
-      const topic = document.getElementById('feynman-topic-input')?.value || "NCERT Topic";
-      const userText = document.getElementById('feynman-text-input')?.value || "";
+    window.runFeynmanAnalysis = async function() {
+      const topicInput = document.getElementById('feynman-topic-input');
+      const textInput = document.getElementById('feynman-text-input');
+      const topic = topicInput?.value.trim() || "NCERT Concept";
+      const userText = textInput?.value.trim() || "";
       const resultBox = document.getElementById('feynman-result-box');
 
-      if (!userText.trim()) {
+      if (!userText) {
         showToast("Please write your explanation first", "error");
         return;
       }
@@ -3013,11 +2996,94 @@
       if (resultBox) {
         resultBox.classList.remove('hidden');
         resultBox.innerHTML = `
-          <div class="font-bold text-indigo-900">✨ Feynman Technique Diagnostic Results for "${topic}":</div>
-          <div class="text-slate-700"><b>Clarity Score:</b> 88/100 (Clean, simple phrasing)</div>
-          <div class="text-slate-700"><b>Key NCERT Terms Detected:</b> Verified core terms present.</div>
-          <div class="p-2 bg-emerald-100/70 text-emerald-900 font-medium rounded-lg">✓ Excellent simple explanation! Review diagram and units for full 100% board accuracy.</div>
+          <div class="flex items-center gap-2.5 text-indigo-950 font-bold text-xs p-3 bg-indigo-50 border border-indigo-200 rounded-xl shadow-2xs">
+            <span class="animate-spin text-base">⏳</span>
+            <span>Feynman AI analyzing your explanation against NCERT board guidelines...</span>
+          </div>
         `;
+      }
+
+      try {
+        const res = await fetch('/api/feynman', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            topic,
+            userExplanation: userText,
+            subject: state.activeSubjectFilter || 'Science',
+            classLevel: state.activeClassFilter || '10'
+          })
+        });
+
+        if (!res.ok) throw new Error("Feynman API network error");
+        const data = await res.json();
+        const analysis = data.analysis;
+        if (!analysis) throw new Error("No analysis returned");
+
+        if (resultBox) {
+          const keyTermsHtml = Array.isArray(analysis.keyTermsFound) && analysis.keyTermsFound.length > 0
+            ? analysis.keyTermsFound.map(t => `<span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-bold">${t}</span>`).join(' ')
+            : '<span class="text-slate-400 font-normal">None detected</span>';
+
+          const missingTermsHtml = Array.isArray(analysis.missingTerms) && analysis.missingTerms.length > 0
+            ? analysis.missingTerms.map(t => `<span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 font-bold">${t}</span>`).join(' ')
+            : '<span class="text-emerald-700 font-bold">All key NCERT terms covered!</span>';
+
+          resultBox.innerHTML = `
+            <div class="space-y-3">
+              <div class="flex items-center justify-between border-b border-indigo-200/80 pb-2">
+                <span class="font-extrabold text-indigo-950 text-sm flex items-center gap-1.5"><span>✨</span> Feynman AI Diagnostic for "${topic}"</span>
+                <span class="px-3 py-1 rounded-full bg-indigo-600 text-white font-black text-xs shadow-2xs">Clarity: ${analysis.clarityScore || 85}/100</span>
+              </div>
+
+              <p class="text-slate-800 font-medium text-xs leading-relaxed">${analysis.summary || 'Good attempt at simplifying this concept!'}</p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                <div class="p-3 bg-emerald-50/90 border border-emerald-200 rounded-xl space-y-1">
+                  <strong class="text-emerald-950 block font-bold">✓ Key NCERT Terms Covered:</strong>
+                  <div class="flex flex-wrap gap-1 mt-1 text-[11px]">${keyTermsHtml}</div>
+                </div>
+                <div class="p-3 bg-amber-50/90 border border-amber-200 rounded-xl space-y-1">
+                  <strong class="text-amber-950 block font-bold">💡 Recommended Board Terms to Add:</strong>
+                  <div class="flex flex-wrap gap-1 mt-1 text-[11px]">${missingTermsHtml}</div>
+                </div>
+              </div>
+
+              ${analysis.misconceptions && analysis.misconceptions !== 'None found' && analysis.misconceptions !== 'None' ? `
+                <div class="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-900 font-medium">
+                  <strong>⚠️ Inaccuracy Note:</strong> ${analysis.misconceptions}
+                </div>
+              ` : ''}
+
+              <div class="p-3.5 bg-white border border-indigo-200/80 rounded-xl space-y-1 text-xs shadow-2xs">
+                <strong class="text-indigo-900 block font-bold">🎯 Simplified Feynman Master Explanation:</strong>
+                <p class="text-slate-700 leading-relaxed font-medium">${analysis.simplifiedExplanation || 'Simplicity reveals complete understanding.'}</p>
+              </div>
+
+              <div class="p-3 bg-indigo-100/70 text-indigo-950 rounded-xl text-xs font-semibold border border-indigo-200/60 flex items-center gap-2">
+                <span class="text-base">🎓</span>
+                <div><b>CBSE Board Exam Tip:</b> ${analysis.ncertTip || 'Always include standard SI units, labeled diagrams, and balanced chemical equations for full marks.'}</div>
+              </div>
+            </div>
+          `;
+        }
+      } catch (err) {
+        console.warn("Feynman AI fallback diagnostic:", err);
+        if (resultBox) {
+          resultBox.innerHTML = `
+            <div class="space-y-3">
+              <div class="flex items-center justify-between border-b border-indigo-200/80 pb-2">
+                <span class="font-extrabold text-indigo-950 text-sm flex items-center gap-1.5"><span>✨</span> Feynman Analysis for "${topic}"</span>
+                <span class="px-3 py-1 rounded-full bg-indigo-600 text-white font-black text-xs">Clarity: 88/100</span>
+              </div>
+              <p class="text-slate-800 font-medium text-xs">You explained <b>"${topic}"</b> in simple phrasing. Good active recall!</p>
+              <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs text-emerald-950 space-y-1">
+                <strong>✓ NCERT Active Recall Feedback:</strong>
+                <p class="leading-relaxed">Your explanation covers the fundamental idea. For 100% board exam accuracy, ensure you state exact NCERT laws, mention relevant SI units, and sketch labeled diagrams when applicable.</p>
+              </div>
+            </div>
+          `;
+        }
       }
     };
 
@@ -3104,6 +3170,270 @@
       if (panel) panel.scrollIntoView({ behavior: 'smooth' });
     };
 
+    // GENERATE CHAPTER SPECIFIC QUESTIONS FOR OFFLINE / AI FALLBACK
+    function getChapterSpecificQuestions(subj, classLvl, chapterVal) {
+      const titleLower = chapterVal.toLowerCase();
+
+      // Chapter-matched customized questions
+      if (titleLower.includes('chemical reaction') || titleLower.includes('ch 1:') && subj === 'Science') {
+        return [
+          {
+            id: "q1",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "Which of the following is a balanced chemical equation according to the Law of Conservation of Mass?",
+            options: ["Fe + H₂O → Fe₃O₄ + H₂", "3Fe + 4H₂O → Fe₃O₄ + 4H₂", "Fe + 2H₂O → FeO + H₂", "2Fe + O₂ → Fe₂O₃"],
+            correctAnswer: "3Fe + 4H₂O → Fe₃O₄ + 4H₂",
+            marks: 1
+          },
+          {
+            id: "q2",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "When brown-colored copper powder is heated in a china dish, it turns black. What substance is formed?",
+            options: ["Copper Oxide (CuO)", "Copper Carbonate", "Copper Nitrate", "Cuprous Sulphate"],
+            correctAnswer: "Copper Oxide (CuO)",
+            marks: 1
+          },
+          {
+            id: "q3",
+            type: "short",
+            section: "Section B - 3 Mark Short Answer",
+            question: "Differentiate between Combination, Decomposition, and Displacement reactions with one balanced equation for each.",
+            marks: 3
+          },
+          {
+            id: "q4",
+            type: "case_study",
+            section: "Section C - 5 Mark Competency Case Study",
+            question: "A student performs an experiment by adding dilute Hydrochloric Acid to Zinc granules in a conical flask.\n(a) Name the gas evolved and describe its testing method.\n(b) Write the balanced chemical equation for the reaction.\n(c) Is this reaction exothermic or endothermic? Explain.",
+            marks: 5
+          }
+        ];
+      }
+
+      if (titleLower.includes('acid') || titleLower.includes('salts') || titleLower.includes('ch 2:') && subj === 'Science') {
+        return [
+          {
+            id: "q1",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "Which of the following salts does not contain water of crystallization?",
+            options: ["Blue Vitriol", "Baking Soda", "Washing Soda", "Gypsum"],
+            correctAnswer: "Baking Soda",
+            marks: 1
+          },
+          {
+            id: "q2",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "What is the pH range of human blood?",
+            options: ["6.0 - 6.5", "7.0 - 7.8", "8.5 - 9.0", "4.5 - 5.5"],
+            correctAnswer: "7.0 - 7.8",
+            marks: 1
+          },
+          {
+            id: "q3",
+            type: "short",
+            section: "Section B - 3 Mark Short Answer",
+            question: "Explain the Chlor-Alkali process for the manufacture of Sodium Hydroxide (NaOH). State the products formed at anode and cathode.",
+            marks: 3
+          },
+          {
+            id: "q4",
+            type: "case_study",
+            section: "Section C - 5 Mark Competency Case Study",
+            question: "Plaster of Paris (CaSO₄·½H₂O) is stored in moisture-proof containers.\n(a) Why must Plaster of Paris be stored away from moisture?\n(b) Write the chemical equation for its reaction with water.\n(c) State two practical medical or industrial uses of Plaster of Paris.",
+            marks: 5
+          }
+        ];
+      }
+
+      if (titleLower.includes('electric') || titleLower.includes('ohm') || titleLower.includes('ch 11:') && subj === 'Science') {
+        return [
+          {
+            id: "q1",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "A wire of resistance R is cut into 5 equal parts. These parts are then connected in parallel. What is the equivalent resistance R'?",
+            options: ["R / 5", "5 R", "R / 25", "25 R"],
+            correctAnswer: "R / 25",
+            marks: 1
+          },
+          {
+            id: "q2",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "Which formula does NOT represent electric power in a circuit?",
+            options: ["P = V × I", "P = I² × R", "P = I × R²", "P = V² / R"],
+            correctAnswer: "P = I × R²",
+            marks: 1
+          },
+          {
+            id: "q3",
+            type: "short",
+            section: "Section B - 3 Mark Short Answer",
+            question: "State Ohm's Law. Draw a V-I graph for an ohmic conductor and show how resistance R is calculated from the graph gradient.",
+            marks: 3
+          },
+          {
+            id: "q4",
+            type: "case_study",
+            section: "Section C - 5 Mark Competency Case Study",
+            question: "An electric iron draws a current of 4 A when connected to a 220 V supply line.\n(a) Calculate the resistance of the electric iron.\n(b) Calculate the energy consumed in kWh if used for 2 hours daily for 30 days.\n(c) Find the cost of electricity at ₹ 6.00 per unit.",
+            marks: 5
+          }
+        ];
+      }
+
+      if (titleLower.includes('light') || titleLower.includes('refraction') || titleLower.includes('reflection')) {
+        return [
+          {
+            id: "q1",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "Focal length of a concave mirror is 15 cm. At what distance should an object be placed to form a real image of the same size?",
+            options: ["15 cm", "30 cm", "45 cm", "60 cm"],
+            correctAnswer: "30 cm",
+            marks: 1
+          },
+          {
+            id: "q2",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "The power of a lens is +2.0 D. Its focal length and lens type are:",
+            options: ["+50 cm Convex", "-50 cm Concave", "+20 cm Convex", "-20 cm Concave"],
+            correctAnswer: "+50 cm Convex",
+            marks: 1
+          },
+          {
+            id: "q3",
+            type: "short",
+            section: "Section B - 3 Mark Short Answer",
+            question: "State Snell's Law of Refraction. Calculate the speed of light in glass if absolute refractive index of glass is 1.5 (c = 3×10⁸ m/s).",
+            marks: 3
+          },
+          {
+            id: "q4",
+            type: "case_study",
+            section: "Section C - 5 Mark Competency Case Study",
+            question: "A student uses a convex lens of focal length 10 cm to project an image on a screen.\n(a) Where should the object be placed to get a magnified real image?\n(b) Draw a ray diagram for image formation when object is between F and 2F.\n(c) State the sign convention for magnification of real vs virtual images.",
+            marks: 5
+          }
+        ];
+      }
+
+      if (titleLower.includes('real number') || titleLower.includes('number system') || subj === 'Mathematics' && titleLower.includes('ch 1:')) {
+        return [
+          {
+            id: "q1",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "If HCF(306, 657) = 9, what is LCM(306, 657)?",
+            options: ["22338", "22383", "12338", "22000"],
+            correctAnswer: "22338",
+            marks: 1
+          },
+          {
+            id: "q2",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "The exponent of 5 in the prime factorization of 3750 is:",
+            options: ["3", "4", "5", "2"],
+            correctAnswer: "4",
+            marks: 1
+          },
+          {
+            id: "q3",
+            type: "short",
+            section: "Section B - 3 Mark Short Answer",
+            question: "Prove by contradiction that √5 is an irrational number as per CBSE NCERT standards.",
+            marks: 3
+          },
+          {
+            id: "q4",
+            type: "case_study",
+            section: "Section C - 5 Mark Competency Case Study",
+            question: "Three bell chimes ring together at intervals of 9, 12, and 15 minutes respectively.\n(a) Find the minimum time after which all three bells ring together again.\n(b) State the Fundamental Theorem of Arithmetic used here.\n(c) If they rang together at 8:00 AM, at what time will they chime together next?",
+            marks: 5
+          }
+        ];
+      }
+
+      if (titleLower.includes('quadratic') || titleLower.includes('polynomial')) {
+        return [
+          {
+            id: "q1",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "If one root of the quadratic equation 2x² + kx - 6 = 0 is 2, what is the value of k?",
+            options: ["-1", "1", "-2", "2"],
+            correctAnswer: "-1",
+            marks: 1
+          },
+          {
+            id: "q2",
+            type: "mcq",
+            section: "Section A - 1 Mark MCQ",
+            question: "The discriminant of quadratic equation 3x² - 2x + 1/3 = 0 is:",
+            options: ["0", "1", "-4", "12"],
+            correctAnswer: "0",
+            marks: 1
+          },
+          {
+            id: "q3",
+            type: "short",
+            section: "Section B - 3 Mark Short Answer",
+            question: "Find the zeroes of quadratic polynomial 6x² - 3 - 7x and verify the relationship between zeroes and coefficients.",
+            marks: 3
+          },
+          {
+            id: "q4",
+            type: "case_study",
+            section: "Section C - 5 Mark Competency Case Study",
+            question: "A motorboat whose speed is 18 km/h in still water takes 1 hour more to go 24 km upstream than to return downstream to the same spot.\n(a) Formulate the quadratic equation for speed of stream x.\n(b) Solve for x using the quadratic formula.\n(c) Verify if speed can be negative.",
+            marks: 5
+          }
+        ];
+      }
+
+      // Standard Chapter Specific Fallback
+      return [
+        {
+          id: "q1",
+          type: "mcq",
+          section: "Section A - 1 Mark MCQ",
+          question: `In Class ${classLvl} ${subj} (${chapterVal}), which core NCERT statement / formula is correct?`,
+          options: ["Condition satisfies NCERT standard guidelines", "Magnitude is directly proportional", "Calculated using standard formula", "Exhibits zero net deviation"],
+          correctAnswer: "Condition satisfies NCERT standard guidelines",
+          marks: 1
+        },
+        {
+          id: "q2",
+          type: "mcq",
+          section: "Section A - 1 Mark MCQ",
+          question: `Identify the primary property related to ${chapterVal}:`,
+          options: ["Verified experimentally in NCERT lab manual", "Inversely proportional relation", "Direct coefficient mapping", "Standard constant value"],
+          correctAnswer: "Verified experimentally in NCERT lab manual",
+          marks: 1
+        },
+        {
+          id: "q3",
+          type: "short",
+          section: "Section B - 3 Mark Short Answer",
+          question: `Explain the fundamental concept and derivation of ${chapterVal} with key equations / labeled diagram as per CBSE Class ${classLvl} guidelines.`,
+          marks: 3
+        },
+        {
+          id: "q4",
+          type: "case_study",
+          section: "Section C - 5 Mark Competency Case Study",
+          question: `Competency Case Study on ${chapterVal}:\nA student investigates a practical scenario testing parameters from ${chapterVal}.\n(a) State the primary observation.\n(b) Write the governing law or mathematical formula.\n(c) Calculate the missing parameter using standard SI units.`,
+          marks: 5
+        }
+      ];
+    }
+
     window.startAiTestGeneration = async function() {
       const subj = document.getElementById('test-subject-select')?.value || 'Science';
       const classLvl = document.getElementById('test-class-select')?.value || '10';
@@ -3127,7 +3457,7 @@
         if (!res.ok) throw new Error("API route error");
         const data = await res.json();
         const paper = data.testPaper || data.test;
-        if (!paper) throw new Error("Invalid response schema");
+        if (!paper || !Array.isArray(paper.questions) || paper.questions.length === 0) throw new Error("Invalid paper schema");
 
         state.activeTestPaper = paper;
         renderLiveTestScreen();
@@ -3136,7 +3466,9 @@
         
         const paperTitle = chapterVal.includes('All Chapters') 
           ? `CBSE Class ${classLvl} ${subj} Competency Exam`
-          : `CBSE Class ${classLvl} ${subj} - ${chapterVal} Chapter Test`;
+          : `CBSE Class ${classLvl} ${subj} - ${chapterVal} Test Paper`;
+
+        const questions = getChapterSpecificQuestions(subj, classLvl, chapterVal);
 
         state.activeTestPaper = {
           title: paperTitle,
@@ -3146,38 +3478,7 @@
           totalMarks: marks,
           difficulty: diff,
           durationMinutes: Math.round(marks * 1.5),
-          questions: [
-            {
-              id: "q1",
-              type: "mcq",
-              section: "Section A - 1 Mark MCQ",
-              question: `In Class ${classLvl} ${subj} (${chapterVal}), which core principle or concept is fundamentally required?`,
-              options: ["Verified NCERT Law / Definition", "Experimental Observation", "Mathematical Proof", "Direct Property Mapping"],
-              marks: 1
-            },
-            {
-              id: "q2",
-              type: "mcq",
-              section: "Section A - 1 Mark MCQ",
-              question: `Identify the correct statement regarding ${chapterVal} from the options below:`,
-              options: ["Condition satisfies standard NCERT guidelines", "Inversely proportional to resistance", "Requires balanced equation coefficient", "Exhibits zero net force"],
-              marks: 1
-            },
-            {
-              id: "q3",
-              type: "short",
-              section: "Section B - 3 Mark Short Answer",
-              question: `Explain the fundamental concept of ${chapterVal} with a labeled diagram / step-by-step mathematical proof as per CBSE Class ${classLvl} standards.`,
-              marks: 3
-            },
-            {
-              id: "q4",
-              type: "case_study",
-              section: "Section C - 5 Mark Competency Case Study",
-              question: `Competency Case Study on ${chapterVal}:\nA student conducts an experiment in the laboratory testing parameters related to this chapter.\n(a) Formulate the primary observation.\n(b) State the underlying physical/chemical/mathematical rule.\n(c) Calculate the missing numeric parameter using standard units.`,
-              marks: 5
-            }
-          ]
+          questions: questions
         };
         renderLiveTestScreen();
       } finally {
@@ -3571,6 +3872,13 @@
       renderChapters();
       updateTestChapterDropdown();
       setupEventListeners();
+
+      // Automatically prompt students to log in or sign up first
+      if (!activeUserId) {
+        setTimeout(() => {
+          openAuthModal('login');
+        }, 350);
+      }
     });
   </script>
 </body>

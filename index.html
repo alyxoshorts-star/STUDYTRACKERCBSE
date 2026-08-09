@@ -96,8 +96,21 @@
         </div>
 
         <!-- Hero Status Badge & Quick Actions -->
-        <div class="flex items-center gap-3 self-end md:self-center">
-          <div id="grade-tier-badge" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-800 border border-amber-200 shadow-xs">
+        <div class="flex items-center gap-2.5 self-end md:self-center flex-wrap justify-end">
+          <div id="header-user-pill" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-50 text-amber-950 border border-amber-200/80 shadow-2xs">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+            <span id="header-user-name">Guest Student</span>
+            <span id="header-user-class" class="text-[10px] px-1.5 py-0.2 rounded bg-amber-200 text-amber-950 font-black">Please Log In</span>
+          </div>
+
+          <div id="header-auth-buttons" class="inline-flex items-center gap-1.5">
+            <button type="button" onclick="openAuthModal('login')" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-indigo-900 bg-white hover:bg-indigo-50 rounded-xl border border-indigo-200 shadow-2xs transition-colors cursor-pointer" title="Log In or Switch Student Account">
+              <span>🔑</span>
+              <span class="hidden sm:inline">Log In / Sign Up</span>
+            </button>
+          </div>
+
+          <div id="grade-tier-badge" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold bg-amber-50 text-amber-800 border border-amber-200 shadow-2xs">
             <!-- Tier Status Icon & Text injected by JS -->
             <span>Getting Started 🥉</span>
           </div>
@@ -798,6 +811,44 @@
         </button>
       </section>
 
+      <!-- Active Student Account Management Box -->
+      <div class="bg-white border border-indigo-100 rounded-2xl p-6 shadow-xs space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-black text-xl border border-indigo-200">
+              👤
+            </div>
+            <div>
+              <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <span id="account-active-display-name">Rahul Sharma</span>
+                <span id="account-active-display-class" class="px-2.5 py-0.5 rounded-full bg-indigo-100 text-indigo-800 text-xs font-extrabold">Class 10</span>
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">Username: <strong id="account-active-username" class="text-slate-800">rahul_2026</strong> • ID: <span id="account-active-id" class="font-mono text-slate-700">CBSE-2026-1082</span></p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 flex-wrap">
+            <button type="button" onclick="openAuthModal('signup')" class="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold text-xs rounded-xl border border-emerald-200 transition-all cursor-pointer flex items-center gap-1.5">
+              <span>➕ Register New Student</span>
+            </button>
+            <button type="button" onclick="openAuthModal('login')" class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer flex items-center gap-1.5">
+              <span>🔑 Switch Account / Log In</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Saved Accounts Switcher -->
+        <div id="multi-account-switcher-container" class="hidden p-3.5 bg-slate-50/80 border border-slate-200 rounded-xl text-xs space-y-2">
+          <div class="font-bold text-slate-700 flex items-center justify-between">
+            <span class="flex items-center gap-1.5"><span>👥</span> Registered Accounts on this Device:</span>
+            <span class="text-slate-400 font-normal text-[11px]">Click to switch account</span>
+          </div>
+          <div id="multi-account-list" class="flex flex-wrap gap-2 pt-1">
+            <!-- Rendered dynamically by JS -->
+          </div>
+        </div>
+      </div>
+
       <!-- Student Profile Form Card -->
       <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
         <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
@@ -1036,6 +1087,112 @@
     </div>
   </div>
 
+  <!-- STUDENT ACCOUNT AUTHENTICATION MODAL (NO GOOGLE / NO EMAIL REQUIRED) -->
+  <div id="auth-modal" class="hidden fixed inset-0 z-50 bg-slate-900/80 backdrop-blur-xs flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl border border-slate-200">
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-6 relative">
+        <button type="button" onclick="closeAuthModal()" class="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition-colors cursor-pointer">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="flex items-center gap-3">
+          <span class="p-2.5 bg-indigo-500/20 text-indigo-300 rounded-2xl border border-indigo-500/30 text-xl font-bold">🎓</span>
+          <div>
+            <h3 id="auth-modal-title" class="text-lg font-black text-white">Student Account Portal</h3>
+            <p class="text-xs text-indigo-200">Direct Student Login • No Email or Google Required</p>
+          </div>
+        </div>
+
+        <!-- Mode Switch Tabs -->
+        <div class="flex items-center gap-2 mt-4 p-1 bg-slate-800/80 rounded-xl text-xs font-bold border border-slate-700/60">
+          <button type="button" id="auth-tab-login" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-lg text-center transition-all cursor-pointer bg-indigo-600 text-white shadow-xs">
+            🔓 Log In
+          </button>
+          <button type="button" id="auth-tab-signup" onclick="switchAuthTab('signup')" class="flex-1 py-2 rounded-lg text-center transition-all cursor-pointer text-slate-300 hover:text-white">
+            ✨ Sign Up
+          </button>
+        </div>
+      </div>
+
+      <!-- Form Content -->
+      <div class="p-6 space-y-4">
+        <!-- Notice Callout Banner -->
+        <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 font-medium flex items-center gap-2.5 shadow-2xs">
+          <span class="text-lg">👋</span>
+          <div>
+            <strong class="font-bold block text-amber-950">Welcome Student!</strong>
+            Please <strong>Log In</strong> or <strong>Sign Up</strong> to save and load your personalized CBSE board study progress and AI test papers.
+          </div>
+        </div>
+
+        <!-- Error Message Banner -->
+        <div id="auth-error-banner" class="hidden p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs text-rose-700 font-semibold flex items-center gap-2">
+          <span>⚠️</span>
+          <span id="auth-error-msg"></span>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <form id="auth-login-form" onsubmit="handleLoginSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Username / Student Roll No:</label>
+            <input type="text" id="login-username-input" required placeholder="e.g. rahul_2026 or CBSE-2026-1082" class="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-900" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Password:</label>
+            <input type="password" id="login-password-input" required placeholder="••••••••" class="w-full px-3.5 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-900" />
+          </div>
+          <button type="submit" class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2">
+            <span>🔓 Log In to Account</span>
+          </button>
+          <div class="text-center text-xs text-slate-500 pt-1">
+            Don't have an account yet? <button type="button" onclick="switchAuthTab('signup')" class="text-indigo-600 font-bold hover:underline cursor-pointer">Sign Up Here</button>
+          </div>
+        </form>
+
+        <!-- SIGNUP FORM -->
+        <form id="auth-signup-form" onsubmit="handleSignupSubmit(event)" class="space-y-3.5 hidden">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Student Full Name *</label>
+            <input type="text" id="signup-name-input" required placeholder="e.g. Priya Verma" class="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-900" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Choose Username *</label>
+              <input type="text" id="signup-username-input" required placeholder="e.g. priya_2026" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-900" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Password *</label>
+              <input type="password" id="signup-password-input" required placeholder="••••••••" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold text-slate-900" />
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Class Level</label>
+              <select id="signup-class-input" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900">
+                <option value="10">Class 10</option>
+                <option value="9">Class 9</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Dream Goal %</label>
+              <input type="text" id="signup-goal-input" placeholder="95%" value="95%" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Roll No / Student ID (Optional)</label>
+            <input type="text" id="signup-roll-input" placeholder="e.g. CBSE-2026-1090" class="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+          </div>
+          <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2">
+            <span>✨ Create New Student Account</span>
+          </button>
+          <div class="text-center text-xs text-slate-500 pt-1">
+            Already registered? <button type="button" onclick="switchAuthTab('login')" class="text-indigo-600 font-bold hover:underline cursor-pointer">Log In Here</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION CONTAINER -->
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
@@ -1198,6 +1355,11 @@
     });
 
     const STORAGE_KEY = 'cbse_ultimate_board_tracker_v2';
+    const USERS_STORAGE_KEY = 'cbse_app_users_v1';
+    const ACTIVE_USER_KEY = 'cbse_app_active_user_id_v1';
+
+    let appUsers = [];
+    let activeUserId = null;
 
     // 2. CENTRAL STATE ENGINE
     let state = {
@@ -1225,20 +1387,83 @@
       testTimeRemaining: 1200
     };
 
-    // 3. STORAGE INITIALIZATION & SYNC
+    // 3. MULTI-ACCOUNT STORAGE ENGINE & AUTH CONTROLLER
     function loadStateFromStorage() {
+      // 1. Load users DB
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          state.tasks = parsed.tasks || {};
-          state.notes = parsed.notes || '';
-          if (parsed.studentProfile) state.studentProfile = { ...state.studentProfile, ...parsed.studentProfile };
-          if (Array.isArray(parsed.testHistory)) state.testHistory = parsed.testHistory;
+        const rawUsers = localStorage.getItem(USERS_STORAGE_KEY);
+        if (rawUsers) {
+          appUsers = JSON.parse(rawUsers);
         }
       } catch (err) {
-        console.warn('Failed to parse localStorage, resetting state:', err);
+        console.warn('Error reading appUsers from localStorage:', err);
       }
+
+      // Default initial account if database is empty
+      if (!Array.isArray(appUsers) || appUsers.length === 0) {
+        // Migration from single-user STORAGE_KEY if present
+        let legacyProfile = null;
+        let legacyTasks = {};
+        let legacyNotes = '';
+        let legacyHistory = [];
+        try {
+          const rawLegacy = localStorage.getItem(STORAGE_KEY);
+          if (rawLegacy) {
+            const parsed = JSON.parse(rawLegacy);
+            if (parsed.studentProfile) legacyProfile = parsed.studentProfile;
+            if (parsed.tasks) legacyTasks = parsed.tasks;
+            if (parsed.notes) legacyNotes = parsed.notes;
+            if (parsed.testHistory) legacyHistory = parsed.testHistory;
+          }
+        } catch(e) {}
+
+        appUsers = [
+          {
+            id: 'usr_default',
+            username: 'rahul_2026',
+            password: 'password123',
+            name: legacyProfile?.name || 'Rahul Sharma',
+            rollNo: legacyProfile?.rollNo || 'CBSE-2026-1082',
+            classLevel: legacyProfile?.classLevel || '10',
+            targetYear: legacyProfile?.targetYear || '2026-2027',
+            dreamPercentage: legacyProfile?.dreamPercentage || '98%',
+            targetStream: legacyProfile?.targetStream || 'PCM (Physics, Chemistry, Maths)',
+            dailyHours: legacyProfile?.dailyHours || '4.5',
+            tasks: legacyTasks,
+            notes: legacyNotes,
+            testHistory: legacyHistory
+          }
+        ];
+
+        try {
+          localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(appUsers));
+        } catch(e) {}
+      }
+
+      // 2. Read active user ID
+      activeUserId = localStorage.getItem(ACTIVE_USER_KEY);
+      let activeUser = appUsers.find(u => u.id === activeUserId);
+      if (!activeUser) {
+        activeUser = appUsers[0];
+        activeUserId = activeUser.id;
+        try {
+          localStorage.setItem(ACTIVE_USER_KEY, activeUserId);
+        } catch(e) {}
+      }
+
+      // 3. Bind active user account data to global state
+      state.studentProfile = {
+        name: activeUser.name || 'Rahul Sharma',
+        rollNo: activeUser.rollNo || 'CBSE-2026-1082',
+        classLevel: activeUser.classLevel || '10',
+        targetYear: activeUser.targetYear || '2026-2027',
+        dreamPercentage: activeUser.dreamPercentage || '98%',
+        targetStream: activeUser.targetStream || 'PCM (Physics, Chemistry, Maths)',
+        dailyHours: activeUser.dailyHours || '4.5'
+      };
+      state.tasks = activeUser.tasks || {};
+      state.notes = activeUser.notes || '';
+      state.testHistory = Array.isArray(activeUser.testHistory) ? activeUser.testHistory : [];
 
       // Ensure every seed chapter & subtask has a defined state entry
       CHAPTERS.forEach(ch => {
@@ -1251,20 +1476,234 @@
           }
         });
       });
+
+      updateHeaderUserWidget();
     }
 
     function saveStateToStorage() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          tasks: state.tasks,
-          notes: state.notes,
-          studentProfile: state.studentProfile,
-          testHistory: state.testHistory
-        }));
-      } catch (err) {
-        console.error('Error writing to localStorage:', err);
+      if (!activeUserId) return;
+
+      const userIdx = appUsers.findIndex(u => u.id === activeUserId);
+      if (userIdx !== -1) {
+        appUsers[userIdx].tasks = state.tasks;
+        appUsers[userIdx].notes = state.notes;
+        appUsers[userIdx].studentProfile = state.studentProfile;
+        appUsers[userIdx].testHistory = state.testHistory;
+        appUsers[userIdx].name = state.studentProfile.name;
+        appUsers[userIdx].rollNo = state.studentProfile.rollNo;
+        appUsers[userIdx].classLevel = state.studentProfile.classLevel;
+        appUsers[userIdx].dreamPercentage = state.studentProfile.dreamPercentage;
+
+        try {
+          localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(appUsers));
+          localStorage.setItem(ACTIVE_USER_KEY, activeUserId);
+        } catch (err) {
+          console.error('Error writing to localStorage:', err);
+        }
+      }
+
+      updateHeaderUserWidget();
+    }
+
+    function updateHeaderUserWidget() {
+      const activeUser = appUsers.find(u => u.id === activeUserId);
+      if (!activeUser) return;
+
+      const userNameEl = document.getElementById('header-user-name');
+      const userClassEl = document.getElementById('header-user-class');
+      
+      if (userNameEl) userNameEl.textContent = activeUser.name || activeUser.username;
+      if (userClassEl) userClassEl.textContent = `Class ${activeUser.classLevel || '10'}`;
+
+      // Account tab displays
+      const accName = document.getElementById('account-active-display-name');
+      const accClass = document.getElementById('account-active-display-class');
+      const accUsername = document.getElementById('account-active-username');
+      const accId = document.getElementById('account-active-id');
+
+      if (accName) accName.textContent = activeUser.name;
+      if (accClass) accClass.textContent = `Class ${activeUser.classLevel}`;
+      if (accUsername) accUsername.textContent = activeUser.username;
+      if (accId) accId.textContent = activeUser.rollNo;
+
+      // Account Switcher List
+      const switcherContainer = document.getElementById('multi-account-switcher-container');
+      const switcherList = document.getElementById('multi-account-list');
+
+      if (switcherContainer && switcherList) {
+        if (appUsers.length > 1) {
+          switcherContainer.classList.remove('hidden');
+          switcherList.innerHTML = appUsers.map(u => {
+            const isActive = u.id === activeUserId;
+            return `
+              <button type="button" onclick="quickSwitchAccount('${u.id}')" class="px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${isActive ? 'bg-indigo-600 text-white shadow-xs' : 'bg-white text-slate-700 hover:bg-slate-200 border border-slate-200'}">
+                <span>${isActive ? '✓' : '👤'}</span>
+                <span>${u.name} (@${u.username})</span>
+              </button>
+            `;
+          }).join('');
+        } else {
+          switcherContainer.classList.add('hidden');
+        }
       }
     }
+
+    window.openAuthModal = function(initialTab = 'login') {
+      const modal = document.getElementById('auth-modal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        switchAuthTab(initialTab);
+      }
+    };
+
+    window.closeAuthModal = function() {
+      const modal = document.getElementById('auth-modal');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    window.switchAuthTab = function(tabName) {
+      const loginForm = document.getElementById('auth-login-form');
+      const signupForm = document.getElementById('auth-signup-form');
+      const loginTabBtn = document.getElementById('auth-tab-login');
+      const signupTabBtn = document.getElementById('auth-tab-signup');
+      const errorBanner = document.getElementById('auth-error-banner');
+
+      if (errorBanner) errorBanner.classList.add('hidden');
+
+      if (tabName === 'login') {
+        if (loginForm) loginForm.classList.remove('hidden');
+        if (signupForm) signupForm.classList.add('hidden');
+        if (loginTabBtn) loginTabBtn.className = "flex-1 py-2 rounded-lg text-center transition-all cursor-pointer bg-indigo-600 text-white shadow-xs font-bold";
+        if (signupTabBtn) signupTabBtn.className = "flex-1 py-2 rounded-lg text-center transition-all cursor-pointer text-slate-300 hover:text-white font-semibold";
+      } else {
+        if (loginForm) loginForm.classList.add('hidden');
+        if (signupForm) signupForm.classList.remove('hidden');
+        if (signupTabBtn) signupTabBtn.className = "flex-1 py-2 rounded-lg text-center transition-all cursor-pointer bg-emerald-600 text-white shadow-xs font-bold";
+        if (loginTabBtn) loginTabBtn.className = "flex-1 py-2 rounded-lg text-center transition-all cursor-pointer text-slate-300 hover:text-white font-semibold";
+      }
+    };
+
+    window.handleLoginSubmit = function(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('login-username-input')?.value.trim().toLowerCase() || '';
+      const passwordInput = document.getElementById('login-password-input')?.value || '';
+      const errorBanner = document.getElementById('auth-error-banner');
+      const errorMsg = document.getElementById('auth-error-msg');
+
+      if (errorBanner) errorBanner.classList.add('hidden');
+
+      const matchedUser = appUsers.find(u => u.username.toLowerCase() === usernameInput || u.rollNo.toLowerCase() === usernameInput);
+
+      if (!matchedUser || matchedUser.password !== passwordInput) {
+        if (errorBanner && errorMsg) {
+          errorMsg.textContent = 'Invalid Username or Password. Please check credentials.';
+          errorBanner.classList.remove('hidden');
+        }
+        return;
+      }
+
+      activeUserId = matchedUser.id;
+      try {
+        localStorage.setItem(ACTIVE_USER_KEY, activeUserId);
+      } catch(err){}
+
+      loadStateFromStorage();
+      renderHero();
+      renderChapters();
+      if (state.activeMainTab === 'account') renderAccountView();
+
+      closeAuthModal();
+      showToast(`🔓 Welcome back, ${matchedUser.name}! Logged in successfully.`);
+    };
+
+    window.handleSignupSubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name-input')?.value.trim() || '';
+      const username = document.getElementById('signup-username-input')?.value.trim().toLowerCase() || '';
+      const password = document.getElementById('signup-password-input')?.value || '';
+      const classLevel = document.getElementById('signup-class-input')?.value || '10';
+      const goal = document.getElementById('signup-goal-input')?.value.trim() || '95%';
+      const roll = document.getElementById('signup-roll-input')?.value.trim() || `CBSE-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+      const errorBanner = document.getElementById('auth-error-banner');
+      const errorMsg = document.getElementById('auth-error-msg');
+
+      if (errorBanner) errorBanner.classList.add('hidden');
+
+      if (!name || !username || !password) {
+        if (errorBanner && errorMsg) {
+          errorMsg.textContent = 'Please fill in all required fields (*)';
+          errorBanner.classList.remove('hidden');
+        }
+        return;
+      }
+
+      if (username.length < 3) {
+        if (errorBanner && errorMsg) {
+          errorMsg.textContent = 'Username must be at least 3 characters long.';
+          errorBanner.classList.remove('hidden');
+        }
+        return;
+      }
+
+      const existing = appUsers.find(u => u.username.toLowerCase() === username);
+      if (existing) {
+        if (errorBanner && errorMsg) {
+          errorMsg.textContent = `Username '${username}' is already registered. Please log in or choose a different username.`;
+          errorBanner.classList.remove('hidden');
+        }
+        return;
+      }
+
+      const newUser = {
+        id: 'usr_' + Date.now(),
+        username: username,
+        password: password,
+        name: name,
+        rollNo: roll,
+        classLevel: classLevel,
+        targetYear: '2026-2027',
+        dreamPercentage: goal,
+        targetStream: 'Science & Maths',
+        dailyHours: '4.5',
+        tasks: {},
+        notes: '',
+        testHistory: []
+      };
+
+      appUsers.push(newUser);
+      activeUserId = newUser.id;
+
+      try {
+        localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(appUsers));
+        localStorage.setItem(ACTIVE_USER_KEY, activeUserId);
+      } catch(err){}
+
+      loadStateFromStorage();
+      renderHero();
+      renderChapters();
+      if (state.activeMainTab === 'account') renderAccountView();
+
+      closeAuthModal();
+      showToast(`✨ Account created successfully! Welcome, ${newUser.name}!`);
+    };
+
+    window.quickSwitchAccount = function(targetUserId) {
+      const targetUser = appUsers.find(u => u.id === targetUserId);
+      if (!targetUser) return;
+
+      activeUserId = targetUser.id;
+      try {
+        localStorage.setItem(ACTIVE_USER_KEY, activeUserId);
+      } catch (e) {}
+
+      loadStateFromStorage();
+      renderHero();
+      renderChapters();
+      renderAccountView();
+
+      showToast(`Switched account to ${targetUser.name} (@${targetUser.username})`);
+    };
 
     // 4. UTILITY DEBOUNCE FUNCTION FOR NOTES AUTO-SAVE
     function debounce(fn, delay) {
@@ -2932,6 +3371,7 @@
     // 14. ACCOUNT & STUDENT DETAILS CONTROLLER
     // ==========================================
     function renderAccountView() {
+      updateHeaderUserWidget();
       const profile = state.studentProfile;
 
       const nameInput = document.getElementById('account-name-input');

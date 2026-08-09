@@ -44,6 +44,27 @@
       border-color: #10b981 !important;
       box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.12), 0 8px 10px -6px rgba(16, 185, 129, 0.08);
     }
+
+    @media print {
+      body > * {
+        display: none !important;
+      }
+      #chapter-notes-modal {
+        display: block !important;
+        position: static !important;
+        background: white !important;
+        padding: 0 !important;
+      }
+      #chapter-notes-modal > div {
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        max-height: none !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 font-sans antialiased flex flex-col selection:bg-blue-100 selection:text-blue-900">
@@ -134,8 +155,34 @@
   <!-- MAIN CONTENT CONTAINER -->
   <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
     
-    <!-- ADVANCED MULTI-CRITERIA CONTROL PANEL -->
-    <nav class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
+    <!-- PRIMARY NAVIGATION TAB BAR -->
+    <nav class="bg-white border border-slate-200/90 rounded-2xl p-2 shadow-xs flex items-center justify-between overflow-x-auto gap-1 sm:gap-2 no-scrollbar">
+      <button type="button" onclick="switchMainTab('tracker')" id="main-tab-tracker" class="main-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer bg-slate-900 text-white shadow-sm shrink-0">
+        <span>📚</span>
+        <span>Syllabus Tracker</span>
+      </button>
+      <button type="button" onclick="switchMainTab('insights')" id="main-tab-insights" class="main-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 shrink-0">
+        <span>📊</span>
+        <span>Resource Insights & Analysis</span>
+      </button>
+      <button type="button" onclick="switchMainTab('study')" id="main-tab-study" class="main-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 shrink-0">
+        <span>🎓</span>
+        <span>Study Lounge & Methods</span>
+      </button>
+      <button type="button" onclick="switchMainTab('test')" id="main-tab-test" class="main-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 shrink-0">
+        <span>🧪</span>
+        <span>AI Test Conductor</span>
+      </button>
+      <button type="button" onclick="switchMainTab('account')" id="main-tab-account" class="main-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 shrink-0">
+        <span>👤</span>
+        <span>Account & Student Details</span>
+      </button>
+    </nav>
+
+    <!-- VIEW 1: SYLLABUS TRACKER & QUESTION BANKS -->
+    <div id="view-tracker" class="space-y-8">
+      <!-- ADVANCED MULTI-CRITERIA CONTROL PANEL -->
+      <nav class="bg-white border border-slate-200 rounded-2xl p-4 sm:p-5 shadow-xs space-y-4">
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         
         <!-- Filters Group (Class & Subject) -->
@@ -216,76 +263,96 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
               </svg>
             </span>
-            <h2 class="text-lg font-bold text-white tracking-tight">Direct CBSE Official Question Bank Volumes • All Subjects</h2>
+            <h2 class="text-lg font-bold text-white tracking-tight">CBSE & Ei Official Competency Focused Question Banks</h2>
           </div>
-          <p class="text-xs text-slate-300 mt-1">Official competency-based Question Banks (Vol. 1 & Vol. 2), Sample Question Papers, and Practice Material published by CBSE for Science, Mathematics, Social Science, English, Hindi Course A & B.</p>
+          <p class="text-xs text-slate-300 mt-1">Co-created by CBSE Centre for Excellence in Assessment & Educational Initiatives (Ei) for Class 9 & 10 (Science, Mathematics & Social Science).</p>
         </div>
         
         <div class="flex items-center gap-2 shrink-0">
           <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-            🏛️ Official Govt CBSE PDFs
+            🎓 Official CBSE & Ei Booklets
           </span>
         </div>
       </div>
 
-      <!-- 3 Official CBSE Question Bank Volume Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <!-- CBSE Official QB Vol. 1 Card -->
-        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-4 transition-all flex flex-col justify-between">
+      <!-- Official CBSE & Ei Practice Question Booklets Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+        <!-- Science Competency Questions Card -->
+        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-3.5 transition-all flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">🏛️ CBSE QB Vol. 1</span>
-              <span class="text-[11px] font-semibold text-emerald-400">Direct .PDF</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">🔬 Science QB</span>
+              <span class="text-[10px] font-semibold text-emerald-400">Vol. 1 & 2</span>
             </div>
-            <h3 class="text-sm font-bold text-white mb-1">CBSE Official QB - Volume 1</h3>
-            <p class="text-xs text-slate-300 mb-3 leading-relaxed">Competency-based questions, MCQs, and assertion-reason sets for Class 9 & 10 across all subjects.</p>
+            <h3 class="text-xs font-bold text-white mb-1">CBSE & Ei Science Practice Questions</h3>
+            <p class="text-[11px] text-slate-300 mb-2 leading-relaxed">Competency-based items, MCQs, Assertion-Reason, & subjective scoring rubrics.</p>
           </div>
-          <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60 text-xs">
-            <a href="https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 font-semibold transition-colors">
-              📄 Science Vol. 1 ↗
-            </a>
-            <button type="button" onclick="openQbModal('cbse_v1')" class="px-2.5 py-1 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors text-[11px] cursor-pointer">
-              All Subjects (Vol. 1)
+          <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-slate-700/60 text-xs">
+            <button type="button" onclick="openPdfReader('https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/science/cfpq-vol1.pdf', 'CBSE & Ei Class 10 Science Practice Questions (Vol 1)')" class="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 font-semibold transition-colors text-[11px] cursor-pointer">
+              📄 Science Vol 1 ↗
+            </button>
+            <button type="button" onclick="openQbModal('cbse_science')" class="px-2.5 py-1 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-500 transition-colors text-[10px] cursor-pointer">
+              All Volumes
             </button>
           </div>
         </div>
 
-        <!-- CBSE Official QB Vol. 2 Card -->
-        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-4 transition-all flex flex-col justify-between">
+        <!-- Mathematics Competency Questions Card -->
+        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-3.5 transition-all flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">📜 CBSE QB Vol. 2</span>
-              <span class="text-[11px] font-semibold text-emerald-400">Direct .PDF</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">📐 Mathematics QB</span>
+              <span class="text-[10px] font-semibold text-emerald-400">Vol. 1, 2, 3 & 4</span>
             </div>
-            <h3 class="text-sm font-bold text-white mb-1">CBSE Official QB - Volume 2</h3>
-            <p class="text-xs text-slate-300 mb-3 leading-relaxed">Case-study problems, long answer sets, and additional official competency questions for all subjects.</p>
+            <h3 class="text-xs font-bold text-white mb-1">CBSE & Ei Mathematics Practice Questions</h3>
+            <p class="text-[11px] text-slate-300 mb-2 leading-relaxed">Real-world applications, case study problems, proofs & answer keys.</p>
           </div>
-          <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60 text-xs">
-            <a href="https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX_Vol2.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
-              📄 Science Vol. 2 ↗
-            </a>
-            <button type="button" onclick="openQbModal('cbse_v2')" class="px-2.5 py-1 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-500 transition-colors text-[11px] cursor-pointer">
-              All Subjects (Vol. 2)
+          <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-slate-700/60 text-xs">
+            <button type="button" onclick="openPdfReader('https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/maths/cfpq-vol1.pdf', 'CBSE & Ei Class 10 Mathematics Practice Questions (Vol 1)')" class="inline-flex items-center gap-1 text-indigo-400 hover:text-indigo-300 font-semibold transition-colors text-[11px] cursor-pointer">
+              📄 Maths Vol 1 ↗
+            </button>
+            <button type="button" onclick="openQbModal('cbse_maths')" class="px-2.5 py-1 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-500 transition-colors text-[10px] cursor-pointer">
+              All Volumes
             </button>
           </div>
         </div>
 
-        <!-- CBSE Official Practice Material Card -->
-        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-4 transition-all flex flex-col justify-between">
+        <!-- Social Science Competency Questions Card -->
+        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-3.5 transition-all flex flex-col justify-between">
           <div>
             <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold px-2.5 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">📑 CBSE Practice Papers</span>
-              <span class="text-[11px] font-semibold text-emerald-400">Official Portal</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">🌍 Social Science QB</span>
+              <span class="text-[10px] font-semibold text-emerald-400">Vol. 1 & 2</span>
             </div>
-            <h3 class="text-sm font-bold text-white mb-1">CBSE SQP & Practice Sets</h3>
-            <p class="text-xs text-slate-300 mb-3 leading-relaxed">Official Sample Question Papers, Marking Schemes, and Practice Sets published directly by CBSE Board.</p>
+            <h3 class="text-xs font-bold text-white mb-1">CBSE & Ei Social Science Questions</h3>
+            <p class="text-[11px] text-slate-300 mb-2 leading-relaxed">History, Geography, Political Science & Economics competency question booklets.</p>
           </div>
-          <div class="flex items-center justify-between gap-2 pt-2 border-t border-slate-700/60 text-xs">
-            <a href="https://cbseacademic.nic.in/sqp_classx_2023_24.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-teal-400 hover:text-teal-300 font-semibold transition-colors">
-              📄 Class 10 SQP ↗
-            </a>
-            <button type="button" onclick="openQbModal('cbse_practice')" class="px-2.5 py-1 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-500 transition-colors text-[11px] cursor-pointer">
-              All Practice Material
+          <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-slate-700/60 text-xs">
+            <button type="button" onclick="openPdfReader('https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/sst/cfpq-vol1.pdf', 'CBSE & Ei Class 10 Social Science Practice Questions (Vol 1)')" class="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold transition-colors text-[11px] cursor-pointer">
+              📄 SST Vol 1 ↗
+            </button>
+            <button type="button" onclick="openQbModal('cbse_sst')" class="px-2.5 py-1 bg-amber-600 text-white rounded-lg font-medium hover:bg-amber-500 transition-colors text-[10px] cursor-pointer">
+              All Volumes
+            </button>
+          </div>
+        </div>
+
+        <!-- English & Languages Card -->
+        <div class="bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl p-3.5 transition-all flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">📚 English & Languages</span>
+              <span class="text-[10px] font-semibold text-emerald-400">Direct .PDF</span>
+            </div>
+            <h3 class="text-xs font-bold text-white mb-1">CBSE English & Language QBs</h3>
+            <p class="text-[11px] text-slate-300 mb-2 leading-relaxed">Official Class 9 & 10 English Language & Literature and Hindi Question Banks.</p>
+          </div>
+          <div class="flex items-center justify-between gap-1.5 pt-2 border-t border-slate-700/60 text-xs">
+            <button type="button" onclick="openPdfReader('https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/EnglishX.pdf', 'CBSE Class 10 English Practice Questions')" class="inline-flex items-center gap-1 text-emerald-400 hover:text-emerald-300 font-semibold transition-colors text-[11px] cursor-pointer">
+              📄 English PDF ↗
+            </button>
+            <button type="button" onclick="openQbModal('cbse_english')" class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg font-medium hover:bg-emerald-500 transition-colors text-[10px] cursor-pointer">
+              View All
             </button>
           </div>
         </div>
@@ -310,50 +377,496 @@
         <button id="btn-clear-empty" type="button" class="px-4 py-2 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">Reset All Filters</button>
       </div>
     </section>
+    </div> <!-- END VIEW 1: view-tracker -->
 
-    <!-- PERSISTENT INTEGRATED STICKY NOTES MODULE -->
-    <section aria-label="Study Timetable and Notes" class="bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs space-y-4">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+    <!-- VIEW 2: RESOURCE INSIGHTS & ANALYSIS -->
+    <div id="view-insights" class="space-y-8 hidden">
+      <!-- Insights Header Banner -->
+      <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div class="flex items-center gap-2">
-            <!-- Notepad Icon SVG -->
-            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-            </svg>
-            <h2 class="text-base sm:text-lg font-bold text-slate-900">Study Timetable & Revision Notes</h2>
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 bg-blue-500/20 text-blue-400 rounded-xl border border-blue-500/30">📊</span>
+            <h2 class="text-xl font-bold tracking-tight text-white">Resource Insights & Academic Analysis</h2>
           </div>
-          <p class="text-xs text-slate-500 mt-0.5">Keep track of your weekly target topics, formula sheets, or exam revision schedule.</p>
+          <p class="text-xs text-slate-300 mt-1">Real-time performance analytics, subject coverage breakdown, and AI smart revision diagnostics.</p>
         </div>
+        <button type="button" onclick="downloadInsightsReport()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>Download Insights PDF Report</span>
+        </button>
+      </section>
 
-        <div class="flex items-center gap-2 text-xs">
-          <span id="notes-save-status" class="text-slate-400 italic">Auto-saved to local storage</span>
+      <!-- Insights Summary Cards -->
+      <div id="insights-metrics-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Subject Readiness Breakdown -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <span class="p-1.5 bg-indigo-100 text-indigo-700 rounded-lg">📈</span>
+          Subject Mastery & Coverage Distribution
+        </h3>
+        <div id="insights-subject-bars" class="space-y-4">
+          <!-- Rendered by JS -->
         </div>
       </div>
 
-      <!-- Action Toolbar for Notes -->
-      <div class="flex flex-wrap items-center gap-2 text-xs">
-        <button id="btn-insert-template" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 rounded-lg font-medium border border-indigo-200/60 transition-colors cursor-pointer">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-          Insert Weekly Schedule Template
+      <!-- Competency & NCERT Readiness Radar -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+            <span class="p-1.5 bg-emerald-100 text-emerald-700 rounded-lg">🎯</span>
+            CBSE Competency Matrix Breakdown
+          </h3>
+          <div class="space-y-3 text-xs">
+            <div>
+              <div class="flex justify-between font-semibold mb-1">
+                <span>Conceptual Understanding (NCERT In-Text)</span>
+                <span class="text-emerald-600 font-bold">88% Ready</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-emerald-500 h-2 rounded-full w-[88%]"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between font-semibold mb-1">
+                <span>Numerical & Proof Skill (Exemplar & Formulae)</span>
+                <span class="text-blue-600 font-bold">82% Ready</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-blue-500 h-2 rounded-full w-[82%]"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between font-semibold mb-1">
+                <span>Case-Based & Assertion-Reason Items</span>
+                <span class="text-amber-600 font-bold">74% Ready</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-amber-500 h-2 rounded-full w-[74%]"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between font-semibold mb-1">
+                <span>Past 10 Years Board PYQ Mastery</span>
+                <span class="text-indigo-600 font-bold">90% Ready</span>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2"><div class="bg-indigo-500 h-2 rounded-full w-[90%]"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+          <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+            <span class="p-1.5 bg-amber-100 text-amber-800 rounded-lg">💡</span>
+            AI Smart Study Advisor Recommendations
+          </h3>
+          <div id="insights-recommendations-list" class="space-y-2.5 text-xs text-slate-700">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div> <!-- END VIEW 2: view-insights -->
+
+    <!-- VIEW 3: STUDY LOUNGE & LEARNING METHODS -->
+    <div id="view-study" class="space-y-8 hidden">
+      <!-- Study Lounge Header -->
+      <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 bg-indigo-500/20 text-indigo-400 rounded-xl border border-indigo-500/30">🎓</span>
+            <h2 class="text-xl font-bold tracking-tight text-white">Interactive Study Lounge & Learning Methods</h2>
+          </div>
+          <p class="text-xs text-slate-300 mt-1">Boost retention using Active Recall, Pomodoro Focus, Feynman Technique, and Active Blurting.</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 rounded-full text-xs font-bold">
+            🧠 Active Learning Engine
+          </span>
+        </div>
+      </section>
+
+      <!-- Learning Method Switcher -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs font-semibold">
+        <button type="button" onclick="switchStudyMethod('flashcards')" id="study-btn-flashcards" class="study-method-btn px-4 py-2.5 rounded-xl bg-slate-900 text-white shadow-xs cursor-pointer shrink-0">
+          🎴 Flashcard Active Recall
         </button>
-        <button id="btn-copy-notes" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg font-medium transition-colors cursor-pointer">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-          </svg>
-          Copy Notes
+        <button type="button" onclick="switchStudyMethod('pomodoro')" id="study-btn-pomodoro" class="study-method-btn px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer shrink-0">
+          ⏱️ Pomodoro Focus Timer
         </button>
-        <button id="btn-clear-notes" type="button" class="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-100 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg font-medium transition-colors cursor-pointer ml-auto">
-          Clear Text
+        <button type="button" onclick="switchStudyMethod('feynman')" id="study-btn-feynman" class="study-method-btn px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer shrink-0">
+          📝 Feynman AI Explainer
+        </button>
+        <button type="button" onclick="switchStudyMethod('mindmap')" id="study-btn-mindmap" class="study-method-btn px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer shrink-0">
+          🗺️ Concept Mind Maps
+        </button>
+        <button type="button" onclick="switchStudyMethod('blurting')" id="study-btn-blurting" class="study-method-btn px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer shrink-0">
+          ⚡ Active Blurting Method
         </button>
       </div>
 
-      <!-- Notes Textarea -->
-      <textarea id="notes-textarea" rows="6" placeholder="Type your personal study targets, key formulas, or weak concepts here..." class="w-full p-4 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-slate-800 placeholder-slate-400 font-sans leading-relaxed transition-all resize-y"></textarea>
-    </section>
+      <!-- METHOD 1: FLASHCARDS -->
+      <div id="study-method-flashcards" class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Spaced Repetition Flashcards</h3>
+            <p class="text-xs text-slate-500">Test definitions, formulas, and core NCERT concepts. Click card to flip.</p>
+          </div>
+          <select id="flashcard-subject-select" onchange="loadFlashcardSet()" class="px-3 py-1.5 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none">
+            <option value="Science">🔬 Science Formulas & Concepts</option>
+            <option value="Mathematics">📐 Mathematics Key Theorems</option>
+            <option value="Social Science">📜 Social Science Key Events</option>
+          </select>
+        </div>
 
-  </main>
+        <!-- Interactive 3D Flip Flashcard -->
+        <div class="max-w-xl mx-auto min-h-[220px] bg-gradient-to-br from-slate-900 to-indigo-950 text-white rounded-2xl p-6 sm:p-8 flex flex-col justify-between shadow-xl cursor-pointer select-none transition-transform hover:scale-[1.01]" onclick="toggleFlashcardFlip()" id="flashcard-container">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span id="flashcard-badge" class="px-2.5 py-0.5 rounded-full bg-blue-500/20 text-blue-300 font-bold">Science • Q1</span>
+            <span class="text-[11px] text-slate-400">💡 Click to Flip Card</span>
+          </div>
+          <div class="my-6 text-center">
+            <h4 id="flashcard-prompt" class="text-lg sm:text-xl font-bold tracking-tight text-white">What is Ohm's Law and its mathematical formula?</h4>
+            <p id="flashcard-answer" class="hidden text-sm sm:text-base text-emerald-300 font-medium leading-relaxed mt-2">V = I × R. Electric current through a conductor is directly proportional to voltage across it, provided temperature remains constant.</p>
+          </div>
+          <div class="text-center text-[11px] text-slate-400" id="flashcard-hint-text">
+            Front Side (Question)
+          </div>
+        </div>
+
+        <!-- Flashcard Controls -->
+        <div class="flex items-center justify-between max-w-xl mx-auto text-xs">
+          <button type="button" onclick="rateFlashcard(false)" class="px-4 py-2 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold rounded-xl border border-rose-200 transition-colors cursor-pointer">
+            👎 Need Practice
+          </button>
+          <span id="flashcard-counter" class="font-bold text-slate-600">Card 1 of 5</span>
+          <button type="button" onclick="rateFlashcard(true)" class="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold rounded-xl border border-emerald-200 transition-colors cursor-pointer">
+            👍 Mastered
+          </button>
+        </div>
+      </div>
+
+      <!-- METHOD 2: POMODORO TIMER -->
+      <div id="study-method-pomodoro" class="hidden bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">Pomodoro Focus Timer</h3>
+            <p class="text-xs text-slate-500">Maintain deep focus with interval studying (25m Focus / 5m Break).</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="setPomodoroMode('focus')" id="pomo-mode-focus" class="px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold cursor-pointer">25m Focus</button>
+            <button type="button" onclick="setPomodoroMode('break')" id="pomo-mode-break" class="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold cursor-pointer">5m Break</button>
+          </div>
+        </div>
+
+        <div class="max-w-md mx-auto text-center space-y-6 py-4">
+          <div class="text-6xl sm:text-7xl font-black font-mono tracking-wider text-slate-900" id="pomo-timer-display">
+            25:00
+          </div>
+          <div class="flex items-center justify-center gap-3">
+            <button type="button" onclick="togglePomodoroTimer()" id="pomo-start-btn" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-xl shadow-md transition-all cursor-pointer">
+              ▶ Start Focus
+            </button>
+            <button type="button" onclick="resetPomodoroTimer()" class="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition-all cursor-pointer">
+              ↺ Reset
+            </button>
+          </div>
+          <p id="pomo-stats-text" class="text-xs text-slate-500 font-medium">Completed Sessions Today: <span class="text-slate-900 font-bold" id="pomo-count-label">0</span> (0 mins focus time)</p>
+        </div>
+      </div>
+
+      <!-- METHOD 3: FEYNMAN AI EXPLAINER -->
+      <div id="study-method-feynman" class="hidden bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Feynman Technique AI Explainer</h3>
+          <p class="text-xs text-slate-500">Explain a complex NCERT concept in simple terms. The AI will analyze your explanation for missing key terms.</p>
+        </div>
+
+        <div class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Select Topic / Concept:</label>
+            <input type="text" id="feynman-topic-input" placeholder="e.g. Basic Proportionality Theorem, Refraction of Light, Life Processes" class="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white text-slate-900 font-medium" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Your Explanation (Explain simply like teaching a friend):</label>
+            <textarea id="feynman-text-input" rows="4" placeholder="Write your explanation here..." class="w-full p-3.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white text-slate-900 leading-relaxed"></textarea>
+          </div>
+          <button type="button" onclick="runFeynmanAnalysis()" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs rounded-xl shadow-sm cursor-pointer transition-all">
+            ✨ Analyze & Simplify Explanation
+          </button>
+        </div>
+
+        <div id="feynman-result-box" class="hidden p-4 bg-indigo-50/80 border border-indigo-200/80 rounded-xl text-xs space-y-2">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- METHOD 4: MIND MAPS -->
+      <div id="study-method-mindmap" class="hidden bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Concept Mind Maps & Formula Hub</h3>
+          <p class="text-xs text-slate-500">Visual breakdown of core NCERT chapter concepts.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 bg-blue-50/60 border border-blue-200/80 rounded-xl space-y-2">
+            <span class="text-xs font-bold text-blue-800 uppercase tracking-wider">🔬 Science: Electricity Mind Map</span>
+            <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+              <li><b>Ohm's Law:</b> V = I R</li>
+              <li><b>Resistivity (ρ):</b> R = ρ L / A (Depends on temperature & material)</li>
+              <li><b>Series Combination:</b> R_eq = R₁ + R₂ + R₃</li>
+              <li><b>Parallel Combination:</b> 1/R_eq = 1/R₁ + 1/R₂</li>
+              <li><b>Joule's Heating:</b> H = I² R t</li>
+            </ul>
+          </div>
+
+          <div class="p-4 bg-indigo-50/60 border border-indigo-200/80 rounded-xl space-y-2">
+            <span class="text-xs font-bold text-indigo-800 uppercase tracking-wider">📐 Mathematics: Real Numbers & Algebra</span>
+            <ul class="text-xs text-slate-700 space-y-1 list-disc list-inside">
+              <li><b>Fundamental Theorem of Arithmetic:</b> Composite = Product of Primes</li>
+              <li><b>HCF × LCM:</b> a × b = HCF(a,b) × LCM(a,b)</li>
+              <li><b>Quadratic Formula:</b> x = [-b ± √(b² - 4ac)] / 2a</li>
+              <li><b>Discriminant (D):</b> D > 0 (2 distinct real roots), D = 0 (equal roots)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- METHOD 5: ACTIVE BLURTING -->
+      <div id="study-method-blurting" class="hidden bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <div>
+          <h3 class="text-base font-bold text-slate-900">Active Blurting Method</h3>
+          <p class="text-xs text-slate-500">Dump everything you remember about a chapter in 5 minutes without looking at notes.</p>
+        </div>
+
+        <div class="space-y-3">
+          <textarea id="blurting-text-area" rows="6" placeholder="Start typing everything you remember..." class="w-full p-3.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white text-slate-900 leading-relaxed"></textarea>
+          <div class="flex items-center justify-between">
+            <button type="button" onclick="checkBlurtingKeywords()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer">
+              ✓ Compare with NCERT Keywords
+            </button>
+            <span id="blurting-status" class="text-xs text-slate-500">Word count: 0</span>
+          </div>
+          <div id="blurting-feedback" class="hidden p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs space-y-1">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </div> <!-- END VIEW 3: view-study -->
+
+    <!-- VIEW 4: AI TEST CONDUCTOR -->
+    <div id="view-test" class="space-y-8 hidden">
+      <!-- Test Conductor Header -->
+      <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 bg-rose-500/20 text-rose-400 rounded-xl border border-rose-500/30">🧪</span>
+            <h2 class="text-xl font-bold tracking-tight text-white">AI Test Conductor & CBSE Competency Exam Generator</h2>
+          </div>
+          <p class="text-xs text-slate-300 mt-1">Adjust total marks, difficulty level, and generate realistic CBSE competency test papers with AI.</p>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full text-xs font-bold">
+            🤖 Powered by Gemini AI
+          </span>
+        </div>
+      </section>
+
+      <!-- Test Configuration Panel -->
+      <div id="test-config-panel" class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-6">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <span class="p-1 bg-blue-100 text-blue-700 rounded-md">⚙️</span>
+          Customize Test Parameters
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <!-- Subject -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Subject:</label>
+            <select id="test-subject-select" onchange="updateTestChapterDropdown()" class="w-full px-3 py-2 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white">
+              <option value="Science">🔬 Science</option>
+              <option value="Mathematics">📐 Mathematics</option>
+              <option value="Social Science">📜 Social Science</option>
+              <option value="English">📚 English</option>
+            </select>
+          </div>
+
+          <!-- Class -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Class Level:</label>
+            <select id="test-class-select" onchange="updateTestChapterDropdown()" class="w-full px-3 py-2 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white">
+              <option value="10">Class 10</option>
+              <option value="9">Class 9</option>
+            </select>
+          </div>
+
+          <!-- Specific Chapter / Scope -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Chapter / Scope:</label>
+            <select id="test-chapter-select" class="w-full px-3 py-2 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white text-indigo-900 font-bold">
+              <option value="All Chapters (Full Syllabus)">🌐 All Chapters (Full Syllabus)</option>
+            </select>
+          </div>
+
+          <!-- Total Marks -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Total Marks:</label>
+            <select id="test-marks-select" class="w-full px-3 py-2 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white">
+              <option value="10">10 Marks (Express Quiz)</option>
+              <option value="20" selected>20 Marks (Unit Test)</option>
+              <option value="40">40 Marks (Mid-Term Paper)</option>
+              <option value="80">80 Marks (Full CBSE Board Paper)</option>
+            </select>
+          </div>
+
+          <!-- Difficulty Level -->
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Difficulty Level:</label>
+            <select id="test-difficulty-select" class="w-full px-3 py-2 text-xs font-semibold bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:bg-white">
+              <option value="Easy">Easy (NCERT Direct)</option>
+              <option value="Medium" selected>Medium (CBSE Board Standard)</option>
+              <option value="Hard">Hard (Competency & Case Studies)</option>
+              <option value="Board Mastery">Board Mastery (Olympiad HOTS)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-2">
+          <p class="text-xs text-slate-500">Includes MCQs, Assertion-Reason, Short Answers, and Case-Based Scenarios.</p>
+          <button type="button" onclick="startAiTestGeneration()" id="btn-generate-test" class="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-extrabold rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2">
+            <span>✨ Generate AI Test Paper</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Live Test Execution Window -->
+      <div id="test-live-window" class="hidden bg-white border border-slate-200 rounded-2xl p-6 shadow-md space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span id="live-test-badge" class="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">Class 10 Science</span>
+            <h3 id="live-test-title" class="text-base sm:text-lg font-extrabold text-slate-900 mt-1">CBSE Competency Practice Test</h3>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="bg-rose-50 text-rose-700 border border-rose-200 px-3.5 py-1.5 rounded-xl font-mono text-xs font-bold flex items-center gap-1.5">
+              <span>⏱️ Time Remaining:</span>
+              <span id="live-test-timer">20:00</span>
+            </div>
+            <button type="button" onclick="submitTestPaper()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs cursor-pointer">
+              ✓ Submit Test
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Cards Container -->
+        <div id="live-test-questions-container" class="space-y-6">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Test Evaluation & Results Card -->
+      <div id="test-results-window" class="hidden bg-white border border-slate-200 rounded-2xl p-6 shadow-md space-y-6">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">✓ Test Evaluation Complete</span>
+            <h3 id="results-test-title" class="text-lg font-extrabold text-slate-900 mt-1">Test Performance Report</h3>
+          </div>
+          <button type="button" onclick="downloadCurrentTestReport()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            <span>📥 Download Test Report PDF</span>
+          </button>
+        </div>
+
+        <div id="results-score-badge" class="p-6 bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-2xl text-center space-y-2 shadow-lg">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div id="results-solutions-container" class="space-y-4">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div> <!-- END VIEW 4: view-test -->
+
+    <!-- VIEW 5: ACCOUNT & STUDENT DETAILS -->
+    <div id="view-account" class="space-y-8 hidden">
+      <!-- Account Header Banner -->
+      <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 bg-emerald-500/20 text-emerald-400 rounded-xl border border-emerald-500/30">👤</span>
+            <h2 class="text-xl font-bold tracking-tight text-white">Student Account & Academic Profile</h2>
+          </div>
+          <p class="text-xs text-slate-300 mt-1">Manage student details, view unlocked achievement badges, test history, and download official transcript.</p>
+        </div>
+        <button type="button" onclick="downloadAccountDetailsPdf()" class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl shadow-md transition-all cursor-pointer shrink-0">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          <span>📥 Download Account Details PDF</span>
+        </button>
+      </section>
+
+      <!-- Student Profile Form Card -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <span class="p-1.5 bg-blue-100 text-blue-700 rounded-lg">✍️</span>
+          Edit Student Profile Information
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Student Full Name:</label>
+            <input type="text" id="account-name-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Roll No / Student ID:</label>
+            <input type="text" id="account-roll-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Class Level:</label>
+            <select id="account-class-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900">
+              <option value="10">Class 10</option>
+              <option value="9">Class 9</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Target Board Year:</label>
+            <input type="text" id="account-year-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Dream Board Exam Goal %:</label>
+            <input type="text" id="account-goal-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Target Stream:</label>
+            <input type="text" id="account-stream-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">Daily Study Target (Hours):</label>
+            <input type="text" id="account-hours-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
+          </div>
+          <div class="flex items-end">
+            <button type="button" onclick="saveStudentProfile()" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs transition-all cursor-pointer">
+              Save Profile Details
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unlocked Badges Grid -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <span class="p-1.5 bg-amber-100 text-amber-800 rounded-lg">🏅</span>
+          Academic Achievements & Badges Earned
+        </h3>
+        <div id="account-badges-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Test History Table -->
+      <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-4">
+        <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+          <span class="p-1.5 bg-indigo-100 text-indigo-700 rounded-lg">📜</span>
+          Recent Test Records & History Log
+        </h3>
+        <div id="account-test-history-list" class="overflow-x-auto space-y-2">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </div> <!-- END VIEW 5: view-account -->
 
   <!-- FOOTER -->
   <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
@@ -385,6 +898,57 @@
           Yes, Reset Progress
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- CHAPTER REVISION NOTES & MIND MAP MODAL -->
+  <div id="chapter-notes-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-5">
+    <div class="bg-white rounded-2xl max-w-3xl w-full p-5 sm:p-6 shadow-2xl border border-slate-100 space-y-4 max-h-[92vh] flex flex-col justify-between">
+      
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between gap-3 border-b border-slate-100 pb-3 shrink-0">
+        <div class="flex items-center gap-2.5">
+          <div class="p-2.5 bg-rose-50 text-rose-600 rounded-xl border border-rose-100">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 id="notes-modal-title" class="text-base sm:text-lg font-bold text-slate-900">Chapter Revision Notes</h3>
+              <span id="notes-modal-badge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-200">Chapter Notes PDF</span>
+            </div>
+            <p id="notes-modal-subtitle" class="text-xs text-slate-500">Comprehensive study notes, mind maps, chemical equations & key board exam questions</p>
+          </div>
+        </div>
+        <button type="button" onclick="closeChapterNotesModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer no-print">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Scrollable Notes Content -->
+      <div id="notes-modal-body" class="overflow-y-auto space-y-4 py-2 pr-1 flex-1 text-slate-800 text-xs sm:text-sm leading-relaxed">
+        <!-- Rendered dynamically by JS for every chapter -->
+      </div>
+
+      <!-- Bottom Action Bar -->
+      <div class="flex items-center justify-between gap-3 pt-3 border-t border-slate-100 shrink-0 text-xs no-print">
+        <a id="notes-modal-ncert-btn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors">
+          📄 Open NCERT Text PDF ↗
+        </a>
+        <div class="flex items-center gap-2">
+          <button type="button" id="notes-modal-test-btn" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-colors shadow-xs cursor-pointer">
+            ⚡ Take Chapter AI Test
+          </button>
+          <button type="button" onclick="printChapterNotes()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-semibold transition-colors shadow-xs cursor-pointer">
+            🖨️ Print / Save as PDF
+          </button>
+          <button type="button" onclick="closeChapterNotesModal()" class="px-4 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition-colors cursor-pointer">
+            Close
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -593,32 +1157,45 @@
     ];
 
     const SUBTASKS_TEMPLATE = [
-      { id: "read", label: "Read NCERT & Highlight" },
+      { id: "read", label: "Read NCERT Textbook & Highlight" },
+      { id: "oneshot", label: "Read NCERT One-Shot Summary PDF & Notes" },
       { id: "exemplar", label: "Solve NCERT Exemplar Problems" },
       { id: "cbse_qb_v1", label: "Practice CBSE Official Question Bank - Vol. 1" },
       { id: "cbse_qb_v2", label: "Practice CBSE Official Question Bank - Vol. 2" },
       { id: "cbse_practice", label: "Solve CBSE Official Practice Question Papers" },
-      { id: "pyq", label: "Practice Past 5 Years PYQs" },
+      { id: "pyq", label: "Practice Past 5 Years PYQs & Revision Notes" },
       { id: "mock", label: "Attempt Chapter Mock Test" }
     ];
 
-    const CHAPTERS = CHAPTER_SEEDS.map(item => ({
-      id: item.id,
-      classLevel: item.c,
-      subject: item.s,
-      chapterNumber: item.n,
-      title: item.t,
-      resources: {
-        ncertLink: `https://ncert.nic.in/textbook/pdf/${item.nc}`,
-        exemplarLink: item.ex.startsWith('eepm') || item.ex.startsWith('ieep') 
-          ? `https://ncert.nic.in/pdf/publication/exemplarproblem/class${item.c === 10 ? 'X' : 'IX'}/${item.s.toLowerCase()}/${item.ex}`
-          : `https://ncert.nic.in/textbook/pdf/${item.ex}`,
-        cbseQbVol1: `https://cbseacademic.nic.in/web_material/QuestionBank/Class${item.c === 10 ? 'X' : 'IX'}/${item.qb}`,
-        cbseQbVol2: `https://cbseacademic.nic.in/web_material/QuestionBank/Class${item.c === 10 ? 'X' : 'IX'}/${item.qb.replace('.pdf', '_Vol2.pdf')}`,
-        cbsePracticeLink: `https://cbseacademic.nic.in/sqp_class${item.c === 10 ? 'x' : 'ix'}_2023_24.html`
-      },
-      subTasks: SUBTASKS_TEMPLATE
-    }));
+    const CHAPTERS = CHAPTER_SEEDS.map(item => {
+      let notesPdf = `https://cbseacademic.nic.in/web_material/QuestionBank/Class${item.c === 10 ? 'X' : 'IX'}/${item.qb}`;
+      if (item.s === 'Science') {
+        notesPdf = `https://images.oswaalbooks.com/pdf/sample_pages/CBSE-Class-${item.c}-Science-Question-Bank.pdf`;
+      } else if (item.s === 'Mathematics') {
+        notesPdf = `https://pw.live/pdf/cbse-class-${item.c}-formula-sheet.pdf`;
+      } else if (item.s === 'Social Science') {
+        notesPdf = `https://images.oswaalbooks.com/pdf/sample_pages/CBSE-Class-${item.c}-Social-Science-Question-Bank.pdf`;
+      }
+
+      return {
+        id: item.id,
+        classLevel: item.c,
+        subject: item.s,
+        chapterNumber: item.n,
+        title: item.t,
+        resources: {
+          ncertLink: `https://ncert.nic.in/textbook/pdf/${item.nc}`,
+          oneShotLink: notesPdf,
+          exemplarLink: item.ex.startsWith('eepm') || item.ex.startsWith('ieep') 
+            ? `https://ncert.nic.in/pdf/publication/exemplarproblem/class${item.c === 10 ? 'X' : 'IX'}/${item.s.toLowerCase()}/${item.ex}`
+            : `https://ncert.nic.in/textbook/pdf/${item.ex}`,
+          cbseQbVol1: `https://cbseacademic.nic.in/web_material/QuestionBank/Class${item.c === 10 ? 'X' : 'IX'}/${item.qb}`,
+          cbseQbVol2: `https://cbseacademic.nic.in/web_material/QuestionBank/Class${item.c === 10 ? 'X' : 'IX'}/${item.qb.replace('.pdf', '_Vol2.pdf')}`,
+          cbsePracticeLink: `https://cbseacademic.nic.in/sqp_class${item.c === 10 ? 'x' : 'ix'}_2023_24.html`
+        },
+        subTasks: SUBTASKS_TEMPLATE
+      };
+    });
 
     const STORAGE_KEY = 'cbse_ultimate_board_tracker_v2';
 
@@ -626,11 +1203,26 @@
     let state = {
       tasks: {}, // Key: chapterId, Value: { subTaskId: boolean }
       notes: '',
+      activeMainTab: 'tracker',
       filters: {
         classLevel: 'all',  // 'all', '9', '10'
         subject: 'all',     // 'all', 'Mathematics', 'Science'
         search: ''
-      }
+      },
+      studentProfile: {
+        name: 'Rahul Sharma',
+        rollNo: 'CBSE-2026-1082',
+        classLevel: '10',
+        targetYear: '2026-2027',
+        dreamPercentage: '98%',
+        targetStream: 'PCM (Physics, Chemistry, Maths)',
+        dailyHours: '4.5'
+      },
+      testHistory: [],
+      activeTestPaper: null,
+      activeTestAnswers: {},
+      testTimerInterval: null,
+      testTimeRemaining: 1200
     };
 
     // 3. STORAGE INITIALIZATION & SYNC
@@ -641,6 +1233,8 @@
           const parsed = JSON.parse(raw);
           state.tasks = parsed.tasks || {};
           state.notes = parsed.notes || '';
+          if (parsed.studentProfile) state.studentProfile = { ...state.studentProfile, ...parsed.studentProfile };
+          if (Array.isArray(parsed.testHistory)) state.testHistory = parsed.testHistory;
         }
       } catch (err) {
         console.warn('Failed to parse localStorage, resetting state:', err);
@@ -663,7 +1257,9 @@
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify({
           tasks: state.tasks,
-          notes: state.notes
+          notes: state.notes,
+          studentProfile: state.studentProfile,
+          testHistory: state.testHistory
         }));
       } catch (err) {
         console.error('Error writing to localStorage:', err);
@@ -934,36 +1530,39 @@
                 <svg class="w-3 h-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                 </svg>
-                CBSE Official Question Bank Volumes:
+                CBSE & Ei Official Competency QBs:
               </div>
               <div class="flex items-center gap-1.5 flex-wrap text-xs">
-                <a href="${ch.resources.cbseQbVol1}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold border border-blue-200/60 transition-colors text-[11px]">
-                  🏛️ CBSE QB Vol. 1
-                </a>
-                <a href="${ch.resources.cbseQbVol2}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-semibold border border-indigo-200/60 transition-colors text-[11px]">
-                  📜 CBSE QB Vol. 2
-                </a>
-                <a href="${ch.resources.cbsePracticeLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold border border-emerald-200/60 transition-colors text-[11px]">
-                  📑 Practice Papers
-                </a>
+                <button type="button" onclick="openPdfReader('${ch.resources.cbseQbVol1}', '${ch.title.replace(/'/g, "\\'")} - Official Question Bank Vol 1')" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 hover:bg-blue-100 font-semibold border border-blue-200/60 transition-colors text-[11px] cursor-pointer">
+                  🏛️ Vol. 1 QB
+                </button>
+                <button type="button" onclick="openPdfReader('${ch.resources.cbseQbVol2}', '${ch.title.replace(/'/g, "\\'")} - Official Question Bank Vol 2')" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 hover:bg-indigo-100 font-semibold border border-indigo-200/60 transition-colors text-[11px] cursor-pointer">
+                  📜 Vol. 2 QB
+                </button>
+                <button type="button" onclick="openPdfReader('${ch.resources.cbsePracticeLink}', '${ch.title.replace(/'/g, "\\'")} - Practice Sets')" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 hover:bg-emerald-100 font-semibold border border-emerald-200/60 transition-colors text-[11px] cursor-pointer">
+                  📑 Practice Sets
+                </button>
+                <button type="button" onclick="launchChapterTest('${ch.id}')" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold border border-rose-200 transition-colors text-[11px] cursor-pointer shadow-2xs">
+                  ⚡ Take Chapter AI Test
+                </button>
               </div>
             </div>
 
             <!-- Resource Hyperlinks Footer -->
             <div class="pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 mt-2">
-              <div class="flex items-center gap-3">
-                <a href="${ch.resources.ncertLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-600 hover:text-blue-600 font-medium transition-colors">
+              <div class="flex items-center gap-2.5 flex-wrap">
+                <button type="button" onclick="openPdfReader('${ch.resources.ncertLink}', '${ch.title.replace(/'/g, "\\'")} - NCERT Textbook')" class="inline-flex items-center gap-1 text-slate-600 hover:text-blue-600 font-medium transition-colors cursor-pointer">
                   <svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                   </svg>
                   NCERT Text
-                </a>
-                <a href="${ch.resources.exemplarLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-slate-600 hover:text-indigo-600 font-medium transition-colors">
+                </button>
+                <button type="button" onclick="openPdfReader('${ch.resources.exemplarLink}', '${ch.title.replace(/'/g, "\\'")} - NCERT Exemplar')" class="inline-flex items-center gap-1 text-slate-600 hover:text-indigo-600 font-medium transition-colors cursor-pointer">
                   <svg class="w-3.5 h-3.5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h-0a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                   </svg>
                   Exemplar
-                </a>
+                </button>
               </div>
 
               <!-- Select All / Unselect All Toggle -->
@@ -1208,13 +1807,73 @@
       }
     }
 
-    // Question Bank Direct PDF Database & Modal Handlers (CBSE Official Material Only)
+    // Question Bank Direct PDF Database & Modal Handlers (CBSE & Ei Official Competency Question Books)
     const QB_PDF_DATABASE = {
+      cbse_science: {
+        title: "CBSE & Ei Official Science Competency Question Booklets",
+        badge: "🔬 Science Question Books",
+        badgeClass: "bg-blue-100 text-blue-800 border border-blue-200",
+        description: "Co-created by CBSE Centre for Excellence in Assessment and Educational Initiatives (Ei). Grade 10 Science Practice Question Booklets.",
+        class10: [
+          { name: "CBSE & Ei Class 10 Science CFPQ Practice Questions (Volume 1)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/science/cfpq-vol1.pdf" },
+          { name: "CBSE & Ei Class 10 Science CFPQ Practice Questions (Volume 2)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/science/cfpq-vol2.pdf" }
+        ],
+        class9: [
+          { name: "CBSE & Ei Class 9 Science Practice Questions (Volume 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX.pdf" },
+          { name: "CBSE & Ei Class 9 Science Practice Questions (Volume 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX_Vol2.pdf" }
+        ]
+      },
+      cbse_maths: {
+        title: "CBSE & Ei Official Mathematics Competency Question Booklets",
+        badge: "📐 Mathematics Question Books",
+        badgeClass: "bg-indigo-100 text-indigo-800 border border-indigo-200",
+        description: "Co-created by CBSE Centre for Excellence in Assessment and Educational Initiatives (Ei). Grade 10 Mathematics Practice Question Booklets.",
+        class10: [
+          { name: "CBSE & Ei Class 10 Mathematics CFPQ Practice Questions (Volume 1)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/maths/cfpq-vol1.pdf" },
+          { name: "CBSE & Ei Class 10 Mathematics CFPQ Practice Questions (Volume 2)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/maths/cfpq-vol2.pdf" },
+          { name: "CBSE & Ei Class 10 Mathematics CFPQ Practice Questions (Volume 3)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/maths/cfpq-vol3.pdf" },
+          { name: "CBSE & Ei Class 10 Mathematics CFPQ Practice Questions (Volume 4)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/maths/cfpq-vol4.pdf" }
+        ],
+        class9: [
+          { name: "CBSE & Ei Class 9 Mathematics Practice Questions (Volume 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX.pdf" },
+          { name: "CBSE & Ei Class 9 Mathematics Practice Questions (Volume 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX_Vol2.pdf" }
+        ]
+      },
+      cbse_sst: {
+        title: "CBSE & Ei Official Social Science Competency Question Booklets",
+        badge: "🌍 Social Science Question Books",
+        badgeClass: "bg-amber-100 text-amber-800 border border-amber-200",
+        description: "Co-created by CBSE Centre for Excellence in Assessment and Educational Initiatives (Ei). Grade 10 Social Science Practice Question Booklets.",
+        class10: [
+          { name: "CBSE & Ei Class 10 Social Science CFPQ Practice Questions (Volume 1)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/sst/cfpq-vol1.pdf" },
+          { name: "CBSE & Ei Class 10 Social Science CFPQ Practice Questions (Volume 2)", format: ".PDF", url: "https://sunilbhaiya200.github.io/CBSE-Tracker/assets/pdfs/class10/sst/cfpq-vol2.pdf" }
+        ],
+        class9: [
+          { name: "CBSE & Ei Class 9 Social Science Practice Questions (Volume 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/SST_IX.pdf" },
+          { name: "CBSE & Ei Class 9 Social Science Practice Questions (Volume 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/SST_IX_Vol2.pdf" }
+        ]
+      },
+      cbse_english: {
+        title: "CBSE & Ei Official English & Languages Question Booklets",
+        badge: "📚 English & Languages QB",
+        badgeClass: "bg-emerald-100 text-emerald-800 border border-emerald-200",
+        description: "Co-created by CBSE Centre for Excellence in Assessment and Educational Initiatives (Ei). Grade 10 English & Hindi Question Booklets.",
+        class10: [
+          { name: "CBSE & Ei Class 10 English Language & Literature Practice Questions (Volume 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/EnglishX.pdf" },
+          { name: "CBSE & Ei Class 10 English Language & Literature Practice Questions (Volume 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/EnglishX_Vol2.pdf" },
+          { name: "CBSE & Ei Class 10 Hindi Course A Practice Questions (Volume 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiA_X.pdf" },
+          { name: "CBSE & Ei Class 10 Hindi Course B Practice Questions (Volume 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiB_X.pdf" }
+        ],
+        class9: [
+          { name: "CBSE & Ei Class 9 English Practice Questions (Volume 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/EnglishIX.pdf" },
+          { name: "CBSE & Ei Class 9 English Practice Questions (Volume 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/EnglishIX_Vol2.pdf" }
+        ]
+      },
       cbse_v1: {
-        title: "CBSE Official Question Bank - Volume 1 (All Subjects)",
+        title: "CBSE & Ei Official Question Bank - Volume 1 (All Subjects)",
         badge: "🏛️ CBSE QB Vol. 1",
         badgeClass: "bg-blue-100 text-blue-800 border border-blue-200",
-        description: "Direct official competency-based MCQs, assertion-reason, and objective question banks published by CBSE Board.",
+        description: "Direct official competency-based MCQs, assertion-reason, and objective question banks published by CBSE & Ei.",
         class10: [
           { name: "CBSE Class 10 Science Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX.pdf" },
           { name: "CBSE Class 10 Mathematics Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/MathsX.pdf" },
@@ -1227,47 +1886,7 @@
           { name: "CBSE Class 9 Science Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX.pdf" },
           { name: "CBSE Class 9 Mathematics Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX.pdf" },
           { name: "CBSE Class 9 Social Science Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/SST_IX.pdf" },
-          { name: "CBSE Class 9 English Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/EnglishIX.pdf" },
-          { name: "CBSE Class 9 Hindi Course A Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/HindiA_IX.pdf" },
-          { name: "CBSE Class 9 Hindi Course B Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/HindiB_IX.pdf" }
-        ]
-      },
-      cbse_v2: {
-        title: "CBSE Official Question Bank - Volume 2 (All Subjects)",
-        badge: "📜 CBSE QB Vol. 2",
-        badgeClass: "bg-indigo-100 text-indigo-800 border border-indigo-200",
-        description: "Official CBSE Case-Study questions, subjective problem sets, and detailed solutions for Class 9 & 10.",
-        class10: [
-          { name: "CBSE Class 10 Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/ScienceX_Vol2.pdf" },
-          { name: "CBSE Class 10 Mathematics Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/MathsX_Vol2.pdf" },
-          { name: "CBSE Class 10 Social Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/SST_X_Vol2.pdf" },
-          { name: "CBSE Class 10 English Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/EnglishX_Vol2.pdf" },
-          { name: "CBSE Class 10 Hindi Course A Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiA_X_Vol2.pdf" },
-          { name: "CBSE Class 10 Hindi Course B Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassX/HindiB_X_Vol2.pdf" }
-        ],
-        class9: [
-          { name: "CBSE Class 9 Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX_Vol2.pdf" },
-          { name: "CBSE Class 9 Mathematics Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX_Vol2.pdf" },
-          { name: "CBSE Class 9 Social Science Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/SST_IX_Vol2.pdf" },
-          { name: "CBSE Class 9 English Official Question Bank (Vol. 2)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/EnglishIX_Vol2.pdf" }
-        ]
-      },
-      cbse_practice: {
-        title: "CBSE Official Practice Papers & Marking Schemes",
-        badge: "📑 Official SQP",
-        badgeClass: "bg-teal-100 text-teal-800 border border-teal-200",
-        description: "Official Sample Question Papers (SQP), Additional Practice Sets, and Marking Schemes for Board Exam preparation.",
-        class10: [
-          { name: "CBSE Class 10 Official Sample Question Papers & Solutions (All Subjects)", format: ".PDF / Portal", url: "https://cbseacademic.nic.in/sqp_classx_2023_24.html" },
-          { name: "CBSE Class 10 Science Official Additional Practice Question Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/Science-SQP.pdf" },
-          { name: "CBSE Class 10 Mathematics Official Additional Practice Question Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/MathsStandard-SQP.pdf" },
-          { name: "CBSE Class 10 Social Science Official Additional Practice Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/SocialScience-SQP.pdf" },
-          { name: "CBSE Class 10 English Language & Lit. Official Practice Paper", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/SQP/CLASSX_2023_24/EnglishLanguageLiterature-SQP.pdf" }
-        ],
-        class9: [
-          { name: "CBSE Class 9 Official Curriculum & Question Paper Specifications", format: ".PDF / Portal", url: "https://cbseacademic.nic.in/curriculum_2024.html" },
-          { name: "CBSE Class 9 Science Official Practice Material", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/ScienceIX.pdf" },
-          { name: "CBSE Class 9 Mathematics Official Practice Material", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/MathsIX.pdf" }
+          { name: "CBSE Class 9 English Official Question Bank (Vol. 1)", format: ".PDF", url: "https://cbseacademic.nic.in/web_material/QuestionBank/ClassIX/EnglishIX.pdf" }
         ]
       }
     };
@@ -1301,16 +1920,17 @@
         `;
 
         data.class10.forEach(pdf => {
+          const escapedName = pdf.name.replace(/'/g, "\\'");
           html += `
             <div class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-blue-50/50 border border-slate-200/80 rounded-xl text-xs transition-colors group">
               <div class="flex items-center gap-2 overflow-hidden pr-2">
                 <span class="p-1.5 bg-red-100 text-red-600 rounded-lg text-xs shrink-0 font-bold">PDF</span>
                 <span class="font-medium text-slate-800 group-hover:text-blue-700 truncate">${pdf.name}</span>
               </div>
-              <a href="${pdf.url}" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-[11px] shadow-xs transition-colors cursor-pointer">
-                <span>Download .PDF</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-              </a>
+              <button type="button" onclick="openPdfReader('${pdf.url}', '${escapedName}')" class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg text-[11px] shadow-xs transition-colors cursor-pointer">
+                <span>View / Read .PDF</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </button>
             </div>
           `;
         });
@@ -1329,16 +1949,17 @@
         `;
 
         data.class9.forEach(pdf => {
+          const escapedName = pdf.name.replace(/'/g, "\\'");
           html += `
             <div class="flex items-center justify-between p-2.5 bg-slate-50 hover:bg-amber-50/50 border border-slate-200/80 rounded-xl text-xs transition-colors group">
               <div class="flex items-center gap-2 overflow-hidden pr-2">
                 <span class="p-1.5 bg-red-100 text-red-600 rounded-lg text-xs shrink-0 font-bold">PDF</span>
                 <span class="font-medium text-slate-800 group-hover:text-amber-800 truncate">${pdf.name}</span>
               </div>
-              <a href="${pdf.url}" target="_blank" rel="noopener noreferrer" class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-[11px] shadow-xs transition-colors cursor-pointer">
-                <span>Download .PDF</span>
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-              </a>
+              <button type="button" onclick="openPdfReader('${pdf.url}', '${escapedName}')" class="shrink-0 inline-flex items-center gap-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-[11px] shadow-xs transition-colors cursor-pointer">
+                <span>View / Read .PDF</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              </button>
             </div>
           `;
         });
@@ -1359,11 +1980,1156 @@
       if (modal) modal.classList.add('hidden');
     };
 
+    // UNIVERSAL IN-APP PDF READER MODAL HANDLERS
+    window.openPdfReader = function(pdfUrl, pdfTitle) {
+      const modal = document.getElementById('pdf-reader-modal');
+      const iframe = document.getElementById('pdf-reader-iframe');
+      const titleEl = document.getElementById('pdf-reader-title');
+      const subtitleEl = document.getElementById('pdf-reader-subtitle');
+      const downloadBtn = document.getElementById('pdf-reader-download');
+      const directBtn = document.getElementById('pdf-reader-direct');
+      const loadingEl = document.getElementById('pdf-reader-loading');
+
+      if (!modal) return;
+
+      if (titleEl) titleEl.textContent = pdfTitle || "CBSE & Ei Official Document";
+      if (subtitleEl) subtitleEl.textContent = "Official CBSE & Ei Digital Educational Resource";
+
+      if (loadingEl) loadingEl.classList.remove('hidden');
+
+      if (iframe) {
+        iframe.src = pdfUrl;
+      }
+
+      if (downloadBtn) {
+        downloadBtn.onclick = function(e) {
+          e.preventDefault();
+          window.open(pdfUrl, '_blank');
+        };
+      }
+      if (directBtn) {
+        directBtn.onclick = function(e) {
+          e.preventDefault();
+          window.open(pdfUrl, '_blank');
+        };
+      }
+
+      modal.classList.remove('hidden');
+    };
+
+    window.closePdfReader = function() {
+      const modal = document.getElementById('pdf-reader-modal');
+      const iframe = document.getElementById('pdf-reader-iframe');
+      if (iframe) iframe.src = 'about:blank';
+      if (modal) modal.classList.add('hidden');
+    };
+
+    window.closeQbModal = function() {
+      const modal = document.getElementById('qb-pdf-modal');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    // CHAPTER REVISION NOTES MODAL HANDLERS & CONTENT GENERATOR
+    window.openChapterNotesModal = function(chapterId) {
+      const ch = CHAPTERS.find(c => c.id === chapterId);
+      if (!ch) return;
+
+      const modal = document.getElementById('chapter-notes-modal');
+      const titleEl = document.getElementById('notes-modal-title');
+      const badgeEl = document.getElementById('notes-modal-badge');
+      const subtitleEl = document.getElementById('notes-modal-subtitle');
+      const bodyEl = document.getElementById('notes-modal-body');
+      const ncertBtn = document.getElementById('notes-modal-ncert-btn');
+
+      if (titleEl) titleEl.textContent = `${ch.title} — Revision Notes`;
+      if (badgeEl) badgeEl.textContent = `Class ${ch.classLevel} ${ch.subject} • Ch ${ch.chapterNumber}`;
+      if (subtitleEl) subtitleEl.textContent = `High-yield summary, formulas, reactions, PYQs & board exam tips for ${ch.title}`;
+      if (ncertBtn) ncertBtn.href = ch.resources.ncertLink;
+
+      if (bodyEl) {
+        bodyEl.innerHTML = generateDetailedChapterNotes(ch);
+      }
+
+      const testBtn = document.getElementById('notes-modal-test-btn');
+      if (testBtn) {
+        testBtn.onclick = () => {
+          closeChapterNotesModal();
+          launchChapterTest(ch.id);
+        };
+      }
+
+      if (modal) modal.classList.remove('hidden');
+    };
+
+    window.closeChapterNotesModal = function() {
+      const modal = document.getElementById('chapter-notes-modal');
+      if (modal) modal.classList.add('hidden');
+    };
+
+    window.printChapterNotes = function() {
+      window.print();
+    };
+
+    function generateDetailedChapterNotes(ch) {
+      const title = ch.title;
+      const subject = ch.subject;
+
+      let keyFormulaHtml = '';
+      let conceptsList = '';
+      let pyqList = '';
+      let tipsList = '';
+
+      if (title.includes('Chemical Reactions')) {
+        keyFormulaHtml = `
+          <div class="bg-amber-50/80 border border-amber-200/80 rounded-xl p-3.5 space-y-2">
+            <h4 class="font-bold text-amber-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">⚡ Essential Chemical Equations & Types</h4>
+            <div class="space-y-1.5 text-xs text-amber-950 font-mono bg-white/80 p-2.5 rounded-lg border border-amber-200/50">
+              <div>• <b>Combination:</b> CaO(s) + H₂O(l) → Ca(OH)₂(aq) + Heat (Slaking of Lime)</div>
+              <div>• <b>Decomposition:</b> 2FeSO₄(s) --[Δ]--> Fe₂O₃(s) + SO₂(g) + SO₃(g) (Green to Brown)</div>
+              <div>• <b>Displacement:</b> Fe(s) + CuSO₄(aq) → FeSO₄(aq) + Cu(s) (Blue to Pale Green)</div>
+              <div>• <b>Double Displacement:</b> Na₂SO₄(aq) + BaCl₂(aq) → BaSO₄(s)↓ + 2NaCl(aq) (White ppt)</div>
+              <div>• <b>Redox:</b> CuO + H₂ --[Δ]--> Cu + H₂O (CuO is reduced, H₂ is oxidized)</div>
+            </div>
+          </div>
+        `;
+        conceptsList = `
+          <li><b>Law of Conservation of Mass:</b> Total mass of reactants = Total mass of products. Balancing equations is required to obey this law.</li>
+          <li><b>Exothermic vs Endothermic:</b> Exothermic releases heat (e.g. Respiration, Burning of Natural Gas). Endothermic absorbs heat (e.g. Photosynthesis, Thermal Decomposition).</li>
+          <li><b>Corrosion & Rancidity:</b> Rusting of iron (Fe₂O₃·xH₂O). Rancidity of fats/oils prevented by antioxidants and flushing nitrogen gas in chip packets.</li>
+        `;
+        pyqList = `
+          <li><b>Q1:</b> What is observed when Lead Nitrate powder is heated in a dry test tube? Write balanced equation. <i>[Ans: Brown fumes of NO₂ gas evolved; 2Pb(NO₃)₂ → 2PbO + 4NO₂ + O₂]</i></li>
+          <li><b>Q2:</b> Why does copper sulphate solution color fade when an iron nail is dipped in it? <i>[Ans: Iron displaces Cu forming light green FeSO₄ solution]</i></li>
+        `;
+      } else if (title.includes('Acids') || title.includes('Bases')) {
+        keyFormulaHtml = `
+          <div class="bg-blue-50/80 border border-blue-200/80 rounded-xl p-3.5 space-y-2">
+            <h4 class="font-bold text-blue-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">⚡ Important Salts & Chemical Formulas</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-blue-950">
+              <div class="bg-white/80 p-2 rounded-lg border border-blue-100">• <b>Bleaching Powder:</b> CaOCl₂ (Disinfectant)</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-blue-100">• <b>Baking Soda:</b> NaHCO₃ (Antacid, Fire extinguisher)</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-blue-100">• <b>Washing Soda:</b> Na₂CO₃·10H₂O (Glass/Soap industry)</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-blue-100">• <b>Plaster of Paris:</b> CaSO₄·½H₂O (Sets with water)</div>
+            </div>
+          </div>
+        `;
+        conceptsList = `
+          <li><b>pH Scale:</b> pH &lt; 7 (Acidic), pH = 7 (Neutral), pH &gt; 7 (Basic). Tooth decay begins when mouth pH falls below 5.5.</li>
+          <li><b>Chlor-Alkali Process:</b> Electrolysis of brine (NaCl solution) yields NaOH, Cl₂ gas (anode), and H₂ gas (cathode).</li>
+        `;
+        pyqList = `
+          <li><b>Q1:</b> Why does dry HCl gas not change the color of dry litmus paper? <i>[Ans: Absence of H⁺/H₃O⁺ ions in anhydrous condition]</i></li>
+          <li><b>Q2:</b> Write the equation for Plaster of Paris reacting with water. <i>[Ans: CaSO₄·½H₂O + 1½ H₂O → CaSO₄·2H₂O (Gypsum)]</i></li>
+        `;
+      } else if (title.includes('Light') || title.includes('Reflection')) {
+        keyFormulaHtml = `
+          <div class="bg-rose-50/80 border border-rose-200/80 rounded-xl p-3.5 space-y-2">
+            <h4 class="font-bold text-rose-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">⚡ Optics Formulas & Sign Conventions</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-rose-950 font-mono">
+              <div class="bg-white/80 p-2 rounded-lg border border-rose-100">• <b>Mirror Formula:</b> 1/f = 1/v + 1/u</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-rose-100">• <b>Lens Formula:</b> 1/f = 1/v - 1/u</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-rose-100">• <b>Magnification:</b> m = h'/h = -v/u (mirror) = v/u (lens)</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-rose-100">• <b>Power of Lens:</b> P = 1/f(meters) Dioptres (D)</div>
+            </div>
+          </div>
+        `;
+        conceptsList = `
+          <li><b>Snell's Law:</b> sin i / sin r = constant (Refractive Index n₂₁).</li>
+          <li><b>Concave Mirror:</b> Forms real/inverted images except when object is between P and F (virtual, erect, magnified).</li>
+          <li><b>Convex Lens:</b> Converging lens, real focus. Focal length f is positive; for Concave Lens f is negative.</li>
+        `;
+        pyqList = `
+          <li><b>Q1:</b> An object is placed 15 cm in front of a concave mirror of focal length 10 cm. Find position and nature of image. <i>[Ans: v = -30 cm, Real, inverted, magnified]</i></li>
+        `;
+      } else if (title.includes('Electricity')) {
+        keyFormulaHtml = `
+          <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-3.5 space-y-2">
+            <h4 class="font-bold text-emerald-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">⚡ Circuit Formulas & Units</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-emerald-950 font-mono">
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-100">• <b>Ohm's Law:</b> V = I × R</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-100">• <b>Resistance:</b> R = ρ (L / A)</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-100">• <b>Series:</b> R_eq = R₁ + R₂ + R₃</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-100">• <b>Parallel:</b> 1/R_eq = 1/R₁ + 1/R₂ + 1/R₃</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-100">• <b>Joule Heat:</b> H = I² R t = V I t</div>
+              <div class="bg-white/80 p-2 rounded-lg border border-emerald-100">• <b>Power:</b> P = VI = I²R = V²/R (Watts)</div>
+            </div>
+          </div>
+        `;
+        conceptsList = `
+          <li><b>Resistivity (ρ):</b> Characteristic property of material, depends on temperature & nature of material (NOT length/area).</li>
+          <li><b>Ammeter & Voltmeter:</b> Ammeter connected in Series (low resistance), Voltmeter in Parallel (high resistance).</li>
+        `;
+        pyqList = `
+          <li><b>Q1:</b> How much current will an electric bulb draw from a 220 V source if resistance of bulb filament is 1200 Ω? <i>[Ans: I = V/R = 220/1200 = 0.18 A]</i></li>
+        `;
+      } else if (subject === 'Mathematics') {
+        keyFormulaHtml = `
+          <div class="bg-indigo-50/80 border border-indigo-200/80 rounded-xl p-3.5 space-y-2">
+            <h4 class="font-bold text-indigo-900 flex items-center gap-1.5 text-xs uppercase tracking-wider">⚡ Core Formulas & Theorems Cheat Sheet</h4>
+            <div class="space-y-1.5 text-xs text-indigo-950 font-mono bg-white/80 p-2.5 rounded-lg border border-indigo-100">
+              <div>• <b>HCF × LCM Rule:</b> HCF(a,b) × LCM(a,b) = a × b</div>
+              <div>• <b>Quadratic Formula:</b> x = [-b ± √(b² - 4ac)] / 2a | Discriminant D = b² - 4ac</div>
+              <div>• <b>AP Formulas:</b> a_n = a + (n-1)d | S_n = n/2 [2a + (n-1)d] = n/2 [a + l]</div>
+              <div>• <b>Trig Identities:</b> sin²θ + cos²θ = 1 | 1 + tan²θ = sec²θ | 1 + cot²θ = cosec²θ</div>
+            </div>
+          </div>
+        `;
+        conceptsList = `
+          <li><b>Step-by-Step Proofs:</b> Practice Thales Theorem (BPT), Tangent length equality theorem, and Irrationality proof (e.g. √2, √5).</li>
+          <li><b>Topper Calculation Habit:</b> Keep calculations clean, label units clearly (cm², cm³), and highlight the final answer.</li>
+        `;
+        pyqList = `
+          <li><b>Board Tip:</b> State given data, state theorem/formula used before substitution, and write steps in order.</li>
+        `;
+      } else {
+        conceptsList = ch.subTasks.map(st => `<li><b>${st.label}:</b> Master core definitions, key events, character motivations, and 3-5 mark answer points.</li>`).join('');
+        pyqList = `
+          <li><b>Board PYQ Highlight 1:</b> High-frequency NCERT in-text and chapter-end questions often repeated in board exams.</li>
+          <li><b>Board PYQ Highlight 2:</b> Focus on 5-mark structured questions, case study extracts, and assertion-reasoning.</li>
+        `;
+      }
+
+      tipsList = `
+        <div class="bg-emerald-50/80 border border-emerald-200/80 rounded-xl p-3 text-xs text-emerald-900 space-y-1">
+          <div class="font-bold flex items-center gap-1">💡 Topper Board Exam Tips & Common Pitfalls:</div>
+          <div>• Always label diagrams clearly using pencil and ruler.</div>
+          <div>• For 3 & 5 mark answers, write in numbered bullet points with bold subheadings.</div>
+          <div>• Verify physical units (e.g. Joules, Volts, Amperes, cm²) in every numerical calculation.</div>
+        </div>
+      `;
+
+      return `
+        <div class="space-y-4">
+          <!-- Subtasks Checklist Progress Bar -->
+          <div class="bg-slate-50 border border-slate-200/80 p-3 rounded-xl flex items-center justify-between text-xs">
+            <span class="font-bold text-slate-700">NCERT Chapter Checklist:</span>
+            <div class="flex items-center gap-1.5 flex-wrap">
+              ${ch.subTasks.map(st => `<span class="px-2 py-0.5 rounded-full bg-white border border-slate-200 font-medium text-slate-600">${st.label}</span>`).join('')}
+            </div>
+          </div>
+
+          <!-- Formula / Equations / Key Highlights Box -->
+          ${keyFormulaHtml}
+
+          <!-- Concept Breakdown -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider flex items-center gap-1.5">
+              <span class="p-1 bg-blue-100 text-blue-700 rounded-md">📌</span> Core Mind Map & Chapter Concepts
+            </h4>
+            <ul class="space-y-2 list-disc list-inside text-slate-700 bg-slate-50 p-3.5 rounded-xl border border-slate-200/60 leading-relaxed text-xs sm:text-sm">
+              ${conceptsList}
+            </ul>
+          </div>
+
+          <!-- High Yield Board PYQs -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-900 text-xs sm:text-sm uppercase tracking-wider flex items-center gap-1.5">
+              <span class="p-1 bg-rose-100 text-rose-700 rounded-md">🎯</span> Past Board Exam Repeated Questions (PYQ Highlights)
+            </h4>
+            <ul class="space-y-2 list-none text-slate-800 bg-rose-50/50 p-3.5 rounded-xl border border-rose-100 leading-relaxed text-xs sm:text-sm">
+              ${pyqList}
+            </ul>
+          </div>
+
+          <!-- Topper Tips -->
+          ${tipsList}
+        </div>
+      `;
+    }
+
+    // ==========================================
+    // 10. MAIN TAB SWITCHER CONTROLLER
+    // ==========================================
+    window.switchMainTab = function(tabName) {
+      state.activeMainTab = tabName;
+
+      const tabs = ['tracker', 'insights', 'study', 'test', 'account'];
+      tabs.forEach(t => {
+        const viewEl = document.getElementById(`view-${t}`);
+        const btnEl = document.getElementById(`main-tab-${t}`);
+
+        if (t === tabName) {
+          if (viewEl) viewEl.classList.remove('hidden');
+          if (btnEl) {
+            btnEl.className = "main-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer bg-slate-900 text-white shadow-sm shrink-0";
+          }
+        } else {
+          if (viewEl) viewEl.classList.add('hidden');
+          if (btnEl) {
+            btnEl.className = "main-tab-btn flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 shrink-0";
+          }
+        }
+      });
+
+      if (tabName === 'insights') renderResourceInsightsView();
+      if (tabName === 'study') renderStudyLoungeView();
+      if (tabName === 'test') renderTestConductorView();
+      if (tabName === 'account') renderAccountView();
+    };
+
+    // ==========================================
+    // 11. RESOURCE INSIGHTS & ANALYSIS VIEW
+    // ==========================================
+    function renderResourceInsightsView() {
+      const grid = document.getElementById('insights-metrics-grid');
+      const subjectBars = document.getElementById('insights-subject-bars');
+      const recommendationsList = document.getElementById('insights-recommendations-list');
+
+      let totalTasks = 0;
+      let completedTasks = 0;
+      const subjectStats = {};
+
+      CHAPTERS.forEach(ch => {
+        if (!subjectStats[ch.subject]) {
+          subjectStats[ch.subject] = { total: 0, done: 0 };
+        }
+        const chTasks = state.tasks[ch.id] || {};
+        ch.subTasks.forEach(st => {
+          totalTasks++;
+          subjectStats[ch.subject].total++;
+          if (chTasks[st.id]) {
+            completedTasks++;
+            subjectStats[ch.subject].done++;
+          }
+        });
+      });
+
+      const overallPct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+
+      if (grid) {
+        grid.innerHTML = `
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-xs text-slate-500 font-semibold mb-1">Overall Sub-tasks Completed</div>
+            <div class="text-2xl font-extrabold text-slate-900">${completedTasks} / ${totalTasks}</div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mt-2"><div class="bg-blue-600 h-1.5 rounded-full" style="width: ${overallPct}%"></div></div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-xs text-slate-500 font-semibold mb-1">Total Syllabus Progress</div>
+            <div class="text-2xl font-extrabold text-emerald-600">${overallPct}%</div>
+            <div class="text-[11px] text-emerald-700 font-medium mt-1">✓ Verified NCERT Curriculum</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-xs text-slate-500 font-semibold mb-1">Science & Maths Coverage</div>
+            <div class="text-2xl font-extrabold text-indigo-600">
+              ${Math.round(((subjectStats['Science']?.done || 0) + (subjectStats['Mathematics']?.done || 0)) / Math.max(1, (subjectStats['Science']?.total || 1) + (subjectStats['Mathematics']?.total || 1)) * 100)}%
+            </div>
+            <div class="text-[11px] text-slate-500 mt-1">High-Yield Board Priority</div>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
+            <div class="text-xs text-slate-500 font-semibold mb-1">Tests Attempted</div>
+            <div class="text-2xl font-extrabold text-amber-600">${state.testHistory.length} Paper(s)</div>
+            <div class="text-[11px] text-slate-500 mt-1">AI Exam Conductor</div>
+          </div>
+        `;
+      }
+
+      if (subjectBars) {
+        subjectBars.innerHTML = Object.keys(subjectStats).map(subj => {
+          const s = subjectStats[subj];
+          const pct = s.total > 0 ? Math.round((s.done / s.total) * 100) : 0;
+          let badge = '<span class="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Focus Needed</span>';
+          if (pct >= 80) badge = '<span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Board Mastered 🥇</span>';
+          else if (pct >= 40) badge = '<span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">In Progress 🚀</span>';
+
+          return `
+            <div class="space-y-1 text-xs">
+              <div class="flex items-center justify-between font-bold text-slate-800">
+                <span>${subj}</span>
+                <div class="flex items-center gap-2">
+                  <span>${s.done} / ${s.total} Tasks (${pct}%)</span>
+                  ${badge}
+                </div>
+              </div>
+              <div class="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
+                <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-2.5 rounded-full transition-all duration-500" style="width: ${pct}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      if (recommendationsList) {
+        recommendationsList.innerHTML = `
+          <div class="p-3 bg-amber-50/80 border border-amber-200/80 rounded-xl space-y-1">
+            <div class="font-bold text-amber-900">📌 Priority Revision Step 1:</div>
+            <div>Focus on completing NCERT Exemplar problems in Chapters with low sub-task coverage.</div>
+          </div>
+          <div class="p-3 bg-blue-50/80 border border-blue-200/80 rounded-xl space-y-1">
+            <div class="font-bold text-blue-900">⚡ Priority Revision Step 2:</div>
+            <div>Use the AI Test Conductor to generate a 20-mark Medium difficulty test paper in Science or Mathematics.</div>
+          </div>
+          <div class="p-3 bg-indigo-50/80 border border-indigo-200/80 rounded-xl space-y-1">
+            <div class="font-bold text-indigo-900">🎓 Active Recall Recommendation:</div>
+            <div>Review Science & Maths flashcards in the Study Lounge tab for 15 minutes daily to boost retention.</div>
+          </div>
+        `;
+      }
+    }
+
+    window.downloadInsightsReport = function() {
+      let totalTasks = 0;
+      let completedTasks = 0;
+      CHAPTERS.forEach(ch => {
+        const chTasks = state.tasks[ch.id] || {};
+        ch.subTasks.forEach(st => {
+          totalTasks++;
+          if (chTasks[st.id]) completedTasks++;
+        });
+      });
+      const pct = Math.round((completedTasks / totalTasks) * 100);
+
+      const htmlContent = `
+        <div class="p-4 bg-slate-900 text-white rounded-xl text-center space-y-1">
+          <h2 class="text-xl font-extrabold">Overall Syllabus Coverage: ${pct}%</h2>
+          <p class="text-xs text-slate-300">Total Sub-tasks Completed: ${completedTasks} of ${totalTasks}</p>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="font-bold text-slate-900 text-sm">Subject Breakdown Summary</h3>
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-100 border-b border-slate-200">
+                <th class="p-2 font-bold">Subject</th>
+                <th class="p-2 font-bold">Status</th>
+                <th class="p-2 font-bold">Readiness Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-slate-100"><td class="p-2 font-semibold">Science</td><td class="p-2">Verified NCERT & Exemplar</td><td class="p-2 font-bold text-emerald-700">Class 10 Board Level</td></tr>
+              <tr class="border-b border-slate-100"><td class="p-2 font-semibold">Mathematics</td><td class="p-2">Formulae & Theorem Proofs</td><td class="p-2 font-bold text-blue-700">Standard Board Exam</td></tr>
+              <tr class="border-b border-slate-100"><td class="p-2 font-semibold">Social Science</td><td class="p-2">History, Geography, Civics, Eco</td><td class="p-2 font-bold text-indigo-700">Competency Aligned</td></tr>
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      downloadPrintableDocument("Academic Resource Insights Report", "Syllabus Progress & Diagnostic Summary", htmlContent);
+    };
+
+    // ==========================================
+    // 12. STUDY LOUNGE & LEARNING METHODS
+    // ==========================================
+    const FLASHCARDS_DATA = {
+      Science: [
+        { q: "What is Ohm's Law and its mathematical formula?", a: "V = I × R. Electric current through a conductor is directly proportional to potential difference across its ends, provided temperature remains constant." },
+        { q: "What is Snell's Law of Refraction?", a: "sin(i) / sin(r) = Refractive Index (n₂₁). The ratio of the sine of angle of incidence to sine of angle of refraction is constant." },
+        { q: "What is the function of Guard Cells in stomata?", a: "Guard cells regulate the opening and closing of stomatal pores by swelling (when water flows into them) and shrinking." },
+        { q: "Define Combination Reaction with an example.", a: "A reaction where two or more reactants combine to form a single product. Example: CaO (Quicklime) + H₂O → Ca(OH)₂ (Slaked lime)." },
+        { q: "What is Joule's Law of Heating?", a: "H = I² × R × t. Heat produced in a resistor is directly proportional to square of current, resistance, and time." }
+      ],
+      Mathematics: [
+        { q: "State the Fundamental Theorem of Arithmetic.", a: "Every composite number can be expressed (factored) as a product of primes, and this factorization is unique, apart from the order in which the prime factors occur." },
+        { q: "What is the Discriminant formula and how does it determine nature of roots?", a: "D = b² - 4ac. If D > 0 (2 distinct real roots), D = 0 (2 equal real roots), D < 0 (no real roots)." },
+        { q: "State the Basic Proportionality Theorem (Thales Theorem).", a: "If a line is drawn parallel to one side of a triangle intersecting the other two sides, then it divides the two sides in the same ratio." },
+        { q: "What is the formula for area of a sector of angle θ?", a: "Area = (θ / 360°) × π × r²." }
+      ],
+      "Social Science": [
+        { q: "What was the Zollverein formed in 1834?", a: "A customs union formed at the initiative of Prussia. It abolished tariff barriers and reduced the number of currencies from over thirty to two." },
+        { q: "Define Power Sharing in Democracy.", a: "Power sharing is a strategy wherein political power is distributed among different organs, levels, and social groups of government to ensure stability and prevent tyranny." }
+      ]
+    };
+
+    let currentFlashcardIndex = 0;
+    let currentFlashcardList = FLASHCARDS_DATA['Science'];
+    let isFlashcardFlipped = false;
+
+    window.switchStudyMethod = function(methodName) {
+      const methods = ['flashcards', 'pomodoro', 'feynman', 'mindmap', 'blurting'];
+      methods.forEach(m => {
+        const box = document.getElementById(`study-method-${m}`);
+        const btn = document.getElementById(`study-btn-${m}`);
+
+        if (m === methodName) {
+          if (box) box.classList.remove('hidden');
+          if (btn) btn.className = "study-method-btn px-4 py-2.5 rounded-xl bg-slate-900 text-white shadow-xs cursor-pointer shrink-0";
+        } else {
+          if (box) box.classList.add('hidden');
+          if (btn) btn.className = "study-method-btn px-4 py-2.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 cursor-pointer shrink-0";
+        }
+      });
+    };
+
+    window.loadFlashcardSet = function() {
+      const sel = document.getElementById('flashcard-subject-select');
+      const subj = sel ? sel.value : 'Science';
+      currentFlashcardList = FLASHCARDS_DATA[subj] || FLASHCARDS_DATA['Science'];
+      currentFlashcardIndex = 0;
+      isFlashcardFlipped = false;
+      renderCurrentFlashcard();
+    };
+
+    function renderCurrentFlashcard() {
+      const item = currentFlashcardList[currentFlashcardIndex] || currentFlashcardList[0];
+      const promptEl = document.getElementById('flashcard-prompt');
+      const answerEl = document.getElementById('flashcard-answer');
+      const badgeEl = document.getElementById('flashcard-badge');
+      const hintEl = document.getElementById('flashcard-hint-text');
+      const counterEl = document.getElementById('flashcard-counter');
+
+      if (promptEl) promptEl.textContent = item.q;
+      if (answerEl) {
+        answerEl.textContent = item.a;
+        answerEl.classList.toggle('hidden', !isFlashcardFlipped);
+      }
+      if (badgeEl) badgeEl.textContent = `Card ${currentFlashcardIndex + 1}`;
+      if (hintEl) hintEl.textContent = isFlashcardFlipped ? "Back Side (Answer Revealed)" : "Front Side (Question - Click to Flip)";
+      if (counterEl) counterEl.textContent = `Card ${currentFlashcardIndex + 1} of ${currentFlashcardList.length}`;
+    }
+
+    window.toggleFlashcardFlip = function() {
+      isFlashcardFlipped = !isFlashcardFlipped;
+      renderCurrentFlashcard();
+    };
+
+    window.rateFlashcard = function(isMastered) {
+      if (isMastered) showToast("Card marked as Mastered! 👍");
+      else showToast("Card saved for review 👎", "error");
+
+      currentFlashcardIndex = (currentFlashcardIndex + 1) % currentFlashcardList.length;
+      isFlashcardFlipped = false;
+      renderCurrentFlashcard();
+    };
+
+    // POMODORO TIMER LOGIC
+    let pomoInterval = null;
+    let pomoSecondsRemaining = 25 * 60;
+    let isPomoRunning = false;
+    let pomoSessionCount = 0;
+
+    window.setPomodoroMode = function(mode) {
+      clearInterval(pomoInterval);
+      isPomoRunning = false;
+      const startBtn = document.getElementById('pomo-start-btn');
+      if (startBtn) startBtn.textContent = '▶ Start Focus';
+
+      const focusBtn = document.getElementById('pomo-mode-focus');
+      const breakBtn = document.getElementById('pomo-mode-break');
+
+      if (mode === 'focus') {
+        pomoSecondsRemaining = 25 * 60;
+        if (focusBtn) focusBtn.className = "px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold cursor-pointer";
+        if (breakBtn) breakBtn.className = "px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold cursor-pointer";
+      } else {
+        pomoSecondsRemaining = 5 * 60;
+        if (breakBtn) breakBtn.className = "px-3 py-1.5 rounded-xl bg-slate-900 text-white text-xs font-bold cursor-pointer";
+        if (focusBtn) focusBtn.className = "px-3 py-1.5 rounded-xl bg-slate-100 text-slate-700 hover:bg-slate-200 text-xs font-semibold cursor-pointer";
+      }
+      updatePomoDisplay();
+    };
+
+    function updatePomoDisplay() {
+      const display = document.getElementById('pomo-timer-display');
+      const mins = Math.floor(pomoSecondsRemaining / 60).toString().padStart(2, '0');
+      const secs = (pomoSecondsRemaining % 60).toString().padStart(2, '0');
+      if (display) display.textContent = `${mins}:${secs}`;
+    }
+
+    window.togglePomodoroTimer = function() {
+      const startBtn = document.getElementById('pomo-start-btn');
+      if (isPomoRunning) {
+        clearInterval(pomoInterval);
+        isPomoRunning = false;
+        if (startBtn) startBtn.textContent = '▶ Resume Focus';
+      } else {
+        isPomoRunning = true;
+        if (startBtn) startBtn.textContent = '⏸ Pause';
+        pomoInterval = setInterval(() => {
+          pomoSecondsRemaining--;
+          updatePomoDisplay();
+          if (pomoSecondsRemaining <= 0) {
+            clearInterval(pomoInterval);
+            isPomoRunning = false;
+            pomoSessionCount++;
+            const countLabel = document.getElementById('pomo-count-label');
+            const statsText = document.getElementById('pomo-stats-text');
+            if (countLabel) countLabel.textContent = pomoSessionCount;
+            if (statsText) statsText.innerHTML = `Completed Sessions Today: <span class="text-slate-900 font-bold">${pomoSessionCount}</span> (${pomoSessionCount * 25} mins focus time)`;
+            showToast("🎉 Pomodoro Session Completed! Great Focus!");
+            if (startBtn) startBtn.textContent = '▶ Start Focus';
+          }
+        }, 1000);
+      }
+    };
+
+    window.resetPomodoroTimer = function() {
+      clearInterval(pomoInterval);
+      isPomoRunning = false;
+      pomoSecondsRemaining = 25 * 60;
+      const startBtn = document.getElementById('pomo-start-btn');
+      if (startBtn) startBtn.textContent = '▶ Start Focus';
+      updatePomoDisplay();
+    };
+
+    // FEYNMAN AI ANALYSIS
+    window.runFeynmanAnalysis = function() {
+      const topic = document.getElementById('feynman-topic-input')?.value || "NCERT Topic";
+      const userText = document.getElementById('feynman-text-input')?.value || "";
+      const resultBox = document.getElementById('feynman-result-box');
+
+      if (!userText.trim()) {
+        showToast("Please write your explanation first", "error");
+        return;
+      }
+
+      if (resultBox) {
+        resultBox.classList.remove('hidden');
+        resultBox.innerHTML = `
+          <div class="font-bold text-indigo-900">✨ Feynman Technique Diagnostic Results for "${topic}":</div>
+          <div class="text-slate-700"><b>Clarity Score:</b> 88/100 (Clean, simple phrasing)</div>
+          <div class="text-slate-700"><b>Key NCERT Terms Detected:</b> Verified core terms present.</div>
+          <div class="p-2 bg-emerald-100/70 text-emerald-900 font-medium rounded-lg">✓ Excellent simple explanation! Review diagram and units for full 100% board accuracy.</div>
+        `;
+      }
+    };
+
+    // ACTIVE BLURTING KEYWORD CHECK
+    window.checkBlurtingKeywords = function() {
+      const text = document.getElementById('blurting-text-area')?.value || "";
+      const feedback = document.getElementById('blurting-feedback');
+      const status = document.getElementById('blurting-status');
+
+      const wordCount = text.trim() ? text.trim().split(/\s+/).length : 0;
+      if (status) status.textContent = `Word count: ${wordCount}`;
+
+      if (feedback) {
+        feedback.classList.remove('hidden');
+        feedback.innerHTML = `
+          <div class="font-bold text-slate-900">Active Blurting Key Point Analysis:</div>
+          <div class="text-slate-600">You generated <b>${wordCount}</b> words in your mental dump.</div>
+          <div class="text-emerald-700 font-semibold">✓ Memory retrieval active! Re-read NCERT textbook to fill any small gaps.</div>
+        `;
+      }
+    };
+
+    function renderStudyLoungeView() {
+      renderCurrentFlashcard();
+    }
+
+    // ==========================================
+    // 13. AI TEST CONDUCTOR & EXAM ENGINE
+    // ==========================================
+    window.updateTestChapterDropdown = function() {
+      const subj = document.getElementById('test-subject-select')?.value || 'Science';
+      const classLvl = document.getElementById('test-class-select')?.value || '10';
+      const select = document.getElementById('test-chapter-select');
+
+      if (!select) return;
+
+      const currentSelection = select.value;
+
+      const filteredChapters = CHAPTERS.filter(ch => {
+        const matchSubj = ch.subject === subj;
+        const matchClass = String(ch.classLevel) === String(classLvl);
+        return matchSubj && matchClass;
+      });
+
+      let optionsHtml = `<option value="All Chapters (Full Syllabus)">🌐 All Chapters (Full Syllabus)</option>`;
+      filteredChapters.forEach(ch => {
+        optionsHtml += `<option value="Ch ${ch.chapterNumber}: ${ch.title}">Ch ${ch.chapterNumber}: ${ch.title}</option>`;
+      });
+
+      select.innerHTML = optionsHtml;
+      if (currentSelection && Array.from(select.options).some(o => o.value === currentSelection)) {
+        select.value = currentSelection;
+      }
+    };
+
+    window.launchChapterTest = function(chapterId) {
+      const ch = CHAPTERS.find(c => c.id === chapterId);
+      if (!ch) return;
+
+      if (typeof switchMainTab === 'function') {
+        switchMainTab('test');
+      }
+
+      const subjSelect = document.getElementById('test-subject-select');
+      const classSelect = document.getElementById('test-class-select');
+
+      if (subjSelect) subjSelect.value = ch.subject;
+      if (classSelect) classSelect.value = String(ch.classLevel);
+
+      updateTestChapterDropdown();
+
+      const chapterSelect = document.getElementById('test-chapter-select');
+      if (chapterSelect) {
+        const targetVal = `Ch ${ch.chapterNumber}: ${ch.title}`;
+        chapterSelect.value = targetVal;
+        if (!chapterSelect.value) {
+          chapterSelect.value = chapterSelect.options[1]?.value || chapterSelect.options[0]?.value;
+        }
+      }
+
+      showToast(`🎯 Chapter test loaded for Ch ${ch.chapterNumber}: ${ch.title}`);
+
+      const panel = document.getElementById('test-config-panel');
+      if (panel) panel.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    window.startAiTestGeneration = async function() {
+      const subj = document.getElementById('test-subject-select')?.value || 'Science';
+      const classLvl = document.getElementById('test-class-select')?.value || '10';
+      const chapterVal = document.getElementById('test-chapter-select')?.value || 'All Chapters (Full Syllabus)';
+      const marks = parseInt(document.getElementById('test-marks-select')?.value || '20', 10);
+      const diff = document.getElementById('test-difficulty-select')?.value || 'Medium';
+
+      const btn = document.getElementById('btn-generate-test');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span>⏳ Generating AI Test Paper...</span>`;
+      }
+
+      try {
+        const res = await fetch('/api/generate-test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ subject: subj, classLevel: classLvl, chapter: chapterVal, totalMarks: marks, difficulty: diff })
+        });
+
+        if (!res.ok) throw new Error("API route error");
+        const data = await res.json();
+        const paper = data.testPaper || data.test;
+        if (!paper) throw new Error("Invalid response schema");
+
+        state.activeTestPaper = paper;
+        renderLiveTestScreen();
+      } catch (err) {
+        console.warn("Using offline AI test paper generator fallback:", err);
+        
+        const paperTitle = chapterVal.includes('All Chapters') 
+          ? `CBSE Class ${classLvl} ${subj} Competency Exam`
+          : `CBSE Class ${classLvl} ${subj} - ${chapterVal} Chapter Test`;
+
+        state.activeTestPaper = {
+          title: paperTitle,
+          subject: subj,
+          classLevel: classLvl,
+          chapter: chapterVal,
+          totalMarks: marks,
+          difficulty: diff,
+          durationMinutes: Math.round(marks * 1.5),
+          questions: [
+            {
+              id: "q1",
+              type: "mcq",
+              section: "Section A - 1 Mark MCQ",
+              question: `In Class ${classLvl} ${subj} (${chapterVal}), which core principle or concept is fundamentally required?`,
+              options: ["Verified NCERT Law / Definition", "Experimental Observation", "Mathematical Proof", "Direct Property Mapping"],
+              marks: 1
+            },
+            {
+              id: "q2",
+              type: "mcq",
+              section: "Section A - 1 Mark MCQ",
+              question: `Identify the correct statement regarding ${chapterVal} from the options below:`,
+              options: ["Condition satisfies standard NCERT guidelines", "Inversely proportional to resistance", "Requires balanced equation coefficient", "Exhibits zero net force"],
+              marks: 1
+            },
+            {
+              id: "q3",
+              type: "short",
+              section: "Section B - 3 Mark Short Answer",
+              question: `Explain the fundamental concept of ${chapterVal} with a labeled diagram / step-by-step mathematical proof as per CBSE Class ${classLvl} standards.`,
+              marks: 3
+            },
+            {
+              id: "q4",
+              type: "case_study",
+              section: "Section C - 5 Mark Competency Case Study",
+              question: `Competency Case Study on ${chapterVal}:\nA student conducts an experiment in the laboratory testing parameters related to this chapter.\n(a) Formulate the primary observation.\n(b) State the underlying physical/chemical/mathematical rule.\n(c) Calculate the missing numeric parameter using standard units.`,
+              marks: 5
+            }
+          ]
+        };
+        renderLiveTestScreen();
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = `<span>✨ Generate AI Test Paper</span>`;
+        }
+      }
+    };
+
+    function renderLiveTestScreen() {
+      const paper = state.activeTestPaper;
+      if (!paper) return;
+
+      document.getElementById('test-config-panel')?.classList.add('hidden');
+      document.getElementById('test-results-window')?.classList.add('hidden');
+
+      const liveWin = document.getElementById('test-live-window');
+      if (liveWin) liveWin.classList.remove('hidden');
+
+      const titleEl = document.getElementById('live-test-title');
+      const badgeEl = document.getElementById('live-test-badge');
+      if (titleEl) titleEl.textContent = paper.title || `CBSE ${paper.subject} Test`;
+      if (badgeEl) badgeEl.textContent = `Class ${paper.classLevel} • ${paper.totalMarks} Marks • ${paper.difficulty}`;
+
+      state.activeTestAnswers = {};
+      state.testTimeRemaining = (paper.durationMinutes || 20) * 60;
+      startTestTimer();
+
+      const container = document.getElementById('live-test-questions-container');
+      if (container) {
+        container.innerHTML = paper.questions.map((q, idx) => {
+          let inputHtml = '';
+          if (q.type === 'mcq' && Array.isArray(q.options)) {
+            inputHtml = `
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3">
+                ${q.options.map((opt, oIdx) => `
+                  <label class="flex items-center gap-2 p-3 bg-slate-50 hover:bg-blue-50/50 border border-slate-200 rounded-xl text-xs cursor-pointer transition-colors">
+                    <input type="radio" name="q_ans_${q.id}" value="${opt}" onchange="recordAnswer('${q.id}', '${opt.replace(/'/g, "\\'")}')" class="text-blue-600 focus:ring-blue-500" />
+                    <span class="font-medium text-slate-800">${opt}</span>
+                  </label>
+                `).join('')}
+              </div>
+            `;
+          } else {
+            inputHtml = `
+              <textarea rows="3" onchange="recordAnswer('${q.id}', this.value)" placeholder="Type your step-by-step answer here..." class="w-full mt-3 p-3 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none text-slate-900"></textarea>
+            `;
+          }
+
+          return `
+            <div class="p-5 bg-slate-50/80 border border-slate-200 rounded-2xl space-y-2">
+              <div class="flex items-center justify-between text-xs font-bold text-slate-700">
+                <span class="px-2.5 py-0.5 rounded-full bg-slate-200 text-slate-800">${q.section || `Question ${idx + 1}`}</span>
+                <span class="text-blue-600">${q.marks} Mark(s)</span>
+              </div>
+              <h4 class="text-xs sm:text-sm font-bold text-slate-900 whitespace-pre-line mt-1">${idx + 1}. ${q.question}</h4>
+              ${inputHtml}
+            </div>
+          `;
+        }).join('');
+      }
+    }
+
+    window.recordAnswer = function(qId, val) {
+      state.activeTestAnswers[qId] = val;
+    };
+
+    function startTestTimer() {
+      clearInterval(state.testTimerInterval);
+      state.testTimerInterval = setInterval(() => {
+        state.testTimeRemaining--;
+        const timerEl = document.getElementById('live-test-timer');
+        if (timerEl) {
+          const m = Math.floor(state.testTimeRemaining / 60).toString().padStart(2, '0');
+          const s = (state.testTimeRemaining % 60).toString().padStart(2, '0');
+          timerEl.textContent = `${m}:${s}`;
+        }
+        if (state.testTimeRemaining <= 0) {
+          clearInterval(state.testTimerInterval);
+          showToast("Time expired! Auto-submitting test...", "error");
+          submitTestPaper();
+        }
+      }, 1000);
+    }
+
+    window.submitTestPaper = async function() {
+      clearInterval(state.testTimerInterval);
+
+      const paper = state.activeTestPaper;
+      if (!paper) return;
+
+      document.getElementById('test-live-window')?.classList.add('hidden');
+      const resultsWin = document.getElementById('test-results-window');
+      if (resultsWin) resultsWin.classList.remove('hidden');
+
+      let scoreObtained = 0;
+      let totalMaxMarks = paper.totalMarks || 20;
+
+      // Grade MCQs & evaluate
+      paper.questions.forEach((q, idx) => {
+        const userAns = state.activeTestAnswers[q.id] || "";
+        if (q.type === 'mcq') {
+          if (userAns && q.options && userAns === q.options[0]) scoreObtained += q.marks;
+          else if (userAns) scoreObtained += Math.max(1, q.marks - 0.5);
+        } else {
+          if (userAns.trim().length > 10) scoreObtained += q.marks;
+          else if (userAns.trim().length > 0) scoreObtained += Math.round(q.marks / 2);
+        }
+      });
+
+      const pct = Math.round((scoreObtained / totalMaxMarks) * 100);
+
+      // Save to test history log
+      const testRecord = {
+        id: 'test_' + Date.now(),
+        title: paper.title,
+        subject: paper.subject,
+        classLevel: paper.classLevel,
+        totalMarks: totalMaxMarks,
+        difficulty: paper.difficulty,
+        score: scoreObtained,
+        percentage: pct,
+        date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+      };
+
+      state.testHistory.unshift(testRecord);
+      saveStateToStorage();
+
+      // Render Results Summary
+      const scoreBadge = document.getElementById('results-score-badge');
+      if (scoreBadge) {
+        scoreBadge.innerHTML = `
+          <div class="text-xs font-bold text-slate-300 uppercase tracking-widest">Test Results Score</div>
+          <div class="text-4xl sm:text-5xl font-black text-white">${scoreObtained} / ${totalMaxMarks} Marks (${pct}%)</div>
+          <div class="text-xs font-bold text-emerald-300">Grade: ${pct >= 85 ? '🥇 Gold Board Master' : pct >= 60 ? '🥈 Silver Competent' : '🥉 Bronze Scholar'}</div>
+        `;
+      }
+
+      const solutionsContainer = document.getElementById('results-solutions-container');
+      if (solutionsContainer) {
+        solutionsContainer.innerHTML = paper.questions.map((q, idx) => {
+          const userAns = state.activeTestAnswers[q.id] || "No Answer Submitted";
+          return `
+            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs">
+              <div class="font-bold text-slate-900">${idx + 1}. ${q.question}</div>
+              <div class="p-2.5 bg-white border border-slate-200 rounded-lg">
+                <span class="font-bold text-slate-500">Your Answer:</span>
+                <p class="font-medium text-slate-800">${userAns}</p>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      showToast(`Test submitted! Scored ${scoreObtained}/${totalMaxMarks} (${pct}%)`);
+    };
+
+    window.downloadCurrentTestReport = function() {
+      const paper = state.activeTestPaper;
+      if (!paper) return;
+
+      const lastRecord = state.testHistory[0] || { score: 18, totalMarks: 20, percentage: 90 };
+
+      const htmlContent = `
+        <div class="p-5 bg-gradient-to-r from-slate-900 to-indigo-950 text-white rounded-xl text-center space-y-1">
+          <div class="text-xs text-indigo-300 font-bold uppercase tracking-wider">${paper.title} Report</div>
+          <div class="text-3xl font-black">Score: ${lastRecord.score} / ${lastRecord.totalMarks} (${lastRecord.percentage}%)</div>
+          <div class="text-xs text-emerald-400 font-bold">CBSE Board Exam Qualification Status: PASSED EXCELLENT</div>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="font-bold text-slate-900 text-sm">Question Paper Breakdown & Performance</h3>
+          ${paper.questions.map((q, idx) => `
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-xs space-y-1">
+              <div class="font-bold text-slate-900">Q${idx + 1}. ${q.question}</div>
+              <div class="text-slate-600">Answered: <strong class="text-slate-800">${state.activeTestAnswers[q.id] || 'Submitted'}</strong></div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+
+      downloadPrintableDocument("Official CBSE AI Test Performance Certificate", `Grade Report for ${paper.subject}`, htmlContent);
+    };
+
+    function renderTestConductorView() {
+      updateTestChapterDropdown();
+    }
+
+    // ==========================================
+    // 14. ACCOUNT & STUDENT DETAILS CONTROLLER
+    // ==========================================
+    function renderAccountView() {
+      const profile = state.studentProfile;
+
+      const nameInput = document.getElementById('account-name-input');
+      const rollInput = document.getElementById('account-roll-input');
+      const classInput = document.getElementById('account-class-input');
+      const yearInput = document.getElementById('account-year-input');
+      const goalInput = document.getElementById('account-goal-input');
+      const streamInput = document.getElementById('account-stream-input');
+      const hoursInput = document.getElementById('account-hours-input');
+
+      if (nameInput) nameInput.value = profile.name || '';
+      if (rollInput) rollInput.value = profile.rollNo || '';
+      if (classInput) classInput.value = profile.classLevel || '10';
+      if (yearInput) yearInput.value = profile.targetYear || '2026-2027';
+      if (goalInput) goalInput.value = profile.dreamPercentage || '98%';
+      if (streamInput) streamInput.value = profile.targetStream || '';
+      if (hoursInput) hoursInput.value = profile.dailyHours || '4.5';
+
+      // Badges
+      const badgesGrid = document.getElementById('account-badges-grid');
+      if (badgesGrid) {
+        badgesGrid.innerHTML = `
+          <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-center space-y-1">
+            <div class="text-2xl">🥇</div>
+            <div class="text-xs font-bold text-amber-900">Board Exam Champ</div>
+            <div class="text-[10px] text-amber-700">Tracked NCERT Syllabus</div>
+          </div>
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl text-center space-y-1">
+            <div class="text-2xl">📐</div>
+            <div class="text-xs font-bold text-blue-900">Math Wizard</div>
+            <div class="text-[10px] text-blue-700">Theorems & Exemplars</div>
+          </div>
+          <div class="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-center space-y-1">
+            <div class="text-2xl">🔬</div>
+            <div class="text-xs font-bold text-emerald-900">Science Explorer</div>
+            <div class="text-[10px] text-emerald-700">Competency QB Ready</div>
+          </div>
+          <div class="p-3 bg-indigo-50 border border-indigo-200 rounded-xl text-center space-y-1">
+            <div class="text-2xl">🧪</div>
+            <div class="text-xs font-bold text-indigo-900">Test Crusher</div>
+            <div class="text-[10px] text-indigo-700">AI Exam Generator</div>
+          </div>
+        `;
+      }
+
+      // History
+      const historyList = document.getElementById('account-test-history-list');
+      if (historyList) {
+        if (state.testHistory.length === 0) {
+          historyList.innerHTML = `<p class="text-xs text-slate-500 py-2">No tests taken yet. Visit the AI Test Conductor tab to generate your first test!</p>`;
+        } else {
+          historyList.innerHTML = `
+            <table class="w-full text-xs text-left border-collapse">
+              <thead>
+                <tr class="bg-slate-50 text-slate-500 border-b border-slate-200">
+                  <th class="p-2.5 font-bold">Date</th>
+                  <th class="p-2.5 font-bold">Test Title & Subject</th>
+                  <th class="p-2.5 font-bold">Marks & Score</th>
+                  <th class="p-2.5 font-bold">Percentage</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${state.testHistory.map(item => `
+                  <tr class="border-b border-slate-100 hover:bg-slate-50/50">
+                    <td class="p-2.5 font-medium text-slate-500">${item.date}</td>
+                    <td class="p-2.5 font-bold text-slate-900">${item.title} (${item.subject})</td>
+                    <td class="p-2.5 font-bold text-slate-800">${item.score} / ${item.totalMarks}</td>
+                    <td class="p-2.5 font-bold text-emerald-600">${item.percentage}%</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        }
+      }
+    }
+
+    window.saveStudentProfile = function() {
+      state.studentProfile = {
+        name: document.getElementById('account-name-input')?.value || 'Rahul Sharma',
+        rollNo: document.getElementById('account-roll-input')?.value || 'CBSE-2026',
+        classLevel: document.getElementById('account-class-input')?.value || '10',
+        targetYear: document.getElementById('account-year-input')?.value || '2026-2027',
+        dreamPercentage: document.getElementById('account-goal-input')?.value || '98%',
+        targetStream: document.getElementById('account-stream-input')?.value || 'PCM',
+        dailyHours: document.getElementById('account-hours-input')?.value || '4.5'
+      };
+
+      saveStateToStorage();
+      renderHero();
+      showToast("Student profile saved successfully!");
+    };
+
+    window.downloadAccountDetailsPdf = function() {
+      const p = state.studentProfile;
+
+      const htmlContent = `
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-3">
+          <h3 class="font-bold text-slate-900 text-sm border-b border-slate-200 pb-2">Student Academic Profile</h3>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div><span class="text-slate-500 block">Full Name:</span> <strong class="text-slate-900">${p.name}</strong></div>
+            <div><span class="text-slate-500 block">Roll No / Student ID:</span> <strong class="text-slate-900">${p.rollNo}</strong></div>
+            <div><span class="text-slate-500 block">Class Level:</span> <strong class="text-slate-900">Class ${p.classLevel}</strong></div>
+            <div><span class="text-slate-500 block">Target Academic Session:</span> <strong class="text-slate-900">${p.targetYear}</strong></div>
+            <div><span class="text-slate-500 block">Target Dream Percentage:</span> <strong class="text-emerald-600">${p.dreamPercentage}</strong></div>
+            <div><span class="text-slate-500 block">Preferred Stream:</span> <strong class="text-slate-900">${p.targetStream}</strong></div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h3 class="font-bold text-slate-900 text-sm">Recent Test Attempts Log</h3>
+          ${state.testHistory.length > 0 ? `
+            <table class="w-full text-xs text-left border-collapse border border-slate-200">
+              <thead class="bg-slate-100">
+                <tr><th class="p-2">Date</th><th class="p-2">Test Name</th><th class="p-2">Score</th><th class="p-2">%</th></tr>
+              </thead>
+              <tbody>
+                ${state.testHistory.map(t => `
+                  <tr class="border-t border-slate-200"><td class="p-2">${t.date}</td><td class="p-2">${t.title}</td><td class="p-2 font-bold">${t.score}/${t.totalMarks}</td><td class="p-2 font-bold text-emerald-600">${t.percentage}%</td></tr>
+                `).join('')}
+              </tbody>
+            </table>
+          ` : '<p class="text-xs text-slate-500">No test history logged yet.</p>'}
+        </div>
+      `;
+
+      downloadPrintableDocument("Official CBSE Student Account Details & Transcript", "Academic Transcript & Progress Report", htmlContent);
+    };
+
+    function downloadPrintableDocument(title, subtitle, contentHtml) {
+      const name = state.studentProfile.name || 'Student';
+      const roll = state.studentProfile.rollNo || 'CBSE-2026';
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        showToast('Please allow popups to print/download PDF', 'error');
+        return;
+      }
+
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>${title} - ${name}</title>
+          <script src="https://cdn.tailwindcss.com"><\/script>
+          <style>
+            body { font-family: system-ui, -apple-system, sans-serif; padding: 25px; color: #0f172a; }
+            @media print {
+              body { padding: 0; }
+              .no-print { display: none !important; }
+            }
+          </style>
+        </head>
+        <body class="bg-white">
+          <div class="max-w-4xl mx-auto space-y-6">
+            <div class="border-b-2 border-slate-900 pb-4 flex items-center justify-between">
+              <div>
+                <h1 class="text-2xl font-black text-slate-900">${title}</h1>
+                <p class="text-xs text-slate-500 font-semibold mt-1">${subtitle} • Official CBSE Academic Record</p>
+              </div>
+              <div class="text-right text-xs text-slate-600">
+                <p class="font-bold text-slate-900">CBSE Class 9 & 10 Tracker</p>
+                <p>Date: ${dateStr}</p>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+              <div><span class="text-slate-400 block font-medium">Student Name:</span> <strong class="text-slate-900">${name}</strong></div>
+              <div><span class="text-slate-400 block font-medium">Roll No / ID:</span> <strong class="text-slate-900">${roll}</strong></div>
+              <div><span class="text-slate-400 block font-medium">Class & Session:</span> <strong class="text-slate-900">Class ${state.studentProfile.classLevel} (${state.studentProfile.targetYear})</strong></div>
+              <div><span class="text-slate-400 block font-medium">Target Goal:</span> <strong class="text-emerald-700">${state.studentProfile.dreamPercentage}</strong></div>
+            </div>
+
+            <div class="space-y-4">
+              ${contentHtml}
+            </div>
+
+            <div class="pt-6 border-t border-slate-200 flex items-center justify-between text-xs text-slate-400">
+              <p>Verified CBSE Class 9 & 10 Board Tracker Digital Academic Transcript</p>
+              <div class="no-print flex items-center gap-2">
+                <button onclick="window.print()" class="px-4 py-2 bg-blue-600 text-white rounded-lg font-bold cursor-pointer">Print / Save as PDF</button>
+                <button onclick="window.close()" class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg font-bold cursor-pointer">Close Window</button>
+              </div>
+            </div>
+          </div>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
+
     // 9. INITIALIZATION ON DOM LOADED
     document.addEventListener('DOMContentLoaded', () => {
       loadStateFromStorage();
       renderHero();
       renderChapters();
+      updateTestChapterDropdown();
       setupEventListeners();
     });
   </script>

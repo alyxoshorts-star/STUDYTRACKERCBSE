@@ -96,26 +96,42 @@ Requirements:
         return res.json({ success: false, reason: "NO_API_KEY" });
       }
 
-      const prompt = `Grade the student's submission for this test:
-Test Title: ${test.testTitle}
-Questions and Student Answers: ${JSON.stringify({ questions: test.questions, userAnswers })}
+      const prompt = `You are a strict, fair CBSE Board Exam Examiner grading a student's test submission.
+Test Title: ${test.title || test.testTitle || 'CBSE Exam'}
+Subject: ${test.subject || 'General'}
+Class: ${test.classLevel || '10'}
+Questions & Student Submissions:
+${JSON.stringify({ questions: test.questions, userAnswers }, null, 2)}
 
-Provide a evaluation summary in JSON format:
+STRICT GRADING RULES:
+1. For MCQ questions: Compare the student's submitted answer ("userAnswers[questionId]") with the question's "correctAnswer".
+   - If the student's answer matches the correct answer: award full marks (scoreObtained = maxMarks).
+   - If the student's answer is incorrect, wrong, or blank: award 0 marks (scoreObtained = 0). DO NOT award partial marks for incorrect MCQ choices.
+2. For Short Answer / Case Study questions:
+   - Evaluate accuracy against CBSE NCERT standard criteria and sample solution.
+   - If the answer is completely incorrect, wrong, unattempted, or irrelevant: award 0 marks (scoreObtained = 0).
+   - If partially correct with some missing NCERT keywords: award partial marks proportional to accuracy.
+   - If complete and accurate: award full marks.
+
+Return strictly valid JSON matching this schema:
 {
   "evaluations": [
     {
       "questionId": "q1",
+      "isCorrect": true,
       "scoreObtained": 1,
       "maxMarks": 1,
-      "feedback": "Specific feedback for answer"
+      "userAnswer": "Option selected or typed text",
+      "correctAnswer": "Correct answer / model answer",
+      "feedback": "Clear explanation of why marks were awarded or deducted"
     }
   ],
-  "totalScore": 18,
+  "totalScore": 15,
   "maxScore": 20,
-  "overallFeedback": "Encouraging summary of performance",
-  "strengths": ["List of strong topics"],
-  "weaknesses": ["Topics needing revision"],
-  "studyTips": ["Actionable revision advice"]
+  "overallFeedback": "Constructive, realistic evaluation highlighting areas to fix",
+  "strengths": ["Topics answered correctly"],
+  "weaknesses": ["Topics/questions answered incorrectly"],
+  "studyTips": ["Actionable study advice based on missed questions"]
 }`;
 
       const response = await ai.models.generateContent({

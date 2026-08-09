@@ -862,6 +862,10 @@
             <input type="text" id="account-name-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
           </div>
           <div>
+            <label class="block font-bold text-slate-700 mb-1">Unique Username (@username):</label>
+            <input type="text" id="account-username-input" placeholder="e.g. priya_2026" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900 font-mono text-xs" />
+          </div>
+          <div>
             <label class="block font-bold text-slate-700 mb-1">Roll No / Student ID:</label>
             <input type="text" id="account-roll-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
           </div>
@@ -888,9 +892,9 @@
             <label class="block font-bold text-slate-700 mb-1">Daily Study Target (Hours):</label>
             <input type="text" id="account-hours-input" class="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none font-semibold text-slate-900" />
           </div>
-          <div class="flex items-end">
-            <button type="button" onclick="saveStudentProfile()" class="w-full py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs transition-all cursor-pointer">
-              Save Profile Details
+          <div class="flex items-end sm:col-span-2 lg:col-span-4">
+            <button type="button" onclick="saveStudentProfile()" class="w-full sm:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-xs transition-all cursor-pointer">
+              Save Profile Details & Username
             </button>
           </div>
         </div>
@@ -1399,9 +1403,64 @@
         console.warn('Error reading appUsers from localStorage:', err);
       }
 
-      // Default empty users DB if none exists
-      if (!Array.isArray(appUsers)) {
-        appUsers = [];
+      // Seed default accounts with distinct unique usernames if none exist
+      if (!Array.isArray(appUsers) || appUsers.length === 0) {
+        appUsers = [
+          {
+            id: 'usr_1001',
+            username: 'rahul_2026',
+            password: 'password123',
+            name: 'Rahul Sharma',
+            rollNo: 'CBSE-2026-1082',
+            classLevel: '10',
+            targetYear: '2026-2027',
+            dreamPercentage: '98%',
+            targetStream: 'Science & Maths',
+            dailyHours: '4.5',
+            tasks: {},
+            notes: '',
+            testHistory: []
+          },
+          {
+            id: 'usr_1002',
+            username: 'priya_2026',
+            password: 'password123',
+            name: 'Priya Verma',
+            rollNo: 'CBSE-2026-1090',
+            classLevel: '10',
+            targetYear: '2026-2027',
+            dreamPercentage: '95%',
+            targetStream: 'Science & Maths',
+            dailyHours: '4.0',
+            tasks: {},
+            notes: '',
+            testHistory: []
+          }
+        ];
+        try {
+          localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(appUsers));
+        } catch(e) {}
+      } else {
+        // Guarantee unique usernames across all existing stored accounts
+        const seen = new Set();
+        let modified = false;
+        appUsers.forEach((u, i) => {
+          let baseU = (u.username || `student_${i + 1}`).trim().toLowerCase();
+          let cand = baseU;
+          let counter = 1;
+          while (seen.has(cand)) {
+            cand = `${baseU}_${counter}`;
+            counter++;
+            modified = true;
+          }
+          u.username = cand;
+          seen.add(cand);
+        });
+        if (modified) {
+          try {
+            localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(appUsers));
+          } catch(e) {}
+        }
       }
 
       // 2. Read active user ID
@@ -1412,6 +1471,7 @@
         // Bind active user account data to global state
         state.studentProfile = {
           name: activeUser.name || 'Student',
+          username: activeUser.username || '',
           rollNo: activeUser.rollNo || 'CBSE-2026-1001',
           classLevel: activeUser.classLevel || '10',
           targetYear: activeUser.targetYear || '2026-2027',
@@ -1427,7 +1487,8 @@
         activeUserId = null;
         state.studentProfile = {
           name: 'Guest Student',
-          rollNo: 'Not Logged In',
+          username: 'guest',
+          rollNo: 'N/A',
           classLevel: '10',
           targetYear: '2026-2027',
           dreamPercentage: '95%',
@@ -3575,27 +3636,109 @@
       const resultsWin = document.getElementById('test-results-window');
       if (resultsWin) resultsWin.classList.remove('hidden');
 
+      const scoreBadge = document.getElementById('results-score-badge');
+      const solutionsContainer = document.getElementById('results-solutions-container');
+
+      if (scoreBadge) {
+        scoreBadge.innerHTML = `
+          <div class="flex items-center justify-center gap-3 py-4 text-white">
+            <span class="animate-spin text-2xl">⏳</span>
+            <span class="font-bold text-sm">AI Board Examiner is strictly evaluating your answer script against NCERT marking scheme...</span>
+          </div>
+        `;
+      }
+      if (solutionsContainer) {
+        solutionsContainer.innerHTML = `<div class="p-8 text-center text-slate-500 font-medium">Evaluating answers...</div>`;
+      }
+
+      let evaluations = [];
       let scoreObtained = 0;
       let totalMaxMarks = paper.totalMarks || 20;
+      let overallFeedback = "";
+      let strengths = [];
+      let weaknesses = [];
+      let studyTips = [];
 
-      // Grade MCQs & evaluate
-      paper.questions.forEach((q, idx) => {
-        const userAns = state.activeTestAnswers[q.id] || "";
-        if (q.type === 'mcq') {
-          if (userAns && q.options && userAns === q.options[0]) scoreObtained += q.marks;
-          else if (userAns) scoreObtained += Math.max(1, q.marks - 0.5);
+      try {
+        const res = await fetch('/api/grade-test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ test: paper, userAnswers: state.activeTestAnswers })
+        });
+
+        if (!res.ok) throw new Error("Grading API error");
+        const data = await res.json();
+        if (data.success && data.result) {
+          const resObj = data.result;
+          evaluations = resObj.evaluations || [];
+          scoreObtained = typeof resObj.totalScore === 'number' ? resObj.totalScore : 0;
+          totalMaxMarks = resObj.maxScore || totalMaxMarks;
+          overallFeedback = resObj.overallFeedback || "";
+          strengths = resObj.strengths || [];
+          weaknesses = resObj.weaknesses || [];
+          studyTips = resObj.studyTips || [];
         } else {
-          if (userAns.trim().length > 10) scoreObtained += q.marks;
-          else if (userAns.trim().length > 0) scoreObtained += Math.round(q.marks / 2);
+          throw new Error("Invalid grading payload");
         }
-      });
+      } catch (err) {
+        console.warn("AI Grading fallback engaged:", err);
+        // Fallback strict offline evaluation
+        evaluations = [];
+        scoreObtained = 0;
 
+        paper.questions.forEach((q) => {
+          const userAns = (state.activeTestAnswers[q.id] || "").trim();
+          const qMarks = q.marks || 1;
+          let earned = 0;
+          let isCorr = false;
+          let correctAnsText = q.correctAnswer || q.sampleAnswer || (q.options ? q.options[0] : "Refer NCERT textbook");
+
+          if (q.type === 'mcq') {
+            const userNorm = userAns.toLowerCase();
+            const corrNorm = (q.correctAnswer || "").toLowerCase();
+            // Strict match required for MCQs
+            if (userAns && corrNorm && userNorm === corrNorm) {
+              earned = qMarks;
+              isCorr = true;
+            } else {
+              earned = 0; // Strictly ZERO for wrong MCQ
+              isCorr = false;
+            }
+          } else {
+            // Subjective / Short
+            if (userAns.length >= 15) {
+              earned = Math.round(qMarks * 0.8);
+              isCorr = earned === qMarks;
+            } else if (userAns.length >= 5) {
+              earned = Math.round(qMarks * 0.4);
+              isCorr = false;
+            } else {
+              earned = 0; // Blank or too short
+              isCorr = false;
+            }
+          }
+
+          scoreObtained += earned;
+          evaluations.push({
+            questionId: q.id,
+            isCorrect: isCorr,
+            scoreObtained: earned,
+            maxMarks: qMarks,
+            userAnswer: userAns || "No Answer Submitted",
+            correctAnswer: correctAnsText,
+            feedback: isCorr ? "✓ Accurate answer aligned with NCERT standards." : "❌ Incorrect or incomplete. Review correct solution below."
+          });
+        });
+      }
+
+      // Ensure totalScore doesn't exceed totalMaxMarks and isn't negative
+      scoreObtained = Math.max(0, Math.min(totalMaxMarks, scoreObtained));
       const pct = Math.round((scoreObtained / totalMaxMarks) * 100);
 
       // Save to test history log
       const testRecord = {
         id: 'test_' + Date.now(),
-        title: paper.title,
+        title: paper.title || `Class ${paper.classLevel} ${paper.subject} Test`,
         subject: paper.subject,
         classLevel: paper.classLevel,
         totalMarks: totalMaxMarks,
@@ -3608,33 +3751,89 @@
       state.testHistory.unshift(testRecord);
       saveStateToStorage();
 
-      // Render Results Summary
-      const scoreBadge = document.getElementById('results-score-badge');
+      // Render Score Badge Header
       if (scoreBadge) {
+        let statusTag = pct >= 85 ? '🥇 Gold Board Master' : pct >= 60 ? '🥈 Silver Competent' : '🥉 Requires Revision';
+        let badgeBg = pct >= 75 ? 'from-emerald-900 to-indigo-950' : pct >= 40 ? 'from-amber-950 to-indigo-950' : 'from-rose-950 to-indigo-950';
+
+        scoreBadge.className = `p-6 rounded-2xl bg-gradient-to-r ${badgeBg} text-white space-y-2 shadow-lg border border-white/10`;
         scoreBadge.innerHTML = `
-          <div class="text-xs font-bold text-slate-300 uppercase tracking-widest">Test Results Score</div>
-          <div class="text-4xl sm:text-5xl font-black text-white">${scoreObtained} / ${totalMaxMarks} Marks (${pct}%)</div>
-          <div class="text-xs font-bold text-emerald-300">Grade: ${pct >= 85 ? '🥇 Gold Board Master' : pct >= 60 ? '🥈 Silver Competent' : '🥉 Bronze Scholar'}</div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="text-xs font-bold text-slate-300 uppercase tracking-widest">Test Evaluation Result</div>
+              <div class="text-3xl sm:text-5xl font-black text-white mt-1">${scoreObtained} / ${totalMaxMarks} Marks <span class="text-2xl font-bold opacity-80">(${pct}%)</span></div>
+            </div>
+            <div class="px-4 py-2 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 text-center">
+              <span class="text-xs font-bold text-slate-200 block">Performance Tier</span>
+              <span class="text-sm font-extrabold text-amber-300">${statusTag}</span>
+            </div>
+          </div>
+          ${overallFeedback ? `<p class="text-xs text-slate-200 mt-2 font-medium bg-black/20 p-3 rounded-xl border border-white/10"><b>AI Examiner Feedback:</b> ${overallFeedback}</p>` : ''}
         `;
       }
 
-      const solutionsContainer = document.getElementById('results-solutions-container');
+      // Render Itemized Question Solutions & Evaluations
       if (solutionsContainer) {
         solutionsContainer.innerHTML = paper.questions.map((q, idx) => {
-          const userAns = state.activeTestAnswers[q.id] || "No Answer Submitted";
+          const evalItem = evaluations.find(e => e.questionId === q.id) || evaluations[idx] || {};
+          const userAns = evalItem.userAnswer || state.activeTestAnswers[q.id] || "No Answer Submitted";
+          const correctAns = evalItem.correctAnswer || q.correctAnswer || q.sampleAnswer || (q.options ? q.options[0] : "Refer NCERT solution");
+          const marksAwarded = typeof evalItem.scoreObtained === 'number' ? evalItem.scoreObtained : 0;
+          const maxQMarks = evalItem.maxMarks || q.marks || 1;
+
+          const isFull = marksAwarded === maxQMarks;
+          const isZero = marksAwarded === 0;
+
+          const borderClass = isFull 
+            ? 'border-emerald-300 bg-emerald-50/40' 
+            : isZero 
+              ? 'border-rose-300 bg-rose-50/40' 
+              : 'border-amber-300 bg-amber-50/40';
+
+          const badgeClass = isFull 
+            ? 'bg-emerald-600 text-white' 
+            : isZero 
+              ? 'bg-rose-600 text-white' 
+              : 'bg-amber-600 text-white';
+
+          const badgeLabel = isFull ? '✓ Correct' : isZero ? '❌ Incorrect (0 Marks)' : '⚠️ Partial Credit';
+
           return `
-            <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2 text-xs">
-              <div class="font-bold text-slate-900">${idx + 1}. ${q.question}</div>
-              <div class="p-2.5 bg-white border border-slate-200 rounded-lg">
-                <span class="font-bold text-slate-500">Your Answer:</span>
-                <p class="font-medium text-slate-800">${userAns}</p>
+            <div class="p-4 sm:p-5 bg-white border ${borderClass} rounded-2xl space-y-3 shadow-2xs">
+              <div class="flex items-center justify-between border-b border-slate-200/80 pb-2.5">
+                <span class="font-bold text-slate-900 text-xs sm:text-sm">Q${idx + 1}. ${q.section || 'Question'}</span>
+                <div class="flex items-center gap-2">
+                  <span class="px-2.5 py-1 rounded-full text-xs font-bold ${badgeClass}">${badgeLabel}</span>
+                  <span class="text-xs font-extrabold text-slate-700">${marksAwarded} / ${maxQMarks} Mark(s)</span>
+                </div>
               </div>
+
+              <div class="font-semibold text-slate-900 text-xs sm:text-sm leading-relaxed">${q.question}</div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="p-3 ${isZero ? 'bg-rose-100/60 border-rose-200 text-rose-950' : isFull ? 'bg-emerald-100/60 border-emerald-200 text-emerald-950' : 'bg-amber-100/60 border-amber-200 text-amber-950'} border rounded-xl space-y-1">
+                  <strong class="block font-bold">Your Submitted Answer:</strong>
+                  <p class="font-medium whitespace-pre-line">${userAns}</p>
+                </div>
+
+                <div class="p-3 bg-blue-50/80 border border-blue-200 text-blue-950 rounded-xl space-y-1">
+                  <strong class="block font-bold text-indigo-950">✓ Correct NCERT / Board Solution:</strong>
+                  <p class="font-medium whitespace-pre-line text-indigo-900">${correctAns}</p>
+                </div>
+              </div>
+
+              ${evalItem.feedback ? `
+                <div class="p-3 bg-slate-100/80 border border-slate-200 rounded-xl text-xs text-slate-800 space-y-0.5">
+                  <strong class="font-bold text-slate-900 block">💡 Examiner Feedback & Marking Scheme Note:</strong>
+                  <p class="font-medium">${evalItem.feedback}</p>
+                </div>
+              ` : ''}
             </div>
           `;
         }).join('');
       }
 
-      showToast(`Test submitted! Scored ${scoreObtained}/${totalMaxMarks} (${pct}%)`);
+      showToast(`Test evaluated! Scored ${scoreObtained}/${totalMaxMarks} (${pct}%)`);
     };
 
     window.downloadCurrentTestReport = function() {
@@ -3676,6 +3875,7 @@
       const profile = state.studentProfile;
 
       const nameInput = document.getElementById('account-name-input');
+      const usernameInput = document.getElementById('account-username-input');
       const rollInput = document.getElementById('account-roll-input');
       const classInput = document.getElementById('account-class-input');
       const yearInput = document.getElementById('account-year-input');
@@ -3684,6 +3884,7 @@
       const hoursInput = document.getElementById('account-hours-input');
 
       if (nameInput) nameInput.value = profile.name || '';
+      if (usernameInput) usernameInput.value = profile.username || '';
       if (rollInput) rollInput.value = profile.rollNo || '';
       if (classInput) classInput.value = profile.classLevel || '10';
       if (yearInput) yearInput.value = profile.targetYear || '2026-2027';
@@ -3751,19 +3952,56 @@
     }
 
     window.saveStudentProfile = function() {
+      const activeUser = appUsers.find(u => u.id === activeUserId);
+      if (!activeUser) {
+        showToast("Please log in or sign up first to edit profile details", "error");
+        return;
+      }
+
+      const nameVal = document.getElementById('account-name-input')?.value.trim() || activeUser.name || 'Student';
+      const usernameVal = document.getElementById('account-username-input')?.value.trim().toLowerCase() || activeUser.username;
+      const rollVal = document.getElementById('account-roll-input')?.value.trim() || activeUser.rollNo || 'CBSE-2026';
+      const classVal = document.getElementById('account-class-input')?.value || activeUser.classLevel || '10';
+      const yearVal = document.getElementById('account-year-input')?.value.trim() || activeUser.targetYear || '2026-2027';
+      const goalVal = document.getElementById('account-goal-input')?.value.trim() || activeUser.dreamPercentage || '95%';
+      const streamVal = document.getElementById('account-stream-input')?.value.trim() || activeUser.targetStream || 'Science & Maths';
+      const hoursVal = document.getElementById('account-hours-input')?.value.trim() || activeUser.dailyHours || '4.0';
+
+      if (!usernameVal || usernameVal.length < 3) {
+        showToast("Username must be at least 3 characters long", "error");
+        return;
+      }
+
+      // Ensure username is unique across all other accounts
+      const duplicateUser = appUsers.find(u => u.id !== activeUserId && u.username.toLowerCase() === usernameVal);
+      if (duplicateUser) {
+        showToast(`Username '${usernameVal}' is already taken by ${duplicateUser.name}. Please enter a unique username!`, "error");
+        return;
+      }
+
+      activeUser.name = nameVal;
+      activeUser.username = usernameVal;
+      activeUser.rollNo = rollVal;
+      activeUser.classLevel = classVal;
+      activeUser.targetYear = yearVal;
+      activeUser.dreamPercentage = goalVal;
+      activeUser.targetStream = streamVal;
+      activeUser.dailyHours = hoursVal;
+
       state.studentProfile = {
-        name: document.getElementById('account-name-input')?.value || 'Rahul Sharma',
-        rollNo: document.getElementById('account-roll-input')?.value || 'CBSE-2026',
-        classLevel: document.getElementById('account-class-input')?.value || '10',
-        targetYear: document.getElementById('account-year-input')?.value || '2026-2027',
-        dreamPercentage: document.getElementById('account-goal-input')?.value || '98%',
-        targetStream: document.getElementById('account-stream-input')?.value || 'PCM',
-        dailyHours: document.getElementById('account-hours-input')?.value || '4.5'
+        name: nameVal,
+        username: usernameVal,
+        rollNo: rollVal,
+        classLevel: classVal,
+        targetYear: yearVal,
+        dreamPercentage: goalVal,
+        targetStream: streamVal,
+        dailyHours: hoursVal
       };
 
       saveStateToStorage();
       renderHero();
-      showToast("Student profile saved successfully!");
+      showToast(`Student profile updated successfully! Username: @${usernameVal}`);
     };
 
     window.downloadAccountDetailsPdf = function() {
